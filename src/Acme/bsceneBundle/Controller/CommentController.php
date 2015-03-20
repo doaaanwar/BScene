@@ -35,7 +35,7 @@ class CommentController extends Controller
         if(count($commentList) > 0)
         {
         
-            return $this->render('AcmebsceneBundle:EventComments:commentList.html.twig',array('commnentList' => $organizationList));
+            return $this->render('AcmebsceneBundle:EventComments:commentList.html.twig',array('commentList' => $commentList));
         }
         else 
         {

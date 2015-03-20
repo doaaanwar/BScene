@@ -137,9 +137,11 @@
 	                                   {% block commentList %}
               
                                             {% endblock %}
+                                            
 	                                </div>
 	                                <div class="text-right">
-	                                    <a href="commentList.html">View All Comments <i class="fa fa-arrow-circle-right"></i></a>
+                                            
+	                                    <a href="{{path('acmebscene_adminComment',{'lastLogin' : app.session.get('lastLogin') |date('Y-m-d\\TH:i:sP')}) }}">View All Comments <i class="fa fa-arrow-circle-right"></i></a>
 	                                </div>
 	                            </div>
 	                       

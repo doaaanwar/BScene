@@ -31,12 +31,14 @@ acmebscene_dashboard:
     defaults: { _controller: AcmebsceneBundle:Admin:index }
  
 acmebscene_adminComment:
-    path:   /admin/comment
+    path:   /admin/comment/{lastLogin}
     defaults: { _controller: AcmebsceneBundle:Comment:adminIndex}
 
 acmebscene_adminOrganization:
     path:   /admin/organization
     defaults: { _controller: AcmebsceneBundle:Organization:adminIndex}
+    
+    
     
     
 acmebscene_login:

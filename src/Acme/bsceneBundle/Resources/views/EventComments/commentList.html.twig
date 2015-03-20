@@ -31,11 +31,11 @@
                                 </thead>
                                 <tbody>
                                     
-                                        {% for item in orgList %}
+                                        {% for item in commentList %}
 
                                            <tr>
                                                <td>{{item.comment}}</td>
-                                               <td>{{item.event.title}}</td>
+                                               <td>{{item.commentTime|date('Y-m-d\\TH:i:sP')}}</td>
 
                                            </tr>
 
