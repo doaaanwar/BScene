@@ -26,13 +26,10 @@ class CommentController extends Controller
     * @return type
     */
     public function adminIndexAction($lastLogin)
-    {
-       
-        
+    {   
         $em = $this->getDoctrine()->getEntityManager();
         //$repository = $em->getRepository('\Acme\bsceneBundle\Entity\EventComments');
-       // $queryString = "select * from \Acme\bsceneBundle\Entity\EventComments e where e.commentTime >= '$lastLogin'";
-        
+      
         $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\EventComments e where e.commentTime >= '$lastLogin'");
         $commentList = $q->getResult();
 
