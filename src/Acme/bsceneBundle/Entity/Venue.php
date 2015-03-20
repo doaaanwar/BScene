@@ -69,7 +69,7 @@ class Venue
     
     
      /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="venue")
+     * @ORM\OneToMany(targetEntity="Meeting", mappedBy="venue")
      */
     protected $events;
 
@@ -300,10 +300,10 @@ class Venue
     /**
      * Add events
      *
-     * @param \Acme\bsceneBundle\Entity\Event $events
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
      * @return Venue
      */
-    public function addEvent(\Acme\bsceneBundle\Entity\Event $events)
+    public function addEvent(\Acme\bsceneBundle\Entity\Meeting $events)
     {
         $this->events[] = $events;
 
@@ -313,9 +313,9 @@ class Venue
     /**
      * Remove events
      *
-     * @param \Acme\bsceneBundle\Entity\Event $events
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
      */
-    public function removeEvent(\Acme\bsceneBundle\Entity\Event $events)
+    public function removeEvent(\Acme\bsceneBundle\Entity\Meeting $events)
     {
         $this->events->removeElement($events);
     }

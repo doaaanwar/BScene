@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="Event")
  */
-class Event
+class Meeting
 {
      /**
      * @ORM\Column(type="integer", length=5, unique=true)
@@ -123,7 +123,7 @@ class Event
      * Set title
      *
      * @param string $title
-     * @return Event
+     * @return Meeting
      */
     public function setTitle($title)
     {
@@ -146,7 +146,7 @@ class Event
      * Set date
      *
      * @param \DateTime $date
-     * @return Event
+     * @return Meeting
      */
     public function setDate($date)
     {
@@ -169,7 +169,7 @@ class Event
      * Set time
      *
      * @param \DateTime $time
-     * @return Event
+     * @return Meeting
      */
     public function setTime($time)
     {
@@ -192,7 +192,7 @@ class Event
      * Set endDate
      *
      * @param \DateTime $endDate
-     * @return Event
+     * @return Meeting
      */
     public function setEndDate($endDate)
     {
@@ -215,7 +215,7 @@ class Event
      * Set endTime
      *
      * @param \DateTime $endTime
-     * @return Event
+     * @return Meeting
      */
     public function setEndTime($endTime)
     {
@@ -238,7 +238,7 @@ class Event
      * Set description
      *
      * @param string $description
-     * @return Event
+     * @return Meeting
      */
     public function setDescription($description)
     {
@@ -261,7 +261,7 @@ class Event
      * Set capacity
      *
      * @param integer $capacity
-     * @return Event
+     * @return Meeting
      */
     public function setCapacity($capacity)
     {
@@ -284,7 +284,7 @@ class Event
      * Set venue
      *
      * @param \Acme\bsceneBundle\Entity\Venue $venue
-     * @return Event
+     * @return Meeting
      */
     public function setVenue(\Acme\bsceneBundle\Entity\Venue $venue = null)
     {
@@ -307,7 +307,7 @@ class Event
      * Set organization
      *
      * @param \Acme\bsceneBundle\Entity\Organization $organization
-     * @return Event
+     * @return Meeting
      */
     public function setOrganization(\Acme\bsceneBundle\Entity\Organization $organization = null)
     {
@@ -330,7 +330,7 @@ class Event
      * Set image
      *
      * @param \Acme\bsceneBundle\Entity\Image $image
-     * @return Event
+     * @return Meeting
      */
     public function setImage(\Acme\bsceneBundle\Entity\Image $image = null)
     {
@@ -353,7 +353,7 @@ class Event
      * Set account
      *
      * @param \Acme\bsceneBundle\Entity\Account $account
-     * @return Event
+     * @return Meeting
      */
     public function setAccount(\Acme\bsceneBundle\Entity\Account $account = null)
     {
@@ -377,7 +377,7 @@ class Event
      * Add eventComments
      *
      * @param \Acme\bsceneBundle\Entity\EventComments $eventComments
-     * @return Event
+     * @return Meeting
      */
     public function addEventComment(\Acme\bsceneBundle\Entity\EventComments $eventComments)
     {
@@ -410,7 +410,7 @@ class Event
      * Set category
      *
      * @param \Acme\bsceneBundle\Entity\Categories $category
-     * @return Event
+     * @return Meeting
      */
     public function setCategory(\Acme\bsceneBundle\Entity\Categories $category = null)
     {

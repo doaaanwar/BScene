@@ -65,7 +65,7 @@ class Categories
     protected $eventBriteCategory;
     
     /**
-    * @ORM\OneToMany(targetEntity="Event", mappedBy="category")
+    * @ORM\OneToMany(targetEntity="Meeting", mappedBy="category")
     */
     protected $events;
     
@@ -229,10 +229,10 @@ class Categories
     /**
      * Add events
      *
-     * @param \Acme\bsceneBundle\Entity\Event $events
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
      * @return Categories
      */
-    public function addEvent(\Acme\bsceneBundle\Entity\Event $events)
+    public function addEvent(\Acme\bsceneBundle\Entity\Meeting $events)
     {
         $this->events[] = $events;
 
@@ -242,9 +242,9 @@ class Categories
     /**
      * Remove events
      *
-     * @param \Acme\bsceneBundle\Entity\Event $events
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
      */
-    public function removeEvent(\Acme\bsceneBundle\Entity\Event $events)
+    public function removeEvent(\Acme\bsceneBundle\Entity\Meeting $events)
     {
         $this->events->removeElement($events);
     }

@@ -135,7 +135,7 @@ class Account implements UserInterface
     protected $lastLogin;
 
      /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="account")
+     * @ORM\OneToMany(targetEntity="Meeting", mappedBy="account")
      */
     protected $events;
 
@@ -593,10 +593,10 @@ class Account implements UserInterface
     /**
      * Add events
      *
-     * @param \Acme\bsceneBundle\Entity\Event $events
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
      * @return Account
      */
-    public function addEvent(\Acme\bsceneBundle\Entity\Event $events)
+    public function addEvent(\Acme\bsceneBundle\Entity\Meeting $events)
     {
         $this->events[] = $events;
 
@@ -606,9 +606,9 @@ class Account implements UserInterface
     /**
      * Remove events
      *
-     * @param \Acme\bsceneBundle\Entity\Event $events
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
      */
-    public function removeEvent(\Acme\bsceneBundle\Entity\Event $events)
+    public function removeEvent(\Acme\bsceneBundle\Entity\Meeting $events)
     {
         $this->events->removeElement($events);
     }

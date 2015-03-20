@@ -48,7 +48,7 @@ class Organization
     protected $accounts;
     
      /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="organization")
+     * @ORM\OneToMany(targetEntity="Meeting", mappedBy="organization")
      */
     protected $events;
 
@@ -152,10 +152,10 @@ class Organization
     /**
      * Add events
      *
-     * @param \Acme\bsceneBundle\Entity\Event $events
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
      * @return Organization
      */
-    public function addEvent(\Acme\bsceneBundle\Entity\Event $events)
+    public function addEvent(\Acme\bsceneBundle\Entity\Meeting $events)
     {
         $this->events[] = $events;
 
@@ -165,9 +165,9 @@ class Organization
     /**
      * Remove events
      *
-     * @param \Acme\bsceneBundle\Entity\Event $events
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
      */
-    public function removeEvent(\Acme\bsceneBundle\Entity\Event $events)
+    public function removeEvent(\Acme\bsceneBundle\Entity\Meeting $events)
     {
         $this->events->removeElement($events);
     }

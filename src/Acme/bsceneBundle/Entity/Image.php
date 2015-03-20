@@ -40,7 +40,7 @@ class Image
     protected $Name;
     
      /**
-     * @ORM\OneToOne(targetEntity="Event", mappedBy="image")
+     * @ORM\OneToOne(targetEntity="Meeting", mappedBy="image")
      */
     protected $event;
     
@@ -106,10 +106,10 @@ class Image
     /**
      * Set event
      *
-     * @param \Acme\bsceneBundle\Entity\Event $event
+     * @param \Acme\bsceneBundle\Entity\Meeting $event
      * @return Image
      */
-    public function setEvent(\Acme\bsceneBundle\Entity\Event $event = null)
+    public function setEvent(\Acme\bsceneBundle\Entity\Meeting $event = null)
     {
         $this->event = $event;
 
@@ -119,7 +119,7 @@ class Image
     /**
      * Get event
      *
-     * @return \Acme\bsceneBundle\Entity\Event 
+     * @return \Acme\bsceneBundle\Entity\Meeting 
      */
     public function getEvent()
     {
