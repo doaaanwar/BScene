@@ -19,18 +19,25 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class CommentController extends Controller
 {
-    /*
-     * function that get the list of new comment and go to the comment list admin page
-     */
-    public function adminIndexAction()
+   /**
+    * doaa elfayoumi
+    * function that get the list of new comment given the last login of the admin
+    * @param type $lastLogin
+    * @return type
+    */
+    public function adminIndexAction($lastLogin)
     {
+       
+        
         $em = $this->getDoctrine()->getEntityManager();
-        $repository = $em->getRepository('\Acme\bsceneBundle\Entity\EventComments');
+        //$repository = $em->getRepository('\Acme\bsceneBundle\Entity\EventComments');
+       // $queryString = "select * from \Acme\bsceneBundle\Entity\EventComments e where e.commentTime >= '$lastLogin'";
+        
+        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\EventComments e where e.commentTime >= '$lastLogin'");
+        $commentList = $q->getResult();
 
-        
-        //$commentList = $repository->findBy(array('commentTime' >= $lastLogin));
-        
-        $commentList = $repository->findAll();
+
+    
         
         if(count($commentList) > 0)
         {
