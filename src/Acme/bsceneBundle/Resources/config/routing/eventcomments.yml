@@ -1,0 +1,30 @@
+eventComments:
+    path:     /
+    defaults: { _controller: "AcmebsceneBundle:EventComments:index" }
+
+eventComments_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmebsceneBundle:EventComments:show" }
+
+eventComments_new:
+    path:     /new
+    defaults: { _controller: "AcmebsceneBundle:EventComments:new" }
+
+eventComments_create:
+    path:     /create
+    defaults: { _controller: "AcmebsceneBundle:EventComments:create" }
+    requirements: { _method: post }
+
+eventComments_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmebsceneBundle:EventComments:edit" }
+
+eventComments_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmebsceneBundle:EventComments:update" }
+    requirements: { _method: post|put }
+
+eventComments_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmebsceneBundle:EventComments:delete" }
+    requirements: { _method: post|delete }

@@ -1,3 +1,11 @@
+acmebscene_eventComments:
+    resource: "@AcmebsceneBundle/Resources/config/routing/eventcomments.yml"
+    prefix:   /eventComments
+
+acmebscene_speaker:
+    resource: "@AcmebsceneBundle/Resources/config/routing/speaker.yml"
+    prefix:   /speaker
+
 acmebscene_meeting:
     resource: "@AcmebsceneBundle/Resources/config/routing/meeting.yml"
     prefix:   /meeting

@@ -1,0 +1,30 @@
+speaker:
+    path:     /
+    defaults: { _controller: "AcmebsceneBundle:Speaker:index" }
+
+speaker_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmebsceneBundle:Speaker:show" }
+
+speaker_new:
+    path:     /new
+    defaults: { _controller: "AcmebsceneBundle:Speaker:new" }
+
+speaker_create:
+    path:     /create
+    defaults: { _controller: "AcmebsceneBundle:Speaker:create" }
+    requirements: { _method: post }
+
+speaker_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmebsceneBundle:Speaker:edit" }
+
+speaker_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmebsceneBundle:Speaker:update" }
+    requirements: { _method: post|put }
+
+speaker_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmebsceneBundle:Speaker:delete" }
+    requirements: { _method: post|delete }
