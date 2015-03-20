@@ -1,24 +1,16 @@
 <?php
-/* 
- * Organization.php
- * The entity for the Organization object
- * Revision History:
- *      15.03.2015: created, Victoria Betts
- */
-//src/bsceneBundle/Entity/Organization.php
-
 
 namespace Acme\bsceneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Organization
+ * Province
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Organization
+class Province
 {
     /**
      * @var integer
@@ -29,28 +21,20 @@ class Organization
      */
     protected $id;
     
-    /**
-     *
-     * @ORM\Column(type="string", length=255)
+    /** 
+     * @ORM\Column(name="name", type="string")
      */
     protected $name;
     
     /**
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    protected $website;
-    
-    
-     /**
-     * @ORM\OneToMany(targetEntity="Account", mappedBy="organization")
+     * @ORM\OneToMany(targetEntity="Account", mappedBy="province")
      */
     protected $accounts;
     
-     /**
-     * @ORM\OneToMany(targetEntity="Meeting", mappedBy="organization")
+    /**
+     * @ORM\OneToMany(targetEntity="Venue", mappedBy="province")
      */
-    protected $events;
+    protected $venues;
 
 
     /**
@@ -62,12 +46,20 @@ class Organization
     {
         return $this->id;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->venues = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Set name
      *
      * @param string $name
-     * @return Organization
+     * @return Province
      */
     public function setName($name)
     {
@@ -87,40 +79,10 @@ class Organization
     }
 
     /**
-     * Set website
-     *
-     * @param string $website
-     * @return Organization
-     */
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-
-        return $this;
-    }
-
-    /**
-     * Get website
-     *
-     * @return string 
-     */
-    public function getWebsite()
-    {
-        return $this->website;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add accounts
      *
      * @param \Acme\bsceneBundle\Entity\Account $accounts
-     * @return Organization
+     * @return Province
      */
     public function addAccount(\Acme\bsceneBundle\Entity\Account $accounts)
     {
@@ -150,35 +112,35 @@ class Organization
     }
 
     /**
-     * Add events
+     * Add venues
      *
-     * @param \Acme\bsceneBundle\Entity\Meeting $events
-     * @return Organization
+     * @param \Acme\bsceneBundle\Entity\Venue $venues
+     * @return Province
      */
-    public function addEvent(\Acme\bsceneBundle\Entity\Meeting $events)
+    public function addVenue(\Acme\bsceneBundle\Entity\Venue $venues)
     {
-        $this->events[] = $events;
+        $this->venues[] = $venues;
 
         return $this;
     }
 
     /**
-     * Remove events
+     * Remove venues
      *
-     * @param \Acme\bsceneBundle\Entity\Meeting $events
+     * @param \Acme\bsceneBundle\Entity\Venue $venues
      */
-    public function removeEvent(\Acme\bsceneBundle\Entity\Meeting $events)
+    public function removeVenue(\Acme\bsceneBundle\Entity\Venue $venues)
     {
-        $this->events->removeElement($events);
+        $this->venues->removeElement($venues);
     }
 
     /**
-     * Get events
+     * Get venues
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getEvents()
+    public function getVenues()
     {
-        return $this->events;
+        return $this->venues;
     }
 }

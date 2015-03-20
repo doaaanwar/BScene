@@ -51,7 +51,7 @@ class EventComments
     protected $email;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Event", inversedBy="eventComments")
+     * @ORM\ManyToOne(targetEntity="Meeting", inversedBy="eventComments")
      * @ORM\JoinColumn(name="eventId", referencedColumnName="id")
      */
     protected $event;
@@ -162,10 +162,10 @@ class EventComments
     /**
      * Set event
      *
-     * @param \Acme\bsceneBundle\Entity\Event $event
+     * @param \Acme\bsceneBundle\Entity\Meeting $event
      * @return EventComments
      */
-    public function setEvent(\Acme\bsceneBundle\Entity\Event $event = null)
+    public function setEvent(\Acme\bsceneBundle\Entity\Meeting $event = null)
     {
         $this->event = $event;
     
@@ -175,7 +175,7 @@ class EventComments
     /**
      * Get event
      *
-     * @return \Acme\bsceneBundle\Entity\Event 
+     * @return \Acme\bsceneBundle\Entity\Meeting 
      */
     public function getEvent()
     {

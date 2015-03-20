@@ -1,6 +1,9 @@
 {% extends '::base.html.twig' %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/account.css')}}" rel="stylesheet">
+    {% endblock %}
 
 {% block body -%}
     <h1>Account creation</h1>
@@ -34,9 +37,9 @@
             <td class="text-left">{{ form_errors(form.email) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.backupEmail) }}</th>
-            <td class="text-left">{{ form_widget(form.backupEmail) }}</td>
-            <td class="text-left">{{ form_errors(form.backupEmail) }}</td>
+            <th class="text-right">{{ form_label(form.organization) }}</th>
+            <td class="text-left">{{ form_widget(form.organization) }}</td>
+            <td class="text-left">{{ form_errors(form.organization) }}</td>
         </tr>
         <tr>
             <th class="text-right">{{ form_label(form.businessPhone) }}</th>
@@ -57,6 +60,11 @@
             <th class="text-right">{{ form_label(form.address2) }}</th>
             <td class="text-left">{{ form_widget(form.address2) }}</td>
             <td class="text-left">{{ form_errors(form.address2) }}</td>
+        </tr>
+        <tr>
+            <th class="text-right">{{ form_label(form.city) }}</th>
+            <td class="text-left">{{ form_widget(form.city) }}</td>
+            <td class="text-left">{{ form_errors(form.city) }}</td>
         </tr>
         <tr>
             <th class="text-right">{{ form_label(form.province) }}</th>

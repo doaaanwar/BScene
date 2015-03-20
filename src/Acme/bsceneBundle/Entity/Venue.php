@@ -41,7 +41,8 @@ class Venue
      */
     protected $address2;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Province", inversedBy="venues")
+     * @ORM\JoinColumn(name="provinceId", referencedColumnName="id")
      */
     protected $province;
     /**

@@ -43,6 +43,7 @@ class Cities
      */
     protected $accounts;
 
+
     /**
      * Get id
      *

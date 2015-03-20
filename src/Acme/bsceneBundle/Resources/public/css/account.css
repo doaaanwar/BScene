@@ -8,5 +8,7 @@ and open the template in the editor.
     Author     : victoriabetts
 */
 
-th {padding-left: 15px;}
-td {padding-left: 15px;}
+th, td {
+    padding-left: 2%;
+    padding-top: 2%;
+}

@@ -93,8 +93,9 @@ class Account implements UserInterface
     protected $city;
     
     /**
-     * @ORM\Column(type="string", length=5, nullable=true)
-     */
+     * @ORM\ManyToOne(targetEntity="Province", inversedBy="accounts")
+     * @ORM\JoinColumn(name="provinceId", referencedColumnName="id")
+    */
     protected $province;
     
     /**
