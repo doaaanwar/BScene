@@ -1,0 +1,30 @@
+organization:
+    path:     /
+    defaults: { _controller: "AcmebsceneBundle:Organization:index" }
+
+organization_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmebsceneBundle:Organization:show" }
+
+organization_new:
+    path:     /new
+    defaults: { _controller: "AcmebsceneBundle:Organization:new" }
+
+organization_create:
+    path:     /create
+    defaults: { _controller: "AcmebsceneBundle:Organization:create" }
+    requirements: { _method: post }
+
+organization_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmebsceneBundle:Organization:edit" }
+
+organization_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmebsceneBundle:Organization:update" }
+    requirements: { _method: post|put }
+
+organization_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmebsceneBundle:Organization:delete" }
+    requirements: { _method: post|delete }

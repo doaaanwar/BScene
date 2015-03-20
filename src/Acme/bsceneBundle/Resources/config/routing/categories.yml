@@ -1,0 +1,30 @@
+category:
+    path:     /
+    defaults: { _controller: "AcmebsceneBundle:Categories:index" }
+
+category_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmebsceneBundle:Categories:show" }
+
+category_new:
+    path:     /new
+    defaults: { _controller: "AcmebsceneBundle:Categories:new" }
+
+category_create:
+    path:     /create
+    defaults: { _controller: "AcmebsceneBundle:Categories:create" }
+    requirements: { _method: post }
+
+category_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmebsceneBundle:Categories:edit" }
+
+category_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmebsceneBundle:Categories:update" }
+    requirements: { _method: post|put }
+
+category_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmebsceneBundle:Categories:delete" }
+    requirements: { _method: post|delete }

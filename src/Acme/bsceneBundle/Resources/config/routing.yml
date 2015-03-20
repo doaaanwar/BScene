@@ -1,0 +1,34 @@
+acmebscene_organization:
+    resource: "@AcmebsceneBundle/Resources/config/routing/organization.yml"
+    prefix:   /organization
+
+acmebscene_category:
+    resource: "@AcmebsceneBundle/Resources/config/routing/categories.yml"
+    prefix:   /category
+
+acmebscene_account:
+    resource: "@AcmebsceneBundle/Resources/config/routing/account.yml"
+    prefix:   /account
+
+acmebscene_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AcmebsceneBundle:Default:index }
+
+acmebscene_dashboard:
+    path:   /admin
+    defaults: { _controller: AcmebsceneBundle:Admin:index }
+ 
+acmebscene_adminComment:
+    path:   /admin/comment
+    defaults: { _controller: AcmebsceneBundle:Comment:adminIndex}
+
+acmebscene_adminOrganization:
+    path:   /admin/organization
+    defaults: { _controller: AcmebsceneBundle:Organization:adminIndex}
+    
+    
+acmebscene_login:
+    path:   ''
+    defaults: { _controller: AcmebsceneBundle:Default:login }
+    
+ 
