@@ -48,7 +48,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             {% if app.session.get('admin') != null %}
                                 <li>
-                                           <a href="admin.html">Dashboard</a>
+                                           <a href="{{path('acmebscene_dashboard',{'lastLogin' : app.session.get('lastLogin') |date('Y-m-d\\TH:i:sP')}) }}">Dashboard</a>
                                 </li>
                             {% endif %} 
                             {% if app.session.get('member') != null %}
