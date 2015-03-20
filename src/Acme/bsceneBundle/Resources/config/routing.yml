@@ -1,3 +1,7 @@
+acmebscene_meeting:
+    resource: "@AcmebsceneBundle/Resources/config/routing/meeting.yml"
+    prefix:   /meeting
+
 acmebscene_organization:
     resource: "@AcmebsceneBundle/Resources/config/routing/organization.yml"
     prefix:   /organization

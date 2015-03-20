@@ -127,183 +127,63 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        if (0 === strpos($pathinfo, '/eventComments')) {
-            // eventComments
-            if (rtrim($pathinfo, '/') === '/eventComments') {
+        if (0 === strpos($pathinfo, '/meeting')) {
+            // meeting
+            if (rtrim($pathinfo, '/') === '/meeting') {
                 if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'eventComments');
+                    return $this->redirect($pathinfo.'/', 'meeting');
                 }
 
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventCommentsController::indexAction',  '_route' => 'eventComments',);
+                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\MeetingController::indexAction',  '_route' => 'meeting',);
             }
 
-            // eventComments_show
-            if (preg_match('#^/eventComments/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'eventComments_show')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventCommentsController::showAction',));
+            // meeting_show
+            if (preg_match('#^/meeting/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'meeting_show')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\MeetingController::showAction',));
             }
 
-            // eventComments_new
-            if ($pathinfo === '/eventComments/new') {
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventCommentsController::newAction',  '_route' => 'eventComments_new',);
+            // meeting_new
+            if ($pathinfo === '/meeting/new') {
+                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\MeetingController::newAction',  '_route' => 'meeting_new',);
             }
 
-            // eventComments_create
-            if ($pathinfo === '/eventComments/create') {
+            // meeting_create
+            if ($pathinfo === '/meeting/create') {
                 if ($this->context->getMethod() != 'POST') {
                     $allow[] = 'POST';
-                    goto not_eventComments_create;
+                    goto not_meeting_create;
                 }
 
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventCommentsController::createAction',  '_route' => 'eventComments_create',);
+                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\MeetingController::createAction',  '_route' => 'meeting_create',);
             }
-            not_eventComments_create:
+            not_meeting_create:
 
-            // eventComments_edit
-            if (preg_match('#^/eventComments/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'eventComments_edit')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventCommentsController::editAction',));
+            // meeting_edit
+            if (preg_match('#^/meeting/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'meeting_edit')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\MeetingController::editAction',));
             }
 
-            // eventComments_update
-            if (preg_match('#^/eventComments/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+            // meeting_update
+            if (preg_match('#^/meeting/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
                 if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
                     $allow = array_merge($allow, array('POST', 'PUT'));
-                    goto not_eventComments_update;
+                    goto not_meeting_update;
                 }
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'eventComments_update')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventCommentsController::updateAction',));
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'meeting_update')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\MeetingController::updateAction',));
             }
-            not_eventComments_update:
+            not_meeting_update:
 
-            // eventComments_delete
-            if (preg_match('#^/eventComments/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+            // meeting_delete
+            if (preg_match('#^/meeting/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
                 if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
                     $allow = array_merge($allow, array('POST', 'DELETE'));
-                    goto not_eventComments_delete;
+                    goto not_meeting_delete;
                 }
 
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'eventComments_delete')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventCommentsController::deleteAction',));
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'meeting_delete')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\MeetingController::deleteAction',));
             }
-            not_eventComments_delete:
-
-        }
-
-        if (0 === strpos($pathinfo, '/speaker')) {
-            // speaker
-            if (rtrim($pathinfo, '/') === '/speaker') {
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'speaker');
-                }
-
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\SpeakerController::indexAction',  '_route' => 'speaker',);
-            }
-
-            // speaker_show
-            if (preg_match('#^/speaker/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'speaker_show')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\SpeakerController::showAction',));
-            }
-
-            // speaker_new
-            if ($pathinfo === '/speaker/new') {
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\SpeakerController::newAction',  '_route' => 'speaker_new',);
-            }
-
-            // speaker_create
-            if ($pathinfo === '/speaker/create') {
-                if ($this->context->getMethod() != 'POST') {
-                    $allow[] = 'POST';
-                    goto not_speaker_create;
-                }
-
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\SpeakerController::createAction',  '_route' => 'speaker_create',);
-            }
-            not_speaker_create:
-
-            // speaker_edit
-            if (preg_match('#^/speaker/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'speaker_edit')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\SpeakerController::editAction',));
-            }
-
-            // speaker_update
-            if (preg_match('#^/speaker/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
-                    $allow = array_merge($allow, array('POST', 'PUT'));
-                    goto not_speaker_update;
-                }
-
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'speaker_update')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\SpeakerController::updateAction',));
-            }
-            not_speaker_update:
-
-            // speaker_delete
-            if (preg_match('#^/speaker/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
-                    $allow = array_merge($allow, array('POST', 'DELETE'));
-                    goto not_speaker_delete;
-                }
-
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'speaker_delete')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\SpeakerController::deleteAction',));
-            }
-            not_speaker_delete:
-
-        }
-
-        if (0 === strpos($pathinfo, '/acme_event')) {
-            // acme_event
-            if (rtrim($pathinfo, '/') === '/acme_event') {
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'acme_event');
-                }
-
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventController::indexAction',  '_route' => 'acme_event',);
-            }
-
-            // acme_event_show
-            if (preg_match('#^/acme_event/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'acme_event_show')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventController::showAction',));
-            }
-
-            // acme_event_new
-            if ($pathinfo === '/acme_event/new') {
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventController::newAction',  '_route' => 'acme_event_new',);
-            }
-
-            // acme_event_create
-            if ($pathinfo === '/acme_event/create') {
-                if ($this->context->getMethod() != 'POST') {
-                    $allow[] = 'POST';
-                    goto not_acme_event_create;
-                }
-
-                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventController::createAction',  '_route' => 'acme_event_create',);
-            }
-            not_acme_event_create:
-
-            // acme_event_edit
-            if (preg_match('#^/acme_event/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'acme_event_edit')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventController::editAction',));
-            }
-
-            // acme_event_update
-            if (preg_match('#^/acme_event/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
-                    $allow = array_merge($allow, array('POST', 'PUT'));
-                    goto not_acme_event_update;
-                }
-
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'acme_event_update')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventController::updateAction',));
-            }
-            not_acme_event_update:
-
-            // acme_event_delete
-            if (preg_match('#^/acme_event/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
-                    $allow = array_merge($allow, array('POST', 'DELETE'));
-                    goto not_acme_event_delete;
-                }
-
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'acme_event_delete')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\EventController::deleteAction',));
-            }
-            not_acme_event_delete:
+            not_meeting_delete:
 
         }
 
@@ -499,8 +379,8 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
 
             // acmebscene_adminComment
-            if (0 === strpos($pathinfo, '/admin/comment') && preg_match('#^/admin/comment/(?P<lastLogin>[^/]++)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'acmebscene_adminComment')), array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\CommentController::adminIndexAction',));
+            if ($pathinfo === '/admin/comment') {
+                return array (  '_controller' => 'Acme\\bsceneBundle\\Controller\\CommentController::adminIndexAction',  '_route' => 'acmebscene_adminComment',);
             }
 
             // acmebscene_adminOrganization
