@@ -64,7 +64,7 @@
             <td class="text-left">{{ form_errors(form.province) }}</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center">{{ form_widget(form.submit) }}</td>
+            <td colspan="3" class="text-center">{{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
         </tr>
     </table>
 
