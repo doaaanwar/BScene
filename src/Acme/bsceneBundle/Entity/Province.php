@@ -144,6 +144,12 @@ class Province
         return $this->venues;
     }
     
+    
+    /**
+     * added by doaa elfayoumi 20 feb 2015
+     * function to return the string value for drop down list
+     * @return type
+     */
     public function __toString()
     {
         return $this->name;
