@@ -27,7 +27,7 @@ acmebscene_homepage:
     defaults: { _controller: AcmebsceneBundle:Default:index }
 
 acmebscene_dashboard:
-    path:   /admin
+    path:   /admin/{lastLogin}
     defaults: { _controller: AcmebsceneBundle:Admin:index }
  
 acmebscene_adminComment:

@@ -135,7 +135,38 @@
 	                            <div class="panel-body">
 	                                <div class="table-responsive">
 	                                   {% block commentList %}
-              
+                                               <!-- top 10 new comment list  -->
+                                                      <div class="table-responsive">
+                                                            {% if commentList != NULL %}
+                                                            <table class="table table-bordered table-hover table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Comment</th>
+                                                                        <th>Event</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                        {% for item in commentList %}
+
+                                                                           <tr>
+                                                                               <td>{{item.comment}}</td>
+                                                                               <td>{{item.commentTime|date('Y-m-d\\TH:i:sP')}}</td>
+
+                                                                           </tr>
+
+
+                                                                        {%endfor%}
+
+
+
+                                                                </tbody>
+                                                            </table>
+                                                            {%else%}
+                                                                        {{commentMessage}}
+                                                            {%endif%}
+                                                        </div>
                                             {% endblock %}
                                             
 	                                </div>
