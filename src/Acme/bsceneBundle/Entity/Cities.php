@@ -150,4 +150,10 @@ class Cities
     {
         return $this->accounts;
     }
+    
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

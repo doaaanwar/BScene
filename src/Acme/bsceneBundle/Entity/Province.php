@@ -143,4 +143,9 @@ class Province
     {
         return $this->venues;
     }
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
