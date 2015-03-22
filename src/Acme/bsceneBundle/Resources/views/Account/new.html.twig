@@ -6,70 +6,48 @@
     {% endblock %}
 
 {% block body -%}
-    <h1>Account creation</h1>
+    <h1>Create Account</h1>
+    <p class="lead">All fields marked with * are required</p>
+
     {{ form_start(form) }}
     {{ form_errors(form) }}
 
     <table>
         <tr>
-            <th class="text-right">{{ form_label(form.username) }}</th>
-            <td class="text-left">{{ form_widget(form.username) }}</td>
-            <td class="text-left">{{ form_errors(form.username) }}</td>
+            <td class="text-left">{{ form_row(form.username) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.password) }}</th>
-            <td class="text-left">{{ form_widget(form.password, { 'attr': {'type': 'password'} }) }}</td>
-            <td class="text-left">{{ form_errors(form.password) }}</td>
+            <td class="text-left">{{ form_row(form.password) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.firstName) }}</th>
-            <td class="text-left">{{ form_widget(form.firstName) }}</td>
-            <td class="text-left">{{ form_errors(form.firstName) }}</td>
+            <td class="text-left">{{ form_row(form.firstName) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.lastName) }}</th>
-            <td class="text-left">{{ form_widget(form.lastName) }}</td>
-            <td class="text-left">{{ form_errors(form.lastName) }}</td>
+            <td class="text-left">{{ form_row(form.lastName) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.email) }}</th>
-            <td class="text-left">{{ form_widget(form.email) }}</td>
-            <td class="text-left">{{ form_errors(form.email) }}</td>
+            <td class="text-left">{{ form_row(form.email) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.organization) }}</th>
-            <td class="text-left">{{ form_widget(form.organization) }}</td>
-            <td class="text-left">{{ form_errors(form.organization) }}</td>
+            <td class="text-left">{{ form_row(form.organization) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.businessPhone) }}</th>
-            <td class="text-left">{{ form_widget(form.businessPhone) }}</td>
-            <td class="text-left">{{ form_errors(form.businessPhone) }}</td>
+            <td class="text-left">{{ form_row(form.businessPhone) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.url) }}</th>
-            <td class="text-left">{{ form_widget(form.url) }}</td>
-            <td class="text-left">{{ form_errors(form.url) }}</td>
+            <td class="text-left">{{ form_row(form.url) }}</td>
         </tr>        
         <tr>
-            <th class="text-right">{{ form_label(form.address1) }}</th>
-            <td class="text-left">{{ form_widget(form.address1) }}</td>
-            <td class="text-left">{{ form_errors(form.address1) }}</td>
+            <td class="text-left">{{ form_row(form.address1) }}</td>
         </tr>        
         <tr>
-            <th class="text-right">{{ form_label(form.address2) }}</th>
-            <td class="text-left">{{ form_widget(form.address2) }}</td>
-            <td class="text-left">{{ form_errors(form.address2) }}</td>
+            <td class="text-left">{{ form_row(form.address2) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.city) }}</th>
-            <td class="text-left">{{ form_widget(form.city) }}</td>
-            <td class="text-left">{{ form_errors(form.city) }}</td>
+            <td class="text-left">{{ form_row(form.city) }}</td>
         </tr>
         <tr>
-            <th class="text-right">{{ form_label(form.province) }}</th>
-            <td class="text-left">{{ form_widget(form.province) }}</td>
-            <td class="text-left">{{ form_errors(form.province) }}</td>
+            <td class="text-left">{{ form_row(form.province) }}</td>
         </tr>
         <tr>
             <td colspan="3" class="text-center">{{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>

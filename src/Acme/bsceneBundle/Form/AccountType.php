@@ -16,23 +16,26 @@ class AccountType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('password')
-            ->add('firstName')
-            ->add('lastName')
-            ->add('email')
-            ->add('backupEmail')
-            ->add('businessPhone')
-            ->add('url')
-            ->add('address1')
-            ->add('address2')
-            ->add('province')
-            ->add('paymentAmount')
-            ->add('memberSince')
-            ->add('isAdmin')
-            ->add('lastLogin')
-            ->add('city')
-            ->add('organization')
-            ->add('status')
+            ->add('password', 'repeated', array(
+                'first_name'  => 'password',
+                'second_name' => 'confirm',
+                'type'        => 'password'))
+            ->add('firstName', 'text', array ('label' => '* First Name'))
+            ->add('lastName', 'text', array ('label' => '* Last Name'))
+            ->add('email', 'email', array ('label' => '* E-mail Address'))
+            ->add('backupEmail', 'email', array ('label' => 'Secondary E-mail Address'))
+            ->add('businessPhone', 'text', array ('label' => '* Business Phone'))
+            ->add('url', 'url', array ('label' => '* URL'))
+            ->add('address1', 'text', array ('label' => 'Address'))
+            ->add('address2', 'text', array ('label' => 'Address'))
+            ->add('province', 'text', array ('label' => 'Province'))
+            ->add('paymentAmount', 'currency', array ('label' => 'Payment Amount'))
+            ->add('memberSince', 'date', array ('label' => 'Member Since: '))
+            ->add('isAdmin', 'checkbox', array ('label' => 'Admin'))
+            ->add('lastLogin','datetime',  array ('label' => 'Last Login: '))
+            ->add('city', 'choice', array ('label' => 'City'))
+            ->add('organization', 'choice', array ('label' => 'Organization/Company'))
+            ->add('status', 'choice', array ('label' => 'Account Status'))
         ;
     }
     
