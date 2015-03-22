@@ -4,6 +4,7 @@
  * The entity for the Organization object
  * Revision History:
  *      15.03.2015: created, Victoria Betts
+ *      21.03.2015: updated, doaa elfayoumi
  */
 //src/bsceneBundle/Entity/Organization.php
 

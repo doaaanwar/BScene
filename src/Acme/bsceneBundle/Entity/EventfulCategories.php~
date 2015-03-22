@@ -5,6 +5,8 @@
  * The entity for the EventfulCategories object
  * Revision History:
  *      16.03.2015: created, Mahmoud Jallala
+ *      21.03.2015: updated, doaa elfayoumi
+ *      21.03.2015: fix relation, doaa elfayoumi
  */
 //src/bsceneBundle/Entity/EventfulCategories.php
 

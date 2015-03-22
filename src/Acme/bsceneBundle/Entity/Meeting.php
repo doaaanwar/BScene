@@ -5,6 +5,7 @@
  * The entity for the Event object
  * Revision History:
  *      16.03.2015: created, Mahmoud Jallala
+ *      22.03.2015: updated, doaa elfayoumi
  */
 //src/bsceneBundle/Entity/Event.php
 
@@ -100,12 +101,19 @@ class Meeting
      * @ORM\OneToMany(targetEntity="EventComments", mappedBy="event")
      */
     protected $eventComments;
+    
+     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $createdOn;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        //set the default value for the createdOn to the now date and time
+        $this->createdOn = new \DateTime();
         $this->eventComments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -427,5 +435,28 @@ class Meeting
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set createdOn
+     *
+     * @param \DateTime $createdOn
+     * @return Meeting
+     */
+    public function setCreatedOn($createdOn)
+    {
+        $this->createdOn = $createdOn;
+
+        return $this;
+    }
+
+    /**
+     * Get createdOn
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
     }
 }
