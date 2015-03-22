@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <th class="text-right">{{ form_label(form.password) }}</th>
-            <td class="text-left">{{ form_widget(form.password) }}</td>
+            <td class="text-left">{{ form_widget(form.password, { 'attr': {'type': 'password'} }) }}</td>
             <td class="text-left">{{ form_errors(form.password) }}</td>
         </tr>
         <tr>

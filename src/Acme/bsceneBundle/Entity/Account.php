@@ -13,6 +13,7 @@ namespace Acme\bsceneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -32,40 +33,49 @@ class Account implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
      */
     protected $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     protected $password;
     
     
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank()
      */
     protected $firstName;
     
     
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank()
      */
     protected $lastName;
   
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     protected $email;
     
     
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Email()
      */
     protected $backupEmail;
     
     
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Assert\NotBlank()
+     * 
      */
     protected $businessPhone;
     
@@ -73,6 +83,7 @@ class Account implements UserInterface
     
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url()
      */
     protected $url;
     

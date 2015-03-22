@@ -38,6 +38,7 @@ class AccountController extends Controller
         $entity = new Account();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
+   
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
