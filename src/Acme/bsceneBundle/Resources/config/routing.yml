@@ -23,7 +23,7 @@ acmebscene_account:
     prefix:   /account
 
 acmebscene_homepage:
-    path:     /hello/{name}
+    path:     /
     defaults: { _controller: AcmebsceneBundle:Default:index }
 
 acmebscene_dashboard:

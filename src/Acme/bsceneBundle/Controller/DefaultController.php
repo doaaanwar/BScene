@@ -6,12 +6,40 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
+use Acme\bsceneBundle\Controller\CategoriesController;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
-        return $this->render('AcmebsceneBundle:Default:index.html.twig', array('name' => $name));
+        //TODO create the list of categories
+        $em = $this->getDoctrine()->getManager();
+
+        //$categoryList = $em->getRepository('AcmebsceneBundle:Categories')->findAll();
+        
+        $qb = $em->createQueryBuilder();
+        
+        $qb->select('c')->From('AcmebsceneBundle:Categories','c')->orderBy('c.ranking','DESC');
+        $query = $qb->getQuery();
+        
+        $categoryList = $query->getResult();
+        
+        //generate the html containing the 
+        /*$categoryList = "<div class=\"col-md-3 col-sm-6 hero-feature\"><div class=\"thumbnail\"><img src=\"images/categoryImages/it.jpg\" alt=\"\">
+			    <div class=\"caption\">
+			                        <h3>Technology Events</h3>
+			                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+			                        <p>
+			                            <a href=\"eventListByCategory.html\" class=\"btn btn-warning\">See Events</a> 
+			                        </p>
+			                    </div>
+			                </div>
+			            </div>";*/
+        
+       
+
+        
+        return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
     }
     
     
