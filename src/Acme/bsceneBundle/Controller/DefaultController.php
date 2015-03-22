@@ -8,14 +8,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 use Acme\bsceneBundle\Controller\CategoriesController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\BrowserKit\Response;
 
 class DefaultController extends Controller
 {
     public function indexAction($name)
     {
-        
-        
-       
         $categoryList = $this->getCategoryList();
         
         return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
@@ -48,14 +49,29 @@ class DefaultController extends Controller
         
         $q = $em->createQuery("select Distinct m.date from \Acme\bsceneBundle\Entity\Meeting m");
          
-        $dateList = $q->getArrayResult();
+        $dateList = $q->getResult();
         
-        //TODO transform the result to the format need for the calender
+        //transform the result to the format need for the calender
         
-        $dateArray = json_encode($dateList);
+        $dateArray = Null;
+        $dateArrayEntry = Null;
+        
+        foreach($dateList as $item)
+        {
+          $dateArrayEntry = array('date'=>$item['date']->format('d/m/y'),'title'=>"event on ".$item['date']->format('Y-m-d'),'link'=>"www.google.com",'color'=>"green",'class'=>"miclasse",'content'=>"contingut popover");   
+          $dateArray[] = $dateArrayEntry;
+        }
+        
+        
+        //encode the array to json
+        $dateArray = json_encode($dateArray);
+        
+        
        
         //return json result into a php page
-        return new JsonResponse(array('dateList' => $dateArray));
+        return new JsonResponse($dateArray);
+        
+       
     }
     
     public function loginAction(Request $request)
