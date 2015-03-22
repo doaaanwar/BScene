@@ -5,6 +5,7 @@
  * The entity for the MeetupCategories object
  * Revision History:
  *      15.03.2015: created, Victoria Betts
+ *      21.03.2015: updated, doaa elfayoumi
  */
 //src/bsceneBundle/Entity/MeetupCategories.php
 
