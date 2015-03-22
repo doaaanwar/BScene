@@ -36,22 +36,22 @@ class Meeting
     
     
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     protected $date;
     
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
      */
     protected $time;
     
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     protected $endDate;
     
      /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="time", nullable=true)
      */
     protected $endTime;
     
