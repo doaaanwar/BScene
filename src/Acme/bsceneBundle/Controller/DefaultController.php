@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 use Acme\bsceneBundle\Controller\CategoriesController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -34,6 +35,27 @@ class DefaultController extends Controller
         $categoryList = $query->getResult();
         
         return $categoryList;
+    }
+    
+    /**
+     * Added by doaa elfayoumi - 22.03.2015 to get the json response for the homepage calender
+     * @return \Acme\bsceneBundle\Controller\JsonResponse
+     */
+    public function getEventsDayListAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+       
+        
+        $q = $em->createQuery("select Distinct m.date from \Acme\bsceneBundle\Entity\Meeting m");
+         
+        $dateList = $q->getArrayResult();
+        
+        //TODO transform the result to the format need for the calender
+        
+        $dateArray = json_encode($dateList);
+       
+        //return json result into a php page
+        return new JsonResponse(array('dateList' => $dateArray));
     }
     
     public function loginAction(Request $request)

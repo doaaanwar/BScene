@@ -38,7 +38,15 @@ acmebscene_adminOrganization:
     path:   /admin/organization
     defaults: { _controller: AcmebsceneBundle:Organization:adminIndex}
     
+acmebscene_adminMeetings:
+    path:     /admin/newEvents/{lastLogin}
+    defaults: { _controller: "AcmebsceneBundle:Admin:newMeetingList" }
     
+ 
+acmebscene_homepageCalender:
+    path:     /calender
+    defaults: { _controller: AcmebsceneBundle:Default:getEventsDayList }
+  
     
     
 acmebscene_login:
