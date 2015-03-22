@@ -1,10 +1,62 @@
 {% extends '::base.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/meeting.css')}}" rel="stylesheet">
+    {% endblock %}
+    
 {% block body -%}
-    <h1>Meeting creation</h1>
+    <h1>Create an Event</h1>
+    <p class="lead">All fields marked with * are required</p>
 
-    {{ form(form) }}
-
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+   
+    
+    <table>
+        <tr>
+            <td class="text-left">{{ form_row(form.title) }}</td>
+        </tr>
+         <tr>
+             <td class="text-left">{{ form_row(form.date) }}</td>
+        </tr>
+        <tr>
+             <td class="text-left">{{ form_row(form.time) }}</td>
+        </tr>
+        <tr>
+             <td class="text-left">{{ form_row(form.endDate) }}</td>
+        </tr>
+        <tr>
+             <td class="text-left">{{ form_row(form.endTime) }}</td>
+        </tr>
+         <tr>
+             <td class="text-left">{{ form_row(form.description) }}</td>
+        </tr>
+         <tr>
+             <td class="text-left">{{ form_row(form.capacity) }}</td>
+        </tr>
+        <tr>
+             <td class="text-left">{{ form_row(form.venue) }}</td>
+        </tr>
+        <tr>
+             <td class="text-left">{{ form_row(form.organization) }}</td>
+        </tr>
+        <tr>
+             <td class="text-left">{{ form_row(form.image) }}</td>
+        </tr>
+        <tr>
+             <td class="text-left">{{ form_row(form.account) }}</td>
+        </tr>
+        <tr>
+             <td class="text-left">{{ form_row(form.category) }}</td>
+        </tr>
+         <tr>
+            <td colspan="3" class="text-center">
+                
+                {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+            </td>
+        </tr>
+    </table>
         <ul class="record_actions">
     <li>
         <a href="{{ path('meeting') }}">
