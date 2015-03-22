@@ -140,7 +140,7 @@ class Account implements UserInterface
     
     
     /**
-    * @ORM\Column(type="boolean",options={"default":0})
+    * @ORM\Column(type="boolean",options={"default":0}, nullable=true)
     */
     protected $isAdmin;
     
@@ -154,6 +154,13 @@ class Account implements UserInterface
      * @ORM\OneToMany(targetEntity="Meeting", mappedBy="account")
      */
     protected $events;
+    
+    /**
+     *
+     * @Assert\Valid()
+     */
+    protected $newOrg;
+
     
     
     
@@ -607,6 +614,7 @@ class Account implements UserInterface
     public function __construct()
     {
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->newOrg = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

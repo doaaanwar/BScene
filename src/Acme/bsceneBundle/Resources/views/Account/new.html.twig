@@ -3,71 +3,75 @@
 
 {% block stylesheets %}
     <link href="{{ asset('bundles/acmebscene/css/account.css')}}" rel="stylesheet">
-    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/acmebscene/js/hinclude.js')}}"></script>
+{% endblock %}
 
 {% block body -%}
-    <h1>Create Account</h1>
-    <p class="lead">All fields marked with * are required</p>
+    <div class="text-center">
+        <h1>Create Account</h1>
+        <p class="lead">All fields marked with * are required</p>
+    </div>
 
     {{ form_start(form) }}
     {{ form_errors(form) }}
 
-    <table>
-        <tr>
-            <td class="text-left">{{ form_row(form.username) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.password) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.firstName) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.lastName) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.email) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.organization) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.businessPhone) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.url) }}</td>
-        </tr>        
-        <tr>
-            <td class="text-left">{{ form_row(form.address1) }}</td>
-        </tr>        
-        <tr>
-            <td class="text-left">{{ form_row(form.address2) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.city) }}</td>
-        </tr>
-        <tr>
-            <td class="text-left">{{ form_row(form.province) }}</td>
-        </tr>
-        <tr>
-            <td colspan="3" class="text-center">
-                {{form_row(form.backupEmail)}}
-                {{form_row(form.paymentAmount)}}
-                {{form_row(form.memberSince)}}
-                {{form_row(form.isAdmin)}}
-                {{form_row(form.lastLogin)}}
-                {{form_row(form.status)}}
-                {{ form_row(form._token) }}
-                {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
-            </td>
-        </tr>
-    </table>
+    <div align='center'>
+        <table>
+            <tr>
+                <td colspan='2'> {{ form_row(form.username) }}
+                    {{ form_row(form.password) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(form.firstName) }}</td>
+                <td>{{ form_row(form.lastName) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(form.email) }}</td>
+                <td>{{ form_row(form.organization) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(form.businessPhone) }}</td>
+                <td>{{ form_row(form.url) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(form.address1) }}</td>
+                <td>{{ form_row(form.address2) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(form.city) }}</td>
+                <td>{{ form_row(form.province) }}</td>
+            </tr>
+            <tr>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('account') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+                <td colspan="2" class="text-center">
+                    {{ form_row(form.backupEmail) }}
+                    {{ form_row(form.paymentAmount) }}
+                    {{ form_row(form.memberSince) }}
+                    {{ form_row(form.isAdmin) }}
+                    {{ form_row(form.lastLogin) }}
+                    {{ form_row(form.status) }}
+                    {{ form_row(form._token) }}
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
+            </tr>  
+        </table>
+    </div>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('account') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+</div>
+
+
 {% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+

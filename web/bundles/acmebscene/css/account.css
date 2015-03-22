@@ -8,7 +8,23 @@ and open the template in the editor.
     Author     : victoriabetts
 */
 
-th, td {
-    padding-left: 2%;
-    padding-top: 2%;
+
+input {
+    padding: 2px;
+    margin: 5px;
 }
+select {
+        padding: 2px;
+    margin: 5px;
+}
+
+small {
+
+     padding: 2px;
+    margin: 5px;
+}
+
+td {
+    padding: 2%;
+}
+

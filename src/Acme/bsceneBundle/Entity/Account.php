@@ -154,6 +154,7 @@ class Account implements UserInterface
      * @ORM\OneToMany(targetEntity="Meeting", mappedBy="account")
      */
     protected $events;
+   
     
     
     
