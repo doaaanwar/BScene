@@ -35,8 +35,12 @@ class AccountType extends AbstractType
             ->add('memberSince', 'hidden', array ('label' => 'Member Since: '))
             ->add('isAdmin', 'hidden', array ('label' => 'Admin'))
             ->add('lastLogin','hidden',  array ('label' => 'Last Login: '))
-            ->add('city', 'choice', array ('label' => 'City'))
-            ->add('organization', 'choice', array ('label' => '* Organization/Company'))
+            ->add('city', 'entity', array (
+                'class' => 'AcmebsceneBundle:Cities',
+                'label' => 'City'))
+            ->add('organization', 'entity', array (
+                'class' => 'AcmebsceneBundle:Organization',
+                'label' => '* Organization/Company'))
             ->add('status', 'hidden', array ('label' => 'Account Status'))
         ;
     }
