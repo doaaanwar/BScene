@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}	
+     <link href="{{ asset('bundles/acmebscene/css/bic_calendar.css')}}" rel="stylesheet">
+     <link href="{{ asset('bundles/acmebscene/css/heroic-features.css')}}" rel="stylesheet">
 {% endblock %}
 {% block nav %}
 {% endblock %}
@@ -10,7 +12,71 @@
                     <p>B-Scene is a hub for industry professionals events and workshops. You can create an account to publish your own or your organization events. You can search for events, add them to your calender and share them on your social websites.</p>
                     <p><a class="btn btn-warning btn-large">Learn More</a>
                     </p>
-     </header>               
+     </header>  
+     <!--categories will come here -->
+    <!-- calender -->
+    <div class="col-md-2 column">
+
+         <div class="row" >
+                <div class="col-sm-4" >
+
+                    <script>
+                        $(document).ready(function() {
+
+                            var monthNames = ["January", "February", "March", "April", "Mai", "June", "July", "August", "Septembre", "Octobre", "Novembre", "Decembre"];
+
+                            var dayNames = ["M", "T", "W", "T", "F", "S", "S"];
+
+                            var events = [
+                                {
+                                    date: "28/12/2013",
+                                    title: 'SPORT & WELLNESS',
+                                    link: 'http://bic.cat',
+                                    linkTarget: '_blank',
+                                    color: '',
+                                    content: '<img src="http://gettingcontacts.com/upload/jornadas/sport-wellness_portada.png" ><br>06-11-2013 - 09:00 <br> Tecnocampus Mataró Auditori',
+                                    class: '',
+                                    displayMonthController: true,
+                                    displayYearController: true,
+                                    nMonths: 6
+                                }
+                            ];
+
+                            $('#calendari_lateral1').bic_calendar({
+                                //list of events in array
+                                events: events,
+                                //enable select
+                                enableSelect: true,
+                                //enable multi-select
+                                multiSelect: true,
+                                //set day names
+                                dayNames: dayNames,
+                                //set month names
+                                monthNames: monthNames,
+                                //show dayNames
+                                showDays: true,
+                                //show month controller
+                                displayMonthController: true,
+                                //show year controller
+                                displayYearController: true,                                
+                                //set ajax call
+                                reqAjax: {
+                                    type: 'get',
+                                    url: '#'
+                                }
+                            });
+                        });
+                        <!--the event link -->
+                        <!--http://bic.cat/bic_calendar/index.php-->
+                    </script>
+                    <div id="calendari_lateral1">
+
+                    </div>
+                </div>
+
+        </div>
+    </div>
+    <!-- calender end-->
 {% endblock %}
 {% block body %}
 {%if errormessage is defined%}
@@ -22,4 +88,5 @@
 
 {% endblock %}
 {% block javascripts %}
+      <script src="{{ asset('bundles/acmebscene/js/bic_calendar.js')}}"></script>
 {% endblock %}
