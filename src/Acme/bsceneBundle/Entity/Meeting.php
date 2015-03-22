@@ -14,6 +14,7 @@ namespace Acme\bsceneBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -31,17 +32,20 @@ class Meeting
     
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
      */
     protected $title;
     
     
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     protected $date;
     
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotBlank()
      */
     protected $time;
     

@@ -6,32 +6,31 @@
     {% endblock %}
     
 {% block body -%}
+    <div class="text-center">
     <h1>Create an Event</h1>
     <p class="lead">All fields marked with * are required</p>
-
+    </div>
     {{ form_start(form) }}
     {{ form_errors(form) }}
    
-    
+    <div align='center'>
     <table>
         <tr>
-            <td class="text-left">{{ form_row(form.title) }}</td>
+            <td colspan='2'>{{ form_row(form.title) }}</td>
         </tr>
          <tr>
-             <td class="text-left">{{ form_row(form.date) }}</td>
+             <td>{{ form_row(form.date) }}</td>
+             <td>{{ form_row(form.time) }}</td>
         </tr>
         <tr>
-             <td class="text-left">{{ form_row(form.time) }}</td>
+             
         </tr>
         <tr>
-             <td class="text-left">{{ form_row(form.endDate) }}</td>
+             <td >{{ form_row(form.endDate) }}</td>
+             <td >{{ form_row(form.endTime) }}</td>
         </tr>
-        <tr>
-             <td class="text-left">{{ form_row(form.endTime) }}</td>
-        </tr>
-         <tr>
-             <td class="text-left">{{ form_row(form.description) }}</td>
-        </tr>
+       
+       
          <tr>
              <td class="text-left">{{ form_row(form.capacity) }}</td>
         </tr>
@@ -50,6 +49,9 @@
         <tr>
              <td class="text-left">{{ form_row(form.category) }}</td>
         </tr>
+          <tr>
+             <td class="text-left">{{ form_row(form.description) }}</td>
+        </tr>
          <tr>
             <td colspan="3" class="text-center">
                 {{ form_row(form._token) }}
@@ -57,6 +59,7 @@
             </td>
         </tr>
     </table>
+    </div>
         <ul class="record_actions">
     <li>
         <a href="{{ path('meeting') }}">
