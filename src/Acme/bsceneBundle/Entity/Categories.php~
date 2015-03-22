@@ -66,8 +66,8 @@ class Categories
     
     
     /**
-     * @ORM\ManyToOne(targetEntity="EventfullCategories", inversedBy="category")
-     * @ORM\JoinColumn(name="eventfullCategoryId", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="EventfulCategories", inversedBy="category")
+     * @ORM\JoinColumn(name="eventfulCategoryId", referencedColumnName="id")
      */
     protected $eventfullCategory;
     
@@ -275,4 +275,5 @@ class Categories
     {
         return $this->name;
     }
+
 }

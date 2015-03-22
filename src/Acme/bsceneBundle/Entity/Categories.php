@@ -276,13 +276,14 @@ class Categories
         return $this->name;
     }
 
+
     /**
      * Set eventfullCategory
      *
-     * @param \Acme\bsceneBundle\Entity\EventfullCategories $eventfullCategory
+     * @param \Acme\bsceneBundle\Entity\EventfulCategories $eventfullCategory
      * @return Categories
      */
-    public function setEventfullCategory(\Acme\bsceneBundle\Entity\EventfullCategories $eventfullCategory = null)
+    public function setEventfullCategory(\Acme\bsceneBundle\Entity\EventfulCategories $eventfullCategory = null)
     {
         $this->eventfullCategory = $eventfullCategory;
 
@@ -292,7 +293,7 @@ class Categories
     /**
      * Get eventfullCategory
      *
-     * @return \Acme\bsceneBundle\Entity\EventfullCategories 
+     * @return \Acme\bsceneBundle\Entity\EventfulCategories 
      */
     public function getEventfullCategory()
     {
