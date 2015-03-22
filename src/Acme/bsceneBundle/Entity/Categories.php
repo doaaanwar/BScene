@@ -64,6 +64,13 @@ class Categories
      */
     protected $eventBriteCategory;
     
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="EventfulCategories", inversedBy="category")
+     * @ORM\JoinColumn(name="eventfulCategoryId", referencedColumnName="id")
+     */
+    protected $eventfullCategory;
+    
     /**
     * @ORM\OneToMany(targetEntity="Meeting", mappedBy="category")
     */
@@ -267,5 +274,28 @@ class Categories
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * Set eventfullCategory
+     *
+     * @param \Acme\bsceneBundle\Entity\EventfullCategories $eventfullCategory
+     * @return Categories
+     */
+    public function setEventfullCategory(\Acme\bsceneBundle\Entity\EventfullCategories $eventfullCategory = null)
+    {
+        $this->eventfullCategory = $eventfullCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get eventfullCategory
+     *
+     * @return \Acme\bsceneBundle\Entity\EventfullCategories 
+     */
+    public function getEventfullCategory()
+    {
+        return $this->eventfullCategory;
     }
 }

@@ -64,6 +64,13 @@ class Categories
      */
     protected $eventBriteCategory;
     
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="EventfullCategories", inversedBy="category")
+     * @ORM\JoinColumn(name="eventfullCategoryId", referencedColumnName="id")
+     */
+    protected $eventfullCategory;
+    
     /**
     * @ORM\OneToMany(targetEntity="Meeting", mappedBy="category")
     */
@@ -257,5 +264,15 @@ class Categories
     public function getEvents()
     {
         return $this->events;
+    }
+    
+    /**
+     * added by doaa elfayoumi 20 feb 2015
+     * function to return the string value for drop down list
+     * @return type
+     */
+    public function __toString()
+    {
+        return $this->name;
     }
 }
