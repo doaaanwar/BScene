@@ -10,12 +10,21 @@ use Acme\bsceneBundle\Controller\CategoriesController;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction($name)
     {
-        //TODO create the list of categories
+        
+        
+       
+        $categoryList = $this->getCategoryList();
+        
+        return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
+    }
+    
+    
+    private function getCategoryList()
+    {
+   
         $em = $this->getDoctrine()->getManager();
-
-        //$categoryList = $em->getRepository('AcmebsceneBundle:Categories')->findAll();
         
         $qb = $em->createQueryBuilder();
         
@@ -24,31 +33,15 @@ class DefaultController extends Controller
         
         $categoryList = $query->getResult();
         
-        //generate the html containing the 
-        /*$categoryList = "<div class=\"col-md-3 col-sm-6 hero-feature\"><div class=\"thumbnail\"><img src=\"images/categoryImages/it.jpg\" alt=\"\">
-			    <div class=\"caption\">
-			                        <h3>Technology Events</h3>
-			                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-			                        <p>
-			                            <a href=\"eventListByCategory.html\" class=\"btn btn-warning\">See Events</a> 
-			                        </p>
-			                    </div>
-			                </div>
-			            </div>";*/
-        
-       
-
-        
-        return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
+        return $categoryList;
     }
     
-    
-  
-    
-     public function loginAction(Request $request)
+    public function loginAction(Request $request)
     {
+         $categoryList = $this->getCategoryList();
         
-        if($request->getMethod()=='POST'){
+        
+         if($request->getMethod()=='POST'){
             $session = $request->getSession();
             $session->clear();
             $username = $request->get('username');
@@ -77,27 +70,32 @@ class DefaultController extends Controller
                     {
 
                         $session->set('admin','admin');
+                        $session->set('lastLogin',$user->getLastLogin());
+                        
+                        //TODO save the current time for the last login of the admin or do it on the logout
+                        
+                        
                     }
 
                      
-                     return $this->render('AcmebsceneBundle:Default:index.html.twig',array('name' => $user->getUsername()));
+                     return $this->render('AcmebsceneBundle:Default:index.html.twig',array('name' => $user->getUsername(),'categoryList' => $categoryList));
                 }
                 else
                 {
                     //password doesn't match
-                   return $this->render('AcmebsceneBundle:Default:index.html.twig',array('errormessage' => 'uncorrect password'));
+                   return $this->render('AcmebsceneBundle:Default:index.html.twig',array('errormessage' => 'uncorrect password','categoryList' => $categoryList));
                 }
             }
             else
             {
                  
-                 return $this->render('AcmebsceneBundle:Default:index.html.twig',array('errormessage' => 'login failed'));
+                 return $this->render('AcmebsceneBundle:Default:index.html.twig',array('errormessage' => 'login failed','categoryList' => $categoryList));
              
             }
         }
         else
         {
-             return $this->render('AcmebsceneBundle:Default:index.html.twig');
+             return $this->render('AcmebsceneBundle:Default:index.html.twig',array('categoryList' => $categoryList));
         }
     }
 }
