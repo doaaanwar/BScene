@@ -14,10 +14,13 @@ namespace Acme\bsceneBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="Account")
+ * @UniqueEntity(fields="email", message="Email already registered")
+ * @UniqueEntity(fields="username", message="Username already registered")
  */
 
 class Account implements UserInterface
@@ -34,6 +37,7 @@ class Account implements UserInterface
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
+     * 
      */
     protected $username;
 
@@ -150,6 +154,9 @@ class Account implements UserInterface
      * @ORM\OneToMany(targetEntity="Meeting", mappedBy="account")
      */
     protected $events;
+    
+    
+    
 
     /**
      * Get id
