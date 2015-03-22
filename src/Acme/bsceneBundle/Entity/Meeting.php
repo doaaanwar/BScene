@@ -112,6 +112,7 @@ class Meeting
      */
     public function __construct()
     {
+        //set the default value for the createdOn to the now date and time
         $this->createdOn = new \DateTime();
         $this->eventComments = new \Doctrine\Common\Collections\ArrayCollection();
     }
