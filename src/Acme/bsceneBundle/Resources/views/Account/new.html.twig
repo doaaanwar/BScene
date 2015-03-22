@@ -50,7 +50,16 @@
             <td class="text-left">{{ form_row(form.province) }}</td>
         </tr>
         <tr>
-            <td colspan="3" class="text-center">{{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
+            <td colspan="3" class="text-center">
+                {{form_row(form.backupEmail)}}
+                {{form_row(form.paymentAmount)}}
+                {{form_row(form.memberSince)}}
+                {{form_row(form.isAdmin)}}
+                {{form_row(form.lastLogin)}}
+                {{form_row(form.status)}}
+                {{ form_row(form._token) }}
+                {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+            </td>
         </tr>
     </table>
 

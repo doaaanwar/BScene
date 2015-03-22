@@ -121,13 +121,13 @@ class Account implements UserInterface
     
     
     /**
-     * @ORM\Column(type="float", length=10,options={"default":0})
+     * @ORM\Column(type="float", length=10,options={"default":0}, nullable=true)
      */
     protected $paymentAmount;
     
     
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $memberSince;
     
@@ -140,13 +140,13 @@ class Account implements UserInterface
     
     
     /**
-    * @ORM\Column(type="boolean",options={"default":0})
+    * @ORM\Column(type="boolean",options={"default":0}, nullable=true)
     */
     protected $isAdmin;
     
     
     /**
-    * @ORM\Column(type="datetime")
+    * @ORM\Column(type="datetime", nullable=true)
     */
     protected $lastLogin;
 

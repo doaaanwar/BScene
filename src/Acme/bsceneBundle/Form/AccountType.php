@@ -23,19 +23,21 @@ class AccountType extends AbstractType
             ->add('firstName', 'text', array ('label' => '* First Name'))
             ->add('lastName', 'text', array ('label' => '* Last Name'))
             ->add('email', 'email', array ('label' => '* E-mail Address'))
-            ->add('backupEmail', 'email', array ('label' => 'Secondary E-mail Address'))
+            ->add('backupEmail', 'hidden', array ('label' => 'Secondary E-mail Address'))
             ->add('businessPhone', 'text', array ('label' => '* Business Phone'))
             ->add('url', 'url', array ('label' => '* URL'))
-            ->add('address1', 'text', array ('label' => 'Address'))
-            ->add('address2', 'text', array ('label' => 'Address'))
-            ->add('province', 'text', array ('label' => 'Province'))
-            ->add('paymentAmount', 'currency', array ('label' => 'Payment Amount'))
-            ->add('memberSince', 'date', array ('label' => 'Member Since: '))
-            ->add('isAdmin', 'checkbox', array ('label' => 'Admin'))
-            ->add('lastLogin','datetime',  array ('label' => 'Last Login: '))
+            ->add('address1', 'text', array ('label' => 'Address Line 1'))
+            ->add('address2', 'text', array ('label' => 'Address Line 2'))
+            ->add('province', 'entity', array (
+                'class' => 'AcmebsceneBundle:Province',
+                'label' => 'Province'))
+            ->add('paymentAmount', 'hidden', array ('label' => 'Payment Amount'))
+            ->add('memberSince', 'hidden', array ('label' => 'Member Since: '))
+            ->add('isAdmin', 'hidden', array ('label' => 'Admin'))
+            ->add('lastLogin','hidden',  array ('label' => 'Last Login: '))
             ->add('city', 'choice', array ('label' => 'City'))
-            ->add('organization', 'choice', array ('label' => 'Organization/Company'))
-            ->add('status', 'choice', array ('label' => 'Account Status'))
+            ->add('organization', 'choice', array ('label' => '* Organization/Company'))
+            ->add('status', 'hidden', array ('label' => 'Account Status'))
         ;
     }
     
