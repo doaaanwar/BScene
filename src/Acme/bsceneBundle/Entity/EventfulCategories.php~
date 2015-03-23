@@ -38,7 +38,7 @@ class EventfulCategories
     protected $name;
     
     /**
-     * @ORM\OneToMany(targetEntity="Categories", mappedBy="eventfulCategory")
+     * @ORM\OneToMany(targetEntity="Categories", mappedBy="eventfullCategory")
      */
     protected $category;
 

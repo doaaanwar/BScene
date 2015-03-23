@@ -44,6 +44,12 @@ class Image
      */
     protected $event;
     
+    /**
+     * @ORM\OneToOne(targetEntity="Categories", mappedBy="image")
+     */
+    protected $category;
+    
+    
 
     /**
      * Get id
@@ -124,5 +130,28 @@ class Image
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \Acme\bsceneBundle\Entity\Categories $category
+     * @return Image
+     */
+    public function setCategory(\Acme\bsceneBundle\Entity\Categories $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Acme\bsceneBundle\Entity\Categories 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

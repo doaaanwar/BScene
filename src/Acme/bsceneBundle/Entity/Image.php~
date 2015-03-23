@@ -44,6 +44,12 @@ class Image
      */
     protected $event;
     
+    /**
+     * @ORM\OneToOne(targetEntity="Categories", mappedBy="image")
+     */
+    protected $category;
+    
+    
 
     /**
      * Get id
