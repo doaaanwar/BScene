@@ -37,11 +37,10 @@ acmebscene_adminComment:
 acmebscene_adminOrganization:
     path:   /admin/organization
     defaults: { _controller: AcmebsceneBundle:Organization:adminIndex}
-    
-acmebscene_adminMeetings:
-    path:     /admin/newEvents/{lastLogin}
-    defaults: { _controller: "AcmebsceneBundle:Admin:newMeetingList" }
-    
+
+meeting_admin_list:
+    path:    /admin/newEvents/{lastLogin}
+    defaults: { _controller: "AcmebsceneBundle:Admin:newMeetingList" }    
  
 acmebscene_homepageCalender:
     path:     /calender

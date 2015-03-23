@@ -6,6 +6,8 @@
  * 
  * Revision History:
  *      19.03.2015: created, doaa elfayoumi
+ *      21.03.2015: adding function to get the list of controller , doaa elfayoumi
+ *      22.03.2015: adding function to get the list of new comments, doaa elfayoumi
  * 
  */
 
@@ -23,7 +25,7 @@ class AdminController extends Controller
     public function indexAction($lastLogin)
     {
         //get the number and list of new comments
-        $commentList = $this->commentListAction($lastLogin);
+        $commentList = $this->getCommentList($lastLogin);
         if(count($commentList) == 0)
         {
             $commentMessage = "no new comments found";
@@ -57,7 +59,7 @@ class AdminController extends Controller
     * @param type $lastLogin
     * @return type
     */
-    private function commentListAction($lastLogin)
+    private function getCommentList($lastLogin)
     {   
         $em = $this->getDoctrine()->getEntityManager();
  
@@ -69,6 +71,33 @@ class AdminController extends Controller
         
     }
     
+    /**
+    * doaa elfayoumi
+    * function that get the list of new events given the last login of the admin
+    * @param type $lastLogin
+    * @return type
+    */
+    private function getNewMeetingList($lastLogin)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.createdOn >= '$lastLogin'");
+        $eventList = $q->getResult();
+
+        return $eventList;
+    }
+    
+    
+    /**
+     * 
+     * @param type $lastLogin
+     * @return type
+     */
+    public function newMeetingListAction($lastLogin)
+    {
+         $entities = $this->getNewMeetingList($lastLogin);
+         return $this->render('AcmebsceneBundle:Meeting:newMeetingList.html.twig', array( 'entities' => $entities,));
+    }
     
     
 }
