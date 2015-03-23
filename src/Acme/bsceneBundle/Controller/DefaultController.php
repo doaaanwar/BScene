@@ -58,21 +58,19 @@ class DefaultController extends Controller
         
         foreach($dateList as $item)
         {
-          $dateArrayEntry = array('date'=>$item['date']->format('d/m/y'),'title'=>"event on ".$item['date']->format('Y-m-d'),'link'=>"www.google.com",'color'=>"green",'class'=>"miclasse",'content'=>"contingut popover");   
+          $dateArrayEntry = array("date"=>$item['date']->format('d/m/y'),"title"=>"event on ".$item['date']->format('Y-m-d'),"link"=>"www.google.com","color"=>"green");   
+          
           $dateArray[] = $dateArrayEntry;
         }
         
-        
         //encode the array to json
-        $dateArray = json_encode($dateArray);
+        //removed the encode because it require decode on the page before be used by the calender
+        //$dateArray = json_encode($dateArray);
         
-        
-       
+
         //return json result into a php page
         return new JsonResponse($dateArray);
-        
-       
-    }
+      }
     
     public function loginAction(Request $request)
     {
