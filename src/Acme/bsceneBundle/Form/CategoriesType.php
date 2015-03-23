@@ -21,6 +21,7 @@ class CategoriesType extends AbstractType
             ->add('image')
             ->add('meetupCategory')
             ->add('eventBriteCategory')
+            ->add('eventfullCategory')
         ;
     }
     
