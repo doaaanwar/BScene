@@ -221,4 +221,21 @@ class MeetingController extends Controller
             ->getForm()
         ;
     }
+     /**
+    * Mahmoud Jallala
+    * function compares the title of the new event with events in the database
+    * @param type $title
+    * @return type
+    */
+    private function relatedEventAction($title)
+    {   
+        $em = $this->getDoctrine()->getEntityManager();
+ 
+        //To get the events with the same titles 
+        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.title >= '$title'");
+        $relatedEvents = $q->getResult();
+
+        return $relatedEvents;
+        
+    }
 }
