@@ -36,8 +36,12 @@ class AccountController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Account();
+        
+        
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
+        
+        $entity->setMemberSince(new \DateTime());
    
 
         if ($form->isValid()) {
