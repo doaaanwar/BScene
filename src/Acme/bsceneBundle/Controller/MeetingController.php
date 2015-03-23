@@ -231,7 +231,7 @@ class MeetingController extends Controller
     {   
         $em = $this->getDoctrine()->getEntityManager();
  
-        //TODO get only the top 10
+        //To get the events with the same titles 
         $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.title >= '$title'");
         $relatedEvents = $q->getResult();
 
