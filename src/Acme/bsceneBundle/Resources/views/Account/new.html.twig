@@ -33,7 +33,7 @@
             </tr>
            
             <tr>
-                <td >
+                <td colspan="2">
                                
                                
                                 <small class="createOrg">Can't find your organization?
@@ -42,7 +42,7 @@
                   </td>
             </tr>
             <tr>
-                <td >
+                <td colspan="2" >
                        <div  id="createOrgColumn">
                             <div class="collapse" id="collapseOrganization">
                               <div class="well">
@@ -96,9 +96,7 @@
                 <td colspan="2" class="text-center">
                     {{ form_row(form.backupEmail) }}
                     {{ form_row(form.paymentAmount) }}
-                    {{ form_row(form.memberSince) }}
                     {{ form_row(form.isAdmin) }}
-                    {{ form_row(form.lastLogin) }}
                     {{ form_row(form.status) }}
                     {{ form_row(form._token) }}
                     {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>

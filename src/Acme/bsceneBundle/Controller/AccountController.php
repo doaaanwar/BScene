@@ -241,7 +241,9 @@ class AccountController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('account_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array(
+                'label' => 'Delete Account',
+                'attr' => array('class' => 'btn btn-danger')))
             ->getForm()
         ;
     }

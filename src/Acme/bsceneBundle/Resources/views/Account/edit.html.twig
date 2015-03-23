@@ -1,16 +1,109 @@
 {% extends '::base.html.twig' %}
+{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+
 
 {% block body -%}
     <h1>Account edit</h1>
 
-    {{ form(edit_form) }}
+    {{ form_start(edit_form) }}
+    {{ form_errors(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('account') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
-{% endblock %}
+    <div align='center'>
+        <table>
+            <tr>
+                <td colspan='2'> {{ form_row(edit_form.username) }}
+                    {{ form_row(edit_form.password) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(edit_form.firstName) }}</td>
+                <td>{{ form_row(edit_form.lastName) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(edit_form.email) }}</td>
+                <td>{{ form_row(edit_form.organization) }}</td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+
+
+                    <small class="createOrg">Can't find your organization?
+                        <a data-toggle="collapse" href="#collapseOrganization" aria-expanded="false" aria-controls="collapseOrganization">Create a new one</a>
+                    </small>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                    <div  id="createOrgColumn">
+                        <div class="collapse" id="collapseOrganization">
+                            <div class="well">
+                                <form class="form-group" id="createNew">
+                                    <table>
+                                        <tr>
+                                            <td colspan="2" class="text-center">
+                                                <h4>Create Organization</h4>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">
+                                                <label for="orgName">* Organization Name</label>
+                                            </td>
+                                            <td class="text-left">
+                                                <input type="text" id="orgName" name="orgName" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">
+
+                                                <label for="orgUrl">* Organization URL</label>
+                                            </td>
+                                            <td class="text-left">
+
+                                                <input type="url" id="orgUrl" name="orgUrl" required>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>{{ form_row(edit_form.businessPhone) }}</td>
+                <td>{{ form_row(edit_form.url) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(edit_form.address1) }}</td>
+                <td>{{ form_row(edit_form.address2) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(edit_form.city) }}</td>
+                <td>{{ form_row(edit_form.province) }}</td>
+            </tr>
+            <tr>
+
+                <td colspan="2" class="text-center">
+                    {{ form_row(edit_form.backupEmail) }}
+                    {{ form_row(edit_form.paymentAmount) }}
+                    {{ form_row(edit_form.isAdmin) }}
+                    {{ form_row(edit_form.status) }}
+                    {{ form_row(edit_form._token) }}
+                    {{ form_widget(edit_form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
+        </table>
+        <div align="left">
+            <ul class="record_actions">
+                <li>
+                    <a href="{{ path('account') }}">
+                        Back to the list
+                    </a>
+                </li>
+                <li>
+                    
+                    {{ form(delete_form) }}</li>
+                
+                <p class="text-danger">Careful- This cannot be undone!</p>
+            </ul>
+        </div>
+    {% endblock %}

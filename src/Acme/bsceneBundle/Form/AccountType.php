@@ -81,7 +81,7 @@ class AccountType extends AbstractType
                 'required' => false,
                 'attr' => array('name' => 'fee')))
                 
-            ->add('memberSince', 'hidden', array (
+            ->add('memberSince', 'date', array (
                 'label' => 'Member Since: ',
                 'required' => false,
                 'attr' => array('name' => 'memberSince')))
@@ -91,7 +91,7 @@ class AccountType extends AbstractType
                 'required' => false,
                 'attr' => array('name' => 'isAdmin')))
                 
-            ->add('lastLogin','hidden',  array (
+            ->add('lastLogin','date',  array (
                 'label' => 'Last Login: ',
                 'required' => false,
                 'attr' => array('name' => 'lastLogin')))
