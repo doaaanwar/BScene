@@ -3,6 +3,7 @@ function registerSubmitHandler(formId){
 		$("form#" + formId).find("input, select").each(function (){
 			var id = $(this).attr("id");
 			var value;
+                        console.log(id);
 
 			if ($(this).prop("tagName").toLowerCase() == "select")
 			{
@@ -12,7 +13,7 @@ function registerSubmitHandler(formId){
 			{
 				value = $(this).val();
 			}
-			$("#confirmDetails #" + id).text(value);
+			$("#confirmDetails #acme_bscenebundle_account_" + id).text(value);
 		});
 
 	});

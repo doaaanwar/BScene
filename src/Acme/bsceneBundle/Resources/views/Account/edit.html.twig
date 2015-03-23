@@ -1,6 +1,10 @@
 {% extends '::base.html.twig' %}
 {% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/account.css')}}" rel="stylesheet">
+{% endblock %}
+
 
 {% block body -%}
     <h1>Account edit</h1>

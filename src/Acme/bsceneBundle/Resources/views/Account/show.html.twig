@@ -1,89 +1,152 @@
 {% extends '::base.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/profile.css')}}" rel="stylesheet">
+{% endblock %}
 
 {% block body -%}
-    <h1>Account</h1>
+    <h1>Account Details</h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ entity.username }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ entity.password }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ entity.firstName }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ entity.lastName }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ entity.email }}</td>
-            </tr>
-            <tr>
-                <th>Backupemail</th>
-                <td>{{ entity.backupEmail }}</td>
-            </tr>
-            <tr>
-                <th>Businessphone</th>
-                <td>{{ entity.businessPhone }}</td>
-            </tr>
-            <tr>
-                <th>Url</th>
-                <td>{{ entity.url }}</td>
-            </tr>
-            <tr>
-                <th>Address1</th>
-                <td>{{ entity.address1 }}</td>
-            </tr>
-            <tr>
-                <th>Address2</th>
-                <td>{{ entity.address2 }}</td>
-            </tr>
-            <tr>
-                <th>Province</th>
-                <td>{{ entity.province }}</td>
-            </tr>
-            <tr>
-                <th>Paymentamount</th>
-                <td>{{ entity.paymentAmount }}</td>
-            </tr>
-            <tr>
-                <th>Membersince</th>
-                <td>{{ entity.memberSince|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Isadmin</th>
-                <td>{{ entity.isAdmin }}</td>
-            </tr>
-            <tr>
-                <th>Lastlogin</th>
-                <td>{{ entity.lastLogin|date('Y-m-d H:i:s') }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('account') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('account_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+        <!-- Portfolio Item Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">User Profile
+                    <small>{{entity.username}} - {{entity.organization}}</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Portfolio Item Row -->
+        <div class="row">
+            <div class="col-md-6">
+                <table class="record_properties">
+                    <tbody>
+                        <tr>
+                            <th class="text-right" class="text-right">Username</th>
+                            <td class="text-left" class="text-left">{{ entity.username }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right" class="text-right">Name</th>
+                            <td class="text-left">{{ entity.firstName }} {{entity.lastName}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right" class="text-right">Email Address</th>
+                            <td class="text-left"><a href="mailto:{{entity.email}}">{{ entity.email }}</a></td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-right">Business Phone #</th>
+                            <td class="text-left">{{ entity.businessPhone }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Url</th>
+                            <td class="text-left"><a href="{{entity.url}}">{{ entity.url }}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-6">
+                <table class="record_properties">
+                    <tbody>
+                        <tr>
+                            <th class="text-right">Address</th>
+                            <td class="text-left">{{ entity.address1 }}, {{entity.address2}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Province</th>
+                            <td class="text-left">{{ entity.province }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Organization</th>
+                            <td class="text-left"><a href="#">{{ entity.organization }}</a></td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Membersince</th>
+                            <td class="text-left">{{ entity.memberSince|date('Y-m-d') }}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-right">Lastlogin</th>
+                            <td class="text-left">{{ entity.lastLogin|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <!-- Related Projects Row -->
+        <div class="row">
+            <!--First Event box -->
+            <div class="col-lg-12">
+                <h3 class="page-header">Related Projects</h3>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
+                    </div>
+                    <div class="panel-body">
+                        <h5>Title</h5>
+                        <p>Date</p>
+                        <p>Description</p>
+                        <a href="#" class="btn btn-warning">Event Details</a>
+                    </div>
+                </div>
+            </div>
+            <!--Second event box -->
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
+                    </div>
+                    <div class="panel-body">
+                        <h5>Title</h5>
+                        <p>Date</p>
+                        <p>Description</p>
+                        <a href="#" class="btn btn-warning">Event Details</a>
+                    </div>
+                </div>
+            </div>
+            <!--Third event box -->
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
+                    </div>
+                    <div class="panel-body">
+                        <h5>Title</h5>
+                        <p>Date</p>
+                        <p>Description</p>
+                        <a href="#" class="btn btn-warning">Event Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path ('account') }}">
+                Back to the list
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('account_edit', { 'id': entity.id }) }}">
+                Edit
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
 {% endblock %}
