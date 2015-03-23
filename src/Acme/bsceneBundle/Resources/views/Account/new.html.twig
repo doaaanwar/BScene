@@ -4,9 +4,6 @@
 {% block stylesheets %}
     <link href="{{ asset('bundles/acmebscene/css/account.css')}}" rel="stylesheet">
 {% endblock %}
-{% block javascripts %}
-    <script src="{{ asset('bundles/acmebscene/js/hinclude.js')}}"></script>
-{% endblock %}
 
 {% block body -%}
     <div class="text-center">
@@ -14,7 +11,7 @@
         <p class="lead">All fields marked with * are required</p>
     </div>
 
-    {{ form_start(form) }}
+    {{ form_start(form, { 'attr': { 'id': 'createAccount' } }) }}
     {{ form_errors(form) }}
 
     <div align='center'>
@@ -31,21 +28,21 @@
                 <td>{{ form_row(form.email) }}</td>
                 <td>{{ form_row(form.organization) }}</td>
             </tr>
-           
+
             <tr>
                 <td colspan="2">
-                               
-                               
-                                <small class="createOrg">Can't find your organization?
-                                    <a data-toggle="collapse" href="#collapseOrganization" aria-expanded="false" aria-controls="collapseOrganization">Create a new one</a>
-                                </small>
-                  </td>
+
+
+                    <small class="createOrg">Can't find your organization?
+                        <a data-toggle="collapse" href="#collapseOrganization" aria-expanded="false" aria-controls="collapseOrganization">Create a new one</a>
+                    </small>
+                </td>
             </tr>
             <tr>
                 <td colspan="2" >
-                       <div  id="createOrgColumn">
-                            <div class="collapse" id="collapseOrganization">
-                              <div class="well">
+                    <div  id="createOrgColumn">
+                        <div class="collapse" id="collapseOrganization">
+                            <div class="well">
                                 <form class="form-group" id="createNew">
                                     <table>
                                         <tr>
@@ -75,9 +72,9 @@
                                     </table>
                                 </form>
                             </div>
-                            </div>
                         </div>
-                  </td>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>{{ form_row(form.businessPhone) }}</td>
@@ -99,10 +96,130 @@
                     {{ form_row(form.isAdmin) }}
                     {{ form_row(form.status) }}
                     {{ form_row(form._token) }}
-                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
+                    <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#confirmDetails" id="submitProfile">
+                        Submit
+                    </button></td>
             </tr>  
         </table>
-           
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Please verify your details</h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <table>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.username)}}
+                                </td>
+                                <td>
+                                    <div id="username"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    <label for="password">Password</label>
+                                </td>
+                                <td>
+                                    <div id="password"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.firstName)}}
+                                </td>
+                                <td>
+                                    <div id="firstName"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.lastName)}}
+                                </td>
+                                <td>
+                                    <div id="lastName"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.email)}}
+                                </td>
+                                <td>
+                                    <div id="email"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.organization)}}
+                                </td>
+                                <td>
+                                    <div id="organization"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{form_label(form.businessPhone)}}
+                                </td>
+                                <td>
+                                    <div id="busPhone"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.url)}}
+                                </td>
+                                <td>
+                                    <div id="memberUrl"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.address1)}}
+                                </td>
+                                <td>
+                                    <div id="address1"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.address2)}}
+                                </td>
+                                <td>
+                                    <div id="address2"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.city)}}
+                                </td>
+                                <td>
+                                    <div id="city"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    {{ form_label(form.province)}}
+                                </td>
+                                <td>
+                                    <div id="prov"></div>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Edit Details</button>
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+                </div>
+            </div>
+        </div>
     </div>
 
     <ul class="record_actions">
@@ -119,6 +236,12 @@
 
 {% block footer %}
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/acmebscene/js/hinclude.js')}}"></script>
+    <script src="{{ asset('bundles/acmebscene/js/confirmDetails.js')}}"></script>
+    <script type="text/javascript">registerSubmitHandler("createAccount");</script>
 {% endblock %}
 
 

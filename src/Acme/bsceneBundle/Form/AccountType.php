@@ -18,7 +18,7 @@ class AccountType extends AbstractType
             ->add('username', 'text', array(
                 'label' => '* Username',
                 'required' => true,
-                'attr' => array('name' =>'username')))
+                'attr' => array('id' =>'username')))
             
             ->add('password', 'repeated', array(
                 'first_name'  => 'password',
@@ -28,89 +28,89 @@ class AccountType extends AbstractType
                 'second_options' => array('label' => '* Repeat Password'),
                 'required' => true,
                 'type' => 'password',
-                'attr' => array ('name' => 'password')))
+                'attr' => array ('id' => 'password')))
             
             ->add('firstName', 'text', array (
                 'label' => '* First Name',
                 'required' => true,
-                'attr' => array('name' => 'firstName')))
+                'attr' => array('id' => 'firstName')))
                 
             ->add('lastName', 'text', array (
                 'label' => '* Last Name',
                 'required' => true,
-                'attr' => array('name' => 'lastName')))
+                'attr' => array('id' => 'lastName')))
                 
             ->add('email', 'email', array (
                 'label' => '* E-mail Address',
                 'required' => true,
-                'attr' => array ('name' => 'email')))
+                'attr' => array ('id' => 'email')))
                 
             ->add('backupEmail', 'hidden', array (
                 'label' => 'Secondary E-mail Address',
                 'required' => false,
-                'attr' => array('name' => 'backupEmail')))
+                'attr' => array('id' => 'backupEmail')))
                 
             ->add('businessPhone', 'text', array (
                 'label' => '* Business Phone',
                 'required' => true,
-                'attr' => array('name' => 'busPhone')))
+                'attr' => array('id' => 'busPhone')))
                 
             ->add('url', 'url', array (
                 'label' => 'URL',
                 'required' => false,
-                'attr' => array('name' => 'memberUrl')))
+                'attr' => array('id' => 'memberUrl')))
                 
             ->add('address1', 'text', array (
                 'label' => 'Address Line 1',
                 'required' => false,
-                'attr' => array('name' => 'address1')))
+                'attr' => array('id' => 'address1')))
                 
             ->add('address2', 'text', array (
                 'label' => 'Address Line 2',
                 'required' => false,
-                'attr' => array('name' => 'address2')))
+                'attr' => array('id' => 'address2')))
                 
             ->add('province', 'entity', array (
                 'class' => 'AcmebsceneBundle:Province',
                 'label' => 'Province',
                 'required' => false,
-                'attr' => array('name' => 'prov')))
+                'attr' => array('id' => 'prov')))
                 
             ->add('paymentAmount', 'hidden', array (
                 'label' => 'Payment Amount',
                 'required' => false,
-                'attr' => array('name' => 'fee')))
+                'attr' => array('id' => 'fee')))
                 
             ->add('memberSince', 'date', array (
                 'label' => 'Member Since: ',
                 'required' => false,
-                'attr' => array('name' => 'memberSince')))
+                'attr' => array('id' => 'memberSince')))
                 
             ->add('isAdmin', 'hidden', array (
                 'label' => 'Admin',
                 'required' => false,
-                'attr' => array('name' => 'isAdmin')))
+                'attr' => array('id' => 'isAdmin')))
                 
             ->add('lastLogin','date',  array (
                 'label' => 'Last Login: ',
                 'required' => false,
-                'attr' => array('name' => 'lastLogin')))
+                'attr' => array('id' => 'lastLogin')))
                 
             ->add('city', 'text', array (
                 'label' => 'City',
                 'required' => false,
-                'attr' => array('name' => 'city')))
+                'attr' => array('id' => 'city')))
                 
             ->add('organization', 'entity', array (
                 'class' => 'AcmebsceneBundle:Organization',
                 'label' => '* Organization/Company',
                 'required' => true,
-                'attr' => array('name' => 'organization')))
+                'attr' => array('id' => 'organization')))
                 
             ->add('status', 'hidden', array (
                 'label' => 'Account Status',
                 'required' => false,
-                'attr' => array('name' => 'accountStatus')))
+                'attr' => array('id' => 'accountStatus')))
                             
         ;
     }
