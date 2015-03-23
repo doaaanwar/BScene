@@ -3,8 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Resources/views/Account/show.html.twig</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Form/AccountType.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Controller/CategoriesController.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Resources/public/js/confirmDetails.js</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Controller/AccountController.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Resources/views/Account/new.html.twig</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Form/CategoriesType.php</file>
             <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Entity/Account.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Entity/Categories.php</file>
+            <file>file:/Applications/XAMPP/xamppfiles/htdocs/BScene/src/Acme/bsceneBundle/Resources/views/Account/edit.html.twig</file>
         </group>
     </open-files>
 </project-private>
