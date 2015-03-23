@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Acme\bsceneBundle\Entity\Account;
 use Acme\bsceneBundle\Form\AccountType;
+use Acme\bsceneBundle\Entity\Organization;
 
 /**
  * Account controller.
@@ -31,10 +32,22 @@ class AccountController extends Controller
     }
     /**
      * Creates a new Account entity.
-     *
+     * added the create organization first - doaa elfayoumi - 23.03.2015 
      */
     public function createAction(Request $request)
     {
+        //if the organization is filled create it first
+        if($request->get("orgName") != "")
+        {
+            $orgEntity = new Organization();
+            $orgEntity->setName($request->get("orgName"));
+            $orgEntity->setWebsite($request->get("orgUrl"));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($orgEntity);
+            $em->flush();
+        }
+        
+        
         $entity = new Account();
         
         
@@ -42,8 +55,14 @@ class AccountController extends Controller
         $form->handleRequest($request);
         
         $entity->setMemberSince(new \DateTime());
-   
-
+        
+        
+        //set the created organization on the account entity
+        if($request->get("orgName") != "")
+        {
+            $entity->setOrganization($orgEntity);
+        }
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
