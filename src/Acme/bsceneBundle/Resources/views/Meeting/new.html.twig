@@ -16,7 +16,7 @@
     <div align='center'>
     <table>
         <tr>
-            <td colspan='2'>{{ form_row(form.title) }}</td>
+            <td >{{ form_row(form.title) }}</td>
         </tr>
          <tr>
              <td>{{ form_row(form.date) }}</td>
@@ -51,9 +51,35 @@
              <td>{{ form_row(form.category) }}</td>
         </tr>
         
+        <tr>
+            <td >
+                <div id='TextBoxesGroup'>
+
+
+                    <div id="TextBoxDiv1">
+
+                            <label>Speaker #1 : </label><br>
+                            <label>Name : </label><br><input type='textbox' id='textbox1' ><br>
+                            <label>Title : </label><br><input type='textbox' id='textbox1' ><br>
+                            <label>Biography :</label><br><input type='textbox' id='textbox1' >
+
+                    </div>
+                </div>
+            </td>
+           
+        </tr>
+        <tr>
+            <td >
+                 <input type='button' value='Add Speaker' id='addButton'>
+            
+           
+                <input type='button' value='Remove' id='removeButton'>
+            </td>
+        </tr>
+      
         
           <tr>
-             <td colspan='2' >{{ form_row(form.description) }}</td>
+             <td  >{{ form_row(form.description) }}</td>
         </tr>
          <tr>
             <td colspan="3" class="text-center">
@@ -88,10 +114,17 @@
             var newTextBoxDiv = $(document.createElement('div'))
                  .attr("id", 'TextBoxDiv' + counter);
 
-            newTextBoxDiv.after().html('<label>Textbox #'+ counter + ' : </label>' +
-                  '<input type="text" name="textbox' + counter + 
-                  '" id="textbox' + counter + '" value="" >');
+            newTextBoxDiv.after().html('<label>Speaker #'+ counter + ' : </label><br>' +
+                  '<label>Name : </label><input type="text" name="nameTextbox' + counter + 
+                  '" id="nameTextbox' + counter + '" value="" ><br>'+
+                  '<label>Title : </label><input type="text" name="titleTextbox' + counter + 
+                  '" id="titleTextbox' + counter + '" value="" ><br>'+
+                  '<label>Biography : </label><input type="text" name="bioTextbox' + counter + 
+                  '" id="bioTextbox' + counter + '" value="" >');
 
+
+
+                           
             newTextBoxDiv.appendTo("#TextBoxesGroup");
 
 
