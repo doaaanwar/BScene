@@ -43,6 +43,8 @@ class MeetingController extends Controller
         $form->handleRequest($request);
      
         $image = $request->get('imageUpload');
+        
+        //commented till finish implementation
         /*if(($image instanceof UploadedFile) && ($image->getError() == '0'))
         {
             if($image->getSize() > 2000000)
@@ -81,15 +83,17 @@ class MeetingController extends Controller
              die();
          }
 */
-
         
-        $imageEntity = new Image();
+       
+
+        //commented till finish implementation
+       /* $imageEntity = new Image();
                     $imageEntity->setName($image);
                     $imageEntity->setURL($image);
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($imageEntity);
                     $em->flush();
-        $entity->setImage($imageEntity);
+        $entity->setImage($imageEntity);*/
         
         //TODO the same with the enddate
         //TODO check if the date is on the future
