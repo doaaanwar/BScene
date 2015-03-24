@@ -269,13 +269,13 @@ class AccountController extends Controller {
      */
     private function getUpcomingMeetingList($id) {
         $currentDate = new \DateTime();
-        $currentDate = $currentDate ->format('YYYY/m/d');
+        $currentDate = $currentDate ->format('Y/m/d');
 
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e "
                 . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                . "WHERE e.account = '$id'");
+                . "WHERE e.account = '$id' AND e.date >= '$currentDate'");
         $eventList = $q->getArrayResult();
 
         return $eventList;
