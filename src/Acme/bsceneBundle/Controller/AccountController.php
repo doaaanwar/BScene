@@ -124,11 +124,18 @@ class AccountController extends Controller {
 
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
         $eventList = $this->getUpcomingMeetingList($id);
+        $pastEventList = $this->getPastMeetingList($id);
+        $eventCount = \Count($eventList);
+        $pastEventCount = \Count($pastEventList);
         $noEventsMsg = "There are no upcoming events posted by this user";
+        $noPastEventsMsg = "There are no past events for this user";
         
-        if (\Count($eventList > 3))
-        {
+
+        if ($eventCount > 3) {
             $eventList = array_slice($eventList, 0, 3);
+        }
+        if ($pastEventCount > 3) {
+            $pastEventList = array_slice($pastEventList, 0, 3);
         }
 
 
@@ -138,15 +145,17 @@ class AccountController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
 
-            return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
-                        'entity' => $entity,
-                        'upcoming' => $eventList,
-                        'delete_form' => $deleteForm->createView(),
-                        'noEventsMsg' => $noEventsMsg,
-                        'eventCount' => \Count($eventList),
-            ));
-        }
-    
+        return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),
+                    'upcoming' => $eventList,
+                    'past' => $pastEventList,
+                    'noEventsMsg' => $noEventsMsg,
+                    'noPastEventsMsg' => $noPastEventsMsg,
+                    'eventCount' => $eventCount,
+                    'pastEventCount' => $pastEventCount,
+        ));
+    }
 
     /**
      * Displays a form to edit an existing Account entity.
@@ -269,16 +278,30 @@ class AccountController extends Controller {
      */
     private function getUpcomingMeetingList($id) {
         $currentDate = new \DateTime();
-        $currentDate = $currentDate ->format('Y/m/d');
 
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e "
                 . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                . "WHERE e.account = '$id' AND e.date >= '$currentDate'");
+                . "WHERE e.account = '$id' AND e.date >= :date "
+                . "ORDER BY e.date ASC")->setParameter('date', $currentDate);
         $eventList = $q->getArrayResult();
 
         return $eventList;
+    }
+
+    private function getPastMeetingList($id) {
+        $currentDate = new \DateTime();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQuery("SELECT e "
+                . "FROM \Acme\bsceneBundle\Entity\Meeting e "
+                . "WHERE e.account = :id AND e.date < :date "
+                . "ORDER BY e.date ASC")->setParameters(array ('date'=> $currentDate, 'id' => $id));
+        $pastEventList = $q->getArrayResult();
+
+        return $pastEventList;
     }
 
 }
