@@ -10,6 +10,7 @@ use Acme\bsceneBundle\Form\MeetingType;
 use Acme\bsceneBundle\Entity\Image;
 use \DateTime;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Acme\bsceneBundle\Entity\Speaker;
 
 /**
  * Meeting controller.
@@ -84,7 +85,24 @@ class MeetingController extends Controller
          }
 */
         
+        //create speakers, maximum 5 speakers
+        for($i=1;$i<=5;$i++)
+        {
+            if($request->get('nameTextbox'.$i) != "")
+            {
+                //create new speaker
+                $speakerEntity = new Speaker();
+                $speakerEntity->setName($request->get('nameTextbox'.$i));
+                $speakerEntity->setTitle($request->get('titleTextbox'.$i));
+                $speakerEntity->setBiography($request->get('bioTextbox'.$i));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($speakerEntity);
+                $em->flush();
+            }
+        }
        
+        
+        //TODO create the realtion between creted speaker and event
 
         //commented till finish implementation
        /* $imageEntity = new Image();
