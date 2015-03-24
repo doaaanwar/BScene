@@ -247,16 +247,16 @@ class MeetingController extends Controller
     }
      /**
     * Mahmoud Jallala
-    * function compares the title of the new event with events in the database
-    * @param type $title
+    * function compares the category of the new event with events in the database
+    * @param type $category
     * @return type
     */
-    private function relatedEventAction($title)
+    private function relatedEventAction($Category)
     {   
         $em = $this->getDoctrine()->getEntityManager();
  
         //To get the events with the same titles 
-        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.title >= '$title'");
+        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.meeting >= '$category'");
         $relatedEvents = $q->getResult();
 
         return $relatedEvents;
