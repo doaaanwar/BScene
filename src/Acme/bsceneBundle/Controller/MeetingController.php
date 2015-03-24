@@ -39,6 +39,9 @@ class MeetingController extends Controller
      */
     public function createAction(Request $request)
     {
+   
+        
+        
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -110,7 +113,7 @@ class MeetingController extends Controller
        
        
         
-        //TODO create the realtion between creted speaker and event
+       
 
         //commented till finish implementation
        /* $imageEntity = new Image();
@@ -129,8 +132,13 @@ class MeetingController extends Controller
      
         
        
+        //TODO handle if the session expire
+        //set the account to the logged one
+        $em = $this->getDoctrine()->getManager();
+        $accountId = $request->getSession()->get('memberId');
+        $account = $em->getRepository('AcmebsceneBundle:Account')->findOneBy(array('id'=>$accountId));
         
-        //TODO set the account to the logged one
+        $entity->setAccount($account);
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
