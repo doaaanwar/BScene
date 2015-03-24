@@ -33,7 +33,11 @@
                             </div>
                         </div>
 	            </div>
-                    
+                    {%set count =  count + 1%}
+                    {% if count == 4%}
+                        {% set count = 0 %}
+                        <br>
+                    {% endif %}
                     {%endfor%}
                     <!--categories end -->
                 </div>

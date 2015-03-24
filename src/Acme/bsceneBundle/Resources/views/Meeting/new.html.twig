@@ -50,7 +50,9 @@
         <tr>
              <td>{{ form_row(form.category) }}</td>
         </tr>
-        
+        <tr>
+             <td  >{{ form_row(form.description) }}</td>
+        </tr>
         <tr>
             <td >
                 <div id='TextBoxesGroup'>
@@ -78,9 +80,7 @@
         </tr>
       
         
-          <tr>
-             <td  >{{ form_row(form.description) }}</td>
-        </tr>
+        
          <tr>
             <td colspan="3" class="text-center">
                 {{ form_row(form._token) }}
@@ -106,8 +106,8 @@
 
         $("#addButton").click(function () {
 
-            if(counter>10){
-                alert("Only 10 textboxes allow");
+            if(counter>5){
+                alert("Only 5 textboxes allow");
                 return false;
             }   
 
@@ -115,11 +115,11 @@
                  .attr("id", 'TextBoxDiv' + counter);
 
             newTextBoxDiv.after().html('<label>Speaker #'+ counter + ' : </label><br>' +
-                  '<label>Name : </label><input type="text" name="nameTextbox' + counter + 
+                  '<label>Name : </label><br><input type="text" name="nameTextbox' + counter + 
                   '" id="nameTextbox' + counter + '" value="" ><br>'+
-                  '<label>Title : </label><input type="text" name="titleTextbox' + counter + 
+                  '<label>Title : </label><br><input type="text" name="titleTextbox' + counter + 
                   '" id="titleTextbox' + counter + '" value="" ><br>'+
-                  '<label>Biography : </label><input type="text" name="bioTextbox' + counter + 
+                  '<label>Biography : </label><br><input type="text" name="bioTextbox' + counter + 
                   '" id="bioTextbox' + counter + '" value="" >');
 
 
