@@ -105,9 +105,10 @@
    <script src="{{ asset('bundles/acmebscene/js/jquery-ui.js')}}"></script>
    <script src="{{ asset('bundles/acmebscene/js/jquery-ui.min.js')}}"></script>
    <script>
+      
         $(function() {
-          $( "#acme_bscenebundle_meeting_date" ).datepicker();
-          $( "#acme_bscenebundle_meeting_endDate" ).datepicker();
+          $( "#acme_bscenebundle_meeting_date" ).datepicker(  {dateFormat: "yy-mm-dd"} );
+          $( "#acme_bscenebundle_meeting_endDate" ).datepicker( { dateFormat: "yy-mm-dd"} );
         });
    </script>
     <!-- needed script for the datetimepicker for date fields -->

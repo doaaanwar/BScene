@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Acme\bsceneBundle\Entity\Meeting;
 use Acme\bsceneBundle\Form\MeetingType;
+use \DateTime;
 
 /**
  * Meeting controller.
@@ -38,7 +39,16 @@ class MeetingController extends Controller
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
+     
+       
+        $format = 'Y-m-d';
+        $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
+        
+        //TODO check if the date is on the future
+        //TODO create spwakers
+        
+        //TODO set the account to the logged one
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);

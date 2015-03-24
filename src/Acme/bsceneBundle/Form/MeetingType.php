@@ -22,24 +22,24 @@ class MeetingType extends AbstractType
            
             ->add('date','text', array(
                 'label' => '* Date',
+                
                 'required' => true,
                 'attr' => array('id' =>'date')))
             ->add('time')
             ->add('endDate','text', array(
-                'label' => '* End Date',        
-                'required' => true,
+                'label' => 'End Date',        
                 'attr' => array('id' =>'endDate')))
             ->add('endTime')
             ->add('description','textarea')
             ->add('capacity')
             ->add('venue')
-            ->add('organization')
+            ->add('organization','hidden')
             ->add('image','file', array(
                 'label' => "Event Logo",
                 'required' => false,
                 'attr' => array('id' => 'image')))
            
-            ->add('account')
+            ->add('account','hidden')
             ->add('category')
           
         ;
