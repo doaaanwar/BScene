@@ -9,6 +9,7 @@ use Acme\bsceneBundle\Entity\Meeting;
 use Acme\bsceneBundle\Form\MeetingType;
 use Acme\bsceneBundle\Entity\Image;
 use \DateTime;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Meeting controller.
@@ -42,14 +43,52 @@ class MeetingController extends Controller
         $form->handleRequest($request);
      
         $image = $request->get('imageUpload');
+        /*if(($image instanceof UploadedFile) && ($image->getError() == '0'))
+        {
+            if($image->getSize() > 2000000)
+            {
+                $originalName = $image->getClientOriginalName();
+                $name_array = explode('.',$originalName);
+                $file_type = $name_array(sizeof($name_array-1));
+                $valid_filetypes =  array('jpg','jpeg','png','bmp');
+                if(in_array(strtolower($file_type),$valid_filetypes))
+                {
+                    
+                    //TODO upload and save the path to the image.url
+                    $imageEntity = new Image();
+                    $imageEntity->setName($image);
+                    $imageEntity->setURL($image);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($imageEntity);
+                    $em->flush();
+                }
+                else
+                {
+                    print_r("Invalid file type");
+                    die();
+                }
+               
+            }
+            else
+            {
+                print_r("Size exceed limit");
+                die();
+            }
+          }
+          else
+         {
+             print_r($image->getError());
+             die();
+         }
+*/
+
         
         $imageEntity = new Image();
-        $imageEntity->setName($image);
-        $imageEntity->setURL($image);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($imageEntity);
-        $em->flush();
-
+                    $imageEntity->setName($image);
+                    $imageEntity->setURL($image);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($imageEntity);
+                    $em->flush();
         $entity->setImage($imageEntity);
         
         //TODO the same with the enddate
@@ -57,9 +96,7 @@ class MeetingController extends Controller
         //TODO check if the endDate is null
         $format = 'Y-m-d';
         $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
-        
-       
-        //TODO create spwakers
+     
         
         //TODO set the account to the logged one
         
