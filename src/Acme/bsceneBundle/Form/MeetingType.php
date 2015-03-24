@@ -34,11 +34,7 @@ class MeetingType extends AbstractType
             ->add('capacity')
             ->add('venue')
             ->add('organization','hidden')
-            ->add('image','file', array(
-                'label' => "Event Logo",
-                'required' => false,
-                'attr' => array('id' => 'image')))
-           
+            ->add('image','hidden')
             ->add('account','hidden')
             ->add('category')
           

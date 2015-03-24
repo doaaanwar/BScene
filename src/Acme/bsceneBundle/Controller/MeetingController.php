@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Acme\bsceneBundle\Entity\Meeting;
 use Acme\bsceneBundle\Form\MeetingType;
+use Acme\bsceneBundle\Entity\Image;
 use \DateTime;
 
 /**
@@ -40,11 +41,24 @@ class MeetingController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
      
-       
+        $image = $request->get('imageUpload');
+        
+        $imageEntity = new Image();
+        $imageEntity->setName($image);
+        $imageEntity->setURL($image);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($imageEntity);
+        $em->flush();
+
+        $entity->setImage($imageEntity);
+        
+        //TODO the same with the enddate
+        //TODO check if the date is on the future
+        //TODO check if the endDate is null
         $format = 'Y-m-d';
         $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
         
-        //TODO check if the date is on the future
+       
         //TODO create spwakers
         
         //TODO set the account to the logged one
