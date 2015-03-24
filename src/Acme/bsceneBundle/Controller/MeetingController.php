@@ -85,7 +85,11 @@ class MeetingController extends Controller
          }
 */
         
+        
         //create speakers, maximum 5 speakers
+        //initialize an array to save created speaker
+        $speakerList = array();
+        
         for($i=1;$i<=5;$i++)
         {
             if($request->get('nameTextbox'.$i) != "")
@@ -95,11 +99,15 @@ class MeetingController extends Controller
                 $speakerEntity->setName($request->get('nameTextbox'.$i));
                 $speakerEntity->setTitle($request->get('titleTextbox'.$i));
                 $speakerEntity->setBiography($request->get('bioTextbox'.$i));
+               
                 $em = $this->getDoctrine()->getManager();
+                
                 $em->persist($speakerEntity);
                 $em->flush();
+                $speakerList[]=$speakerEntity;
             }
         }
+       
        
         
         //TODO create the realtion between creted speaker and event
@@ -120,13 +128,25 @@ class MeetingController extends Controller
         $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
      
         
+       
+        
         //TODO set the account to the logged one
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
+            
+            //loop on each speaker created and add the many to many relation between speaker and event
+            foreach($speakerList as $speaker)
+            {
+                $speaker->addEvent($entity);
+                $entity->addSpeaker($speaker);
+                $em->persist($speaker);
+                $em->persist($entity);
+                $em->flush();
+            }
+            
             return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
         }
 
