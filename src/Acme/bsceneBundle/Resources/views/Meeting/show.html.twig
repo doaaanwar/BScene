@@ -3,6 +3,7 @@
 {% block stylesheets %}
     <link href="{{ asset('bundles/acmebscene/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/acmebscene/css/shop-item.css')}}" rel="stylesheet">
+    <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body -%}
@@ -18,6 +19,12 @@
                 <th>Title</th>
                 <td>{{ entity.title }}</td>
             </tr>
+                <!-- Page Content -->
+        <div class="container">
+
+            <div class="row">
+                
+                <div class="col-md-9">
               <div class="thumbnail">
                         <img class="img-responsive" src="http://lorempixel.com/800/300/people" alt="">
                         <div class="caption-full">
@@ -47,9 +54,27 @@
                  <h3>Event Time Details</h3>
                  
                  <p><b>Starting Date:</b>  {{ entity.date|date('Y-m-d') }}</p>
-                 <p><b>Starting Time:</b> {{ entity.time|date('H:i:s') }}</p>
+                 <p><b>Starting Time:</b> {{ entity.time|date('H:i') }}</p>
                  <p><b>End Date:</b>  {{ entity.endDate|date('Y-m-d') }}</p>
-                 <p><b>End Time:</b> {{ entity.endTime|date('H:i:s') }}</p>
+                 <p><b>End Time:</b> {{ entity.endTime|date('H:i') }}</p>
+            </div>
+        </div>
+            <div class="col-md-3">
+			<!-- 3. Place event data -->
+                    <span class="addtocalendar atc-style-blue" >
+                        <var class="atc_event">
+                            <var class="atc_date_start">{{ entity.date|date('Y-m-d') }} {{ entity.time|date('H:i:s') }}</var>
+                            <var class="atc_date_end">{{ entity.endDate|date('Y-m-d') }} {{ entity.endTime|date('H:i:s') }}</var>
+                            <var class="atc_timezone">Europe/London</var>
+                            <var class="atc_title">{{ entity.title }}</var>
+                            <var class="atc_description">{{ entity.description }}</var>
+                            <var class="atc_location">Kitchener</var>
+                            <var class="atc_organizer">Conestoga College</var>
+                            <var class="atc_organizer_email">info@conestogac.on.ca</var>
+                        </var>
+                    </span>
+            </div>
+        </div>
             </div>
             <tr>
                 <th>Date</th>
@@ -109,7 +134,21 @@ window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.
 </script>
 <!-- Script for Google+ share -->
 <script src="https://apis.google.com/js/platform.js" async defer></script>
+ <!-- jQuery -->
+    <script src="js/jquery.js"></script>
 
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    
+    <!-- Calender  script -->
+<script type="text/javascript">(function () {
+            if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+            if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+                var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+                s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+                s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+                var h = d[g]('body')[0];h.appendChild(s); }})();
+    </script>
 {% endblock %}
 
 
