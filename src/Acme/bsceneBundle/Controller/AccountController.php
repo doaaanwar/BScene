@@ -112,8 +112,6 @@ class AccountController extends Controller {
         ));
     }
 
-
-
     /**
      * Finds and displays a Account entity.
      *
@@ -126,6 +124,12 @@ class AccountController extends Controller {
 
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
         $eventList = $this->getUpcomingMeetingList($id);
+        $noEventsMsg = "There are no upcoming events posted by this user";
+        
+        if (\Count($eventList > 3))
+        {
+            $eventList = array_slice($eventList, 0, 3);
+        }
 
 
         if (!$entity) {
@@ -134,19 +138,15 @@ class AccountController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
 
-        if (!empty($eventList)) {
             return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
                         'entity' => $entity,
                         'upcoming' => $eventList,
                         'delete_form' => $deleteForm->createView(),
-            ));
-        } else {
-            return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
-                        'entity' => $entity,
-                        'delete_form' => $deleteForm->createView(),
+                        'noEventsMsg' => $noEventsMsg,
+                        'eventCount' => \Count($eventList),
             ));
         }
-    }
+    
 
     /**
      * Displays a form to edit an existing Account entity.
@@ -259,24 +259,24 @@ class AccountController extends Controller {
                         ->getForm()
         ;
     }
-    
-          /**
+
+    /**
      * Get upcoming events for the profile page
      *
      * @param $id
      *
      * @return array $eventList
      */
-
     private function getUpcomingMeetingList($id) {
         $currentDate = new \DateTime();
+        $currentDate = $currentDate ->format('YYYY/m/d');
 
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e "
                 . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                . "WHERE e.account = " . $id . " AND e.date >= " . $currentDate->format('d/m/Y'));
-        $eventList = $q->getResult();
+                . "WHERE e.account = '$id'");
+        $eventList = $q->getArrayResult();
 
         return $eventList;
     }
