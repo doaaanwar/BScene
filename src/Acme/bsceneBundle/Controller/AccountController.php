@@ -112,8 +112,6 @@ class AccountController extends Controller {
         ));
     }
 
-
-
     /**
      * Finds and displays a Account entity.
      *
@@ -126,6 +124,19 @@ class AccountController extends Controller {
 
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
         $eventList = $this->getUpcomingMeetingList($id);
+        $pastEventList = $this->getPastMeetingList($id);
+        $eventCount = \Count($eventList);
+        $pastEventCount = \Count($pastEventList);
+        $noEventsMsg = "There are no upcoming events posted by this user";
+        $noPastEventsMsg = "There are no past events for this user";
+        
+
+        if ($eventCount > 3) {
+            $eventList = array_slice($eventList, 0, 3);
+        }
+        if ($pastEventCount > 3) {
+            $pastEventList = array_slice($pastEventList, 0, 3);
+        }
 
 
         if (!$entity) {
@@ -134,18 +145,16 @@ class AccountController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
 
-        if (!empty($eventList)) {
-            return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
-                        'entity' => $entity,
-                        'upcoming' => $eventList,
-                        'delete_form' => $deleteForm->createView(),
-            ));
-        } else {
-            return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
-                        'entity' => $entity,
-                        'delete_form' => $deleteForm->createView(),
-            ));
-        }
+        return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),
+                    'upcoming' => $eventList,
+                    'past' => $pastEventList,
+                    'noEventsMsg' => $noEventsMsg,
+                    'noPastEventsMsg' => $noPastEventsMsg,
+                    'eventCount' => $eventCount,
+                    'pastEventCount' => $pastEventCount,
+        ));
     }
 
     /**
@@ -259,15 +268,14 @@ class AccountController extends Controller {
                         ->getForm()
         ;
     }
-    
-          /**
+
+    /**
      * Get upcoming events for the profile page
      *
      * @param $id
      *
      * @return array $eventList
      */
-
     private function getUpcomingMeetingList($id) {
         $currentDate = new \DateTime();
 
@@ -275,10 +283,25 @@ class AccountController extends Controller {
 
         $q = $em->createQuery("SELECT e "
                 . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                . "WHERE e.account = " . $id . " AND e.date >= " . $currentDate->format('d/m/Y'));
-        $eventList = $q->getResult();
+                . "WHERE e.account = '$id' AND e.date >= :date "
+                . "ORDER BY e.date ASC")->setParameter('date', $currentDate);
+        $eventList = $q->getArrayResult();
 
         return $eventList;
+    }
+
+    private function getPastMeetingList($id) {
+        $currentDate = new \DateTime();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQuery("SELECT e "
+                . "FROM \Acme\bsceneBundle\Entity\Meeting e "
+                . "WHERE e.account = :id AND e.date < :date "
+                . "ORDER BY e.date ASC")->setParameters(array ('date'=> $currentDate, 'id' => $id));
+        $pastEventList = $q->getArrayResult();
+
+        return $pastEventList;
     }
 
 }

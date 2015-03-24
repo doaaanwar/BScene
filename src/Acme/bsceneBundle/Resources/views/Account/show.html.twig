@@ -5,8 +5,6 @@
 {% endblock %}
 
 {% block body -%}
-    <h1>Account Details</h1>
-
     <div class="container">
 
         <!-- Portfolio Item Heading -->
@@ -82,113 +80,78 @@
         <!-- /.row -->
 
         <!-- Upcoming Events Row -->
-        {% block upcomingEvents %}
-         
-            <div class="row">
-                <!--First Event box -->
-                <div class="col-lg-12">
-                    <h3 class="page-header">Upcoming Events</h3>
-                </div>
 
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
-                        </div>
-                        <div class="panel-body">
-                            <h5>{{upcoming.title}}</h5>
-                            <p>Date</p>
-                            <p>Description</p>
-                            <a href="#" class="btn btn-warning">Event Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--Second event box -->
-
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
-                        </div>
-                        <div class="panel-body">
-                            <h5>Title</h5>
-                            <p>Date</p>
-                            <p>Description</p>
-                            <a href="#" class="btn btn-warning">Event Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--Third event box -->
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
-                        </div>
-                        <div class="panel-body">
-                            <h5>Title</h5>
-                            <p>Date</p>
-                            <p>Description</p>
-                            <a href="#" class="btn btn-warning">Event Details</a>
-                        </div>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">Upcoming Events</h3>
             </div>
-            <!-- /.row -->
+
+            {% block upcomingEvents %}
+                {% if eventCount != 0 %}
+                    {% for item in upcoming %}
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-fw fa-gift"></i>{{item.title}}</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <h5>Date</h5>
+                                    <p>{{item.date|date('M d, Y')}}</p>
+                                    <h5>Time</h5>
+
+                                    <p>{{item.time|date('g:i a')}}</p>
+                                    <h5>Description</h5>
+
+                                    <p>{{item.description}}</p>
+                                    <a href="#" class="btn btn-warning">Event Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h4>{{noEventsMsg}}</h4>
+                    <!-- /.row -->
+                {% endif %}
+            </div>
         {% endblock %}
-
-        {% block pastEvents %}
-            <!-- Past Events Row -->
-            <div class="row">
-                <!--First Event box -->
-                <div class="col-lg-12">
-                    <h3 class="page-header">Past Events</h3>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
-                        </div>
-                        <div class="panel-body">
-                            <h5>Title</h5>
-                            <p>Date</p>
-                            <p>Description</p>
-                            <a href="#" class="btn btn-warning">Event Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--Second event box -->
-
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
-                        </div>
-                        <div class="panel-body">
-                            <h5>Title</h5>
-                            <p>Date</p>
-                            <p>Description</p>
-                            <a href="#" class="btn btn-warning">Event Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!--Third event box -->
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4><i class="fa fa-fw fa-gift"></i> Category</h4>
-                        </div>
-                        <div class="panel-body">
-                            <h5>Title</h5>
-                            <p>Date</p>
-                            <p>Description</p>
-                            <a href="#" class="btn btn-warning">Event Details</a>
-                        </div>
-                    </div>
-                </div>
+        <!-- Past Events Row -->
+        <div class="row">
+            <!--First Event box -->
+            <div class="col-lg-12">
+                <h3 class="page-header">Past Events</h3>
             </div>
+
+            {% block pastEvents %}
+                {% if pastEventCount != 0 %}
+                    {% for item in past %}
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-fw fa-gift"></i> {{item.title}}</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <h5>Date</h5>
+                                    <p>{{item.date|date('M d, Y')}}</p>
+                                    <h5>Time</h5>
+                                    <p>{{item.time|date('g:i a')}}</p>
+                                    <h5>Description</h5>
+                                    <p>{{item.description}}</p>
+                                    <a href="#" class="btn btn-warning">Event Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div id="pastEvents">
+                    <h4>{{noPastEventsMsg}}</h4>
+                    </div>
+                {% endif %}
+            {% endblock %}
+
+            <!-- /.row -->
         </div>
-    {% endblock %}
+    </div>
+
     <!-- /.container -->
 
 
