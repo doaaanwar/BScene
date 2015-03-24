@@ -44,6 +44,12 @@ class Speaker
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $biography;
+    
+    /**
+    * @ORM\ManyToMany(targetEntity="Meeting", inversedBy="speakers")
+    * @ORM\JoinTable(name="EventSpeaker")
+    **/
+    protected $events;
 
     /**
      * Get id
@@ -122,5 +128,50 @@ class Speaker
     public function getBiography()
     {
         return $this->biography;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add events
+     *
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
+     * @return Speaker
+     */
+    public function addEvent(\Acme\bsceneBundle\Entity\Meeting $events)
+    {
+        $this->events[] = $events;
+
+        return $this;
+    }
+
+    /**
+     * Remove events
+     *
+     * @param \Acme\bsceneBundle\Entity\Meeting $events
+     */
+    public function removeEvent(\Acme\bsceneBundle\Entity\Meeting $events)
+    {
+        $this->events->removeElement($events);
+    }
+
+    /**
+     * Get events
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -106,6 +106,12 @@ class Meeting
      */
     protected $eventComments;
     
+   /**
+    * @ORM\ManyToMany(targetEntity="Speaker", mappedBy="events")
+    * 
+    **/
+    protected $speakers;
+    
      /**
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -462,5 +468,44 @@ class Meeting
     public function getCreatedOn()
     {
         return $this->createdOn;
+    }
+
+    /**
+     * Add speakers
+     *
+     * @param \Acme\bsceneBundle\Entity\Speaker $speakers
+     * @return Meeting
+     */
+    public function addSpeaker(\Acme\bsceneBundle\Entity\Speaker $speakers)
+    {
+        $this->speakers[] = $speakers;
+
+        return $this;
+    }
+
+    /**
+     * Remove speakers
+     *
+     * @param \Acme\bsceneBundle\Entity\Speaker $speakers
+     */
+    public function removeSpeaker(\Acme\bsceneBundle\Entity\Speaker $speakers)
+    {
+        $this->speakers->removeElement($speakers);
+    }
+
+    /**
+     * Get speakers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSpeakers()
+    {
+        return $this->speakers;
+    }
+    
+    
+    public function __toString()
+    {
+        return $this->title;
     }
 }

@@ -27,6 +27,7 @@ class MeetingType extends AbstractType
             ->add('image')
             ->add('account')
             ->add('category')
+            ->add('speakers')
         ;
     }
     
