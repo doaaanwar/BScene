@@ -33,6 +33,7 @@ class AccountController extends Controller
     /**
      * Creates a new Account entity.
      * added the create organization first - doaa elfayoumi - 23.03.2015 
+     * added the encryption for the password - doaa elfayoumi -  24.03.2015
      */
     public function createAction(Request $request)
     {
@@ -56,7 +57,14 @@ class AccountController extends Controller
         
         $entity->setMemberSince(new \DateTime());
         
-        
+        //encrypt password 
+        $plainPassword = $entity->getPassword(); 
+        $encoder = $this->container->get('security.password_encoder'); 
+        $encoded = $encoder->encodePassword($entity, $plainPassword);  
+        $entity->setPassword($encoded); 
+
+
+
         //set the created organization on the account entity
         if($request->get("orgName") != "")
         {
