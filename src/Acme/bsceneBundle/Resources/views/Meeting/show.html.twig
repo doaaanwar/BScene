@@ -6,15 +6,8 @@
 {% endblock %}
 
 {% block body -%}
- 
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+   
+
     <table class="record_properties">
         <tbody>
             <tr>
@@ -34,21 +27,24 @@
                             <p>{{ entity.description }} </p>
                            
 							 
-                            <div id="share-buttons">		
+                            <div id="share-buttons">
+                                
                               <!-- Facebook -->
-                              <div class="fb-share-button" data-href="<?php the_permalink(); ?>" data-layout="button_count"></div>
+                              <a class="fb-share-button" data-href="<?php the_permalink(); ?>" data-layout="button_count"></a>
                               
                               <!-- Twitter -->
-                              <a href="http://twitter.com/share?url=<?php echo $encoded_url; ?>&text=Simple Share Buttons&hashtags=simplesharebuttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a>
+                              
+                              <a class="twitter-share-button" href="<?php the_permalink(); ?>" Tweet> </a>
                               
                               <!-- Google+ -->
-                              <a href="https://plus.google.com/share?url=http://www.simplesharebuttons.com" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/google.png" alt="Google" /></a>
-                          </div>
+                                <link rel="canonical" /> <g:plus action="share" annotation="bubble"></g:plus>
+                              </div>
                       </div>
                       
                 </div>
             <div class="well">
                  <h3>Event Time Details</h3>
+                 
                  <p><b>Starting Date:</b>  {{ entity.date|date('Y-m-d') }}</p>
                  <p><b>Starting Time:</b> {{ entity.time|date('H:i:s') }}</p>
                  <p><b>End Date:</b>  {{ entity.endDate|date('Y-m-d') }}</p>
@@ -94,4 +90,26 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
+ {% endblock %}
+{% block javascripts %}
+ <!--Script for Facebook Share button -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Script for Twitter share button -->
+<script>
+window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+</script>
+<!-- Script for Google+ share -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
 {% endblock %}
+
+
+
