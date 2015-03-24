@@ -4,7 +4,6 @@ namespace Acme\bsceneBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Acme\bsceneBundle\Entity\Account;
 use Acme\bsceneBundle\Form\AccountType;
 use Acme\bsceneBundle\Entity\Organization;
@@ -13,33 +12,30 @@ use Acme\bsceneBundle\Entity\Organization;
  * Account controller.
  *
  */
-class AccountController extends Controller
-{
+class AccountController extends Controller {
 
     /**
      * Lists all Account entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AcmebsceneBundle:Account')->findAll();
 
         return $this->render('AcmebsceneBundle:Account:index.html.twig', array(
-            'entities' => $entities,
+                    'entities' => $entities,
         ));
     }
+
     /**
      * Creates a new Account entity.
      * added the create organization first - doaa elfayoumi - 23.03.2015 
      * added the encryption for the password - doaa elfayoumi -  24.03.2015
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         //if the organization is filled create it first
-        if($request->get("orgName") != "")
-        {
+        if ($request->get("orgName") != "") {
             $orgEntity = new Organization();
             $orgEntity->setName($request->get("orgName"));
             $orgEntity->setWebsite($request->get("orgUrl"));
@@ -47,30 +43,29 @@ class AccountController extends Controller
             $em->persist($orgEntity);
             $em->flush();
         }
-        
-        
+
+
         $entity = new Account();
-        
-        
+
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-        
+
         $entity->setMemberSince(new \DateTime());
-        
+
         //encrypt password 
-        $plainPassword = $entity->getPassword(); 
-        $encoder = $this->container->get('security.password_encoder'); 
-        $encoded = $encoder->encodePassword($entity, $plainPassword);  
-        $entity->setPassword($encoded); 
+        $plainPassword = $entity->getPassword();
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($entity, $plainPassword);
+        $entity->setPassword($encoded);
 
 
 
         //set the created organization on the account entity
-        if($request->get("orgName") != "")
-        {
+        if ($request->get("orgName") != "") {
             $entity->setOrganization($orgEntity);
         }
-        
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -80,8 +75,8 @@ class AccountController extends Controller
         }
 
         return $this->render('AcmebsceneBundle:Account:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -92,8 +87,7 @@ class AccountController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Account $entity)
-    {
+    private function createCreateForm(Account $entity) {
         $form = $this->createForm(new AccountType(), $entity, array(
             'action' => $this->generateUrl('account_create'),
             'method' => 'POST',
@@ -108,26 +102,31 @@ class AccountController extends Controller
      * Displays a form to create a new Account entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Account();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('AcmebsceneBundle:Account:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
+
+
 
     /**
      * Finds and displays a Account entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
+
+
         $em = $this->getDoctrine()->getManager();
 
+
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
+        $eventList = $this->getUpcomingMeetingList($id);
+
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Account entity.');
@@ -135,18 +134,25 @@ class AccountController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        if (!empty($eventList)) {
+            return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
+                        'entity' => $entity,
+                        'upcoming' => $eventList,
+                        'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
+                        'entity' => $entity,
+                        'delete_form' => $deleteForm->createView(),
+            ));
+        }
     }
 
     /**
      * Displays a form to edit an existing Account entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
@@ -159,21 +165,20 @@ class AccountController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('AcmebsceneBundle:Account:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Account entity.
-    *
-    * @param Account $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Account $entity)
-    {
+     * Creates a form to edit a Account entity.
+     *
+     * @param Account $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Account $entity) {
         $form = $this->createForm(new AccountType(), $entity, array(
             'action' => $this->generateUrl('account_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -183,12 +188,12 @@ class AccountController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Account entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
@@ -208,17 +213,17 @@ class AccountController extends Controller
         }
 
         return $this->render('AcmebsceneBundle:Account:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Account entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -244,15 +249,36 @@ class AccountController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('account_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array(
-                'label' => 'Delete Account',
-                'attr' => array('class' => 'btn btn-danger')))
-            ->getForm()
+                        ->setAction($this->generateUrl('account_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array(
+                            'label' => 'Delete Account',
+                            'attr' => array('class' => 'btn btn-danger')))
+                        ->getForm()
         ;
     }
+    
+          /**
+     * Get upcoming events for the profile page
+     *
+     * @param $id
+     *
+     * @return array $eventList
+     */
+
+    private function getUpcomingMeetingList($id) {
+        $currentDate = new \DateTime();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQuery("SELECT e "
+                . "FROM \Acme\bsceneBundle\Entity\Meeting e "
+                . "WHERE e.account = " . $id . " AND e.date >= " . $currentDate->format('d/m/Y'));
+        $eventList = $q->getResult();
+
+        return $eventList;
+    }
+
 }
