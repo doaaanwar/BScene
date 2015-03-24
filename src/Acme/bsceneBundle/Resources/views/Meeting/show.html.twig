@@ -7,7 +7,14 @@
 
 {% block body -%}
  
-
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
     <table class="record_properties">
         <tbody>
             <tr>
@@ -29,10 +36,10 @@
 							 
                             <div id="share-buttons">		
                               <!-- Facebook -->
-                              <a href="http://www.facebook.com/sharer.php?u=http://localhost/BScene/web/app_dev.php/meeting/1/show" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" /></a>
+                              <div class="fb-share-button" data-href="<?php the_permalink(); ?>" data-layout="button_count"><img src="http://www.simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" /></div>
                               
                               <!-- Twitter -->
-                              <a href="http://twitter.com/share?url=http://www.simplesharebuttons.com&text=Simple Share Buttons&hashtags=simplesharebuttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a>
+                              <a href="http://twitter.com/share?url=<?php echo $encoded_url; ?>&text=Simple Share Buttons&hashtags=simplesharebuttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a>
                               
                               <!-- Google+ -->
                               <a href="https://plus.google.com/share?url=http://www.simplesharebuttons.com" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/google.png" alt="Google" /></a>
