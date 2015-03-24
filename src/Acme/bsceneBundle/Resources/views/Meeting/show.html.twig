@@ -1,7 +1,12 @@
 {% extends '::base.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/acmebscene/css/shop-item.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block body -%}
-    <h1>Meeting</h1>
+ 
 
     <table class="record_properties">
         <tbody>
@@ -13,6 +18,28 @@
                 <th>Title</th>
                 <td>{{ entity.title }}</td>
             </tr>
+              <div class="thumbnail">
+                        <img class="img-responsive" src="http://lorempixel.com/800/300/people" alt="">
+                        <div class="caption-full">
+                            <h4 class="pull-right">$24.99</h4>
+                            <h4><a href="#">{{ entity.title }}</a>
+                            </h4>
+                            
+                            <p>{{ entity.description }} </p>
+							 
+                            <div id="share-buttons">		
+                              <!-- Facebook -->
+                              <a href="http://www.facebook.com/sharer.php?u=http://localhost/BScene/web/app_dev.php/meeting/1/show" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" /></a>
+                              
+                              <!-- Twitter -->
+                              <a href="http://twitter.com/share?url=http://localhost/BScene/web/app_dev.php/meeting/1/show Share Buttons&hashtags=simplesharebuttons" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a>
+                              
+                              <!-- Google+ -->
+                              <a href="https://plus.google.com/share?url=http://localhost/BScene/web/app_dev.php/meeting/1/show" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/google.png" alt="Google" /></a>
+                          </div>
+                      </div>
+                      
+                </div>
             <tr>
                 <th>Date</th>
                 <td>{{ entity.date|date('Y-m-d H:i:s') }}</td>
