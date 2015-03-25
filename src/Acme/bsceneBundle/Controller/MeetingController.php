@@ -206,7 +206,8 @@ class MeetingController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $commentsList = $this->comments($id);
+         $commentCount = \Count($commentsList);
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
         
 
@@ -219,6 +220,8 @@ class MeetingController extends Controller
         return $this->render('AcmebsceneBundle:Meeting:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'comments' => $commentsList,
+            'commentCount' => $commentCount,
         ));
     }
 
@@ -345,7 +348,7 @@ class MeetingController extends Controller
         $currentDate = new \DateTime();
         $em = $this->getDoctrine()->getEntityManager();
  
-        //To get the events with the same titles 
+        //To get the events with the same category and date  
         $q = $em->createQuery("select e "
                 . "from \Acme\bsceneBundle\Entity\Meeting e "
                 . "WHERE e.meeting = '$id' AND e.date = :date AND e.category = :category"
@@ -353,6 +356,25 @@ class MeetingController extends Controller
         $relatedEventList = $q->getResult();
 
         return $relatedEventList;
+        
+    }
+      /**
+    * Mahmoud Jallala
+    * function to get the comments on the Event Details page 
+    * @param type $id
+    * @return type
+    */
+     private function comments($id)
+    {   
+        $em = $this->getDoctrine()->getEntityManager();
+ 
+        //To get the events with the same titles 
+        $q = $em->createQuery("select e "
+                . "from \Acme\bsceneBundle\Entity\EventComments e "
+                . "WHERE e.event = :id")->setParameter('id', $id);
+        $commentsList = $q->getResult();
+
+        return $commentsList;
         
     }
 }
