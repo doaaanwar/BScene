@@ -1,6 +1,7 @@
 /* googleMapAPI.js
  * 
  * This js file will contain all javascript needed for the google map API
+ * reference https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
  * Revision History:
  *        24.03.2015: created, doaa elfayoumi
  */
@@ -72,7 +73,3 @@ function geolocate() {
   }
 }
 // [END region_geolocation]
-
-   
-
-

@@ -23,7 +23,7 @@ meeting_update:
     path:     /{id}/update
     defaults: { _controller: "AcmebsceneBundle:Meeting:update" }
     requirements: { _method: post|put }
-
+    
 meeting_delete:
     path:     /{id}/delete
     defaults: { _controller: "AcmebsceneBundle:Meeting:delete" }
