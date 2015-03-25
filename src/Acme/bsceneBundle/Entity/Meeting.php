@@ -71,43 +71,43 @@ class Meeting
     protected $capacity;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Venue", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Venue", inversedBy="meetings")
      * @ORM\JoinColumn(name="venueId", referencedColumnName="id")
     */
     protected $venue;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Organization", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Organization", inversedBy="meetings")
      * @ORM\JoinColumn(name="organizationId", referencedColumnName="id")
     */
     protected $organization;
     
     /**
-     * @ORM\OneToOne(targetEntity="Image", inversedBy="event")
+     * @ORM\OneToOne(targetEntity="Image", inversedBy="meetings")
      * @ORM\JoinColumn(name="imageId", referencedColumnName="id")
     */
     protected $image;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Account", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="meetings")
      * @ORM\JoinColumn(name="accountId", referencedColumnName="id")
     */
     protected $account;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Categories", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Categories", inversedBy="meetings")
      * @ORM\JoinColumn(name="categoriesId", referencedColumnName="id")
     */
     protected $category;
     
     
      /**
-     * @ORM\OneToMany(targetEntity="EventComments", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="EventComments", mappedBy="meetings")
      */
     protected $eventComments;
     
    /**
-    * @ORM\ManyToMany(targetEntity="Speaker", mappedBy="events")
+    * @ORM\ManyToMany(targetEntity="Speaker", mappedBy="meetings")
     * 
     **/
     protected $speakers;

@@ -78,20 +78,26 @@
                         </div>
                         <hr>
 
-                        <div class="row">
+                       
                             {% block Comments %}
                                 {% if commentCount != 0 %}
                                     {% for item in comments %}
+                                         <div class="well">
+                                         <div class="row">
                                         <div class="col-md-12">
-                                            Anonymous
-                                            
+                                            <span class="pull-right">{{item.commentTime|date('H:i')}}</span>
+                                            <p>{{item.comment}}</p>
+                                        </div>  
+                                        </div>
                                         </div>
                                     {% endfor %}
                                 {% else %}
+                                    <div class="row">
                                     <p>No Comments</p>
+                                    </div>
                                 {% endif %}
                             {% endblock %}
-                        </div>
+                        
 
                     </div>
         </div>
