@@ -191,11 +191,11 @@ class MeetingController extends Controller
     {
         $entity = new Meeting();
         $form   = $this->createCreateForm($entity);
-        $relatedEventList = $this->relatedEventAction($id);
+        //$relatedEventList = $this->relatedEventAction($id);
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'relatedEvents'   => $relatedEventList,
+            //'relatedEvents'   => $relatedEventList,
         ));
     }
 
