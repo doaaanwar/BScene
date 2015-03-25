@@ -191,10 +191,11 @@ class MeetingController extends Controller
     {
         $entity = new Meeting();
         $form   = $this->createCreateForm($entity);
-
+        //$relatedEventList = $this->relatedEventAction($id);
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            //'relatedEvents'   => $relatedEventList,
         ));
     }
 
@@ -205,8 +206,10 @@ class MeetingController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $commentsList = $this->comments($id);
+         $commentCount = \Count($commentsList);
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+        
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
@@ -217,6 +220,8 @@ class MeetingController extends Controller
         return $this->render('AcmebsceneBundle:Meeting:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'comments' => $commentsList,
+            'commentCount' => $commentCount,
         ));
     }
 
@@ -334,19 +339,42 @@ class MeetingController extends Controller
     }
      /**
     * Mahmoud Jallala
-    * function compares the category of the new event with events in the database
-    * @param type $category
+    * function gets a list of the events in the same date and category with the new event
+    * @param type $id
     * @return type
     */
-    private function relatedEventAction($Category)
+    private function relatedEventAction($id)
+    {   
+        $currentDate = new \DateTime();
+        $em = $this->getDoctrine()->getEntityManager();
+ 
+        //To get the events with the same category and date  
+        $q = $em->createQuery("select e "
+                . "from \Acme\bsceneBundle\Entity\Meeting e "
+                . "WHERE e.meeting = '$id' AND e.date = :date AND e.category = :category"
+                . " ORDER BY e.date ASC")->setParameter('date', $currentDate);
+        $relatedEventList = $q->getResult();
+
+        return $relatedEventList;
+        
+    }
+      /**
+    * Mahmoud Jallala
+    * function to get the comments on the Event Details page 
+    * @param type $id
+    * @return type
+    */
+     private function comments($id)
     {   
         $em = $this->getDoctrine()->getEntityManager();
  
         //To get the events with the same titles 
-        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.meeting >= '$category'");
-        $relatedEvents = $q->getResult();
+        $q = $em->createQuery("select e "
+                . "from \Acme\bsceneBundle\Entity\EventComments e "
+                . "WHERE e.event = :id")->setParameter('id', $id);
+        $commentsList = $q->getResult();
 
-        return $relatedEvents;
+        return $commentsList;
         
     }
 }

@@ -9,7 +9,7 @@
 {% block body -%}
    
 
-    <table class="record_properties">
+    <!--<table class="record_properties">-->
         <tbody>
             <tr>
                 <th>Id</th>
@@ -28,7 +28,6 @@
               <div class="thumbnail">
                         <img class="img-responsive" src="http://lorempixel.com/800/300/people" alt="">
                         <div class="caption-full">
-                            <h4 class="pull-right">$24.99</h4>
                             <h4><a href="#">{{ entity.title }}</a>
                             </h4>
                             <p>{{ entity.description }} </p>
@@ -58,7 +57,58 @@
                  <p><b>End Date:</b>  {{ entity.endDate|date('Y-m-d') }}</p>
                  <p><b>End Time:</b> {{ entity.endTime|date('H:i') }}</p>
             </div>
+             <div class="well">
+				
+	         <h4 class="createOrg">Speaker:</h4> <br>
+                 <a data-toggle="collapse" href="#collapseSpeaker" aria-expanded="false" aria-controls="collapseSpeaker">Steve Jobs</a>
+				  					<p> entrepreneur</p>
+                         
+					 <h6> <a href="speakerSearch.html">more events for this speaker</a></h6>
+					 
         </div>
+              <div class="well">
+					 <h4>Organization: </h4><a href="Organization.html">Conestoga Collega Institution</a>
+				
+					
+               </div>
+              <div class="well">
+
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#addComment">Leave a Review</a>
+                        </div>
+                        <hr>
+
+                       
+                            {% block Comments %}
+                                {% if commentCount != 0 %}
+                                    {% for item in comments %}
+                                         <div class="well">
+                                         <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="pull-right">{{item.commentTime|date('H:i')}}</span>
+                                            <p>{{item.comment}}</p>
+                                        </div>  
+                                        </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="row">
+                                    <p>No Comments</p>
+                                    </div>
+                                {% endif %}
+                            {% endblock %}
+                        
+
+                    </div>
+        </div>
+            <div class="col-md-3">
+                 <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2895.6973408370573!2d-80.47871339999999!3d43.4669155!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882bf4a1d7cd7f29%3A0xc5f6b0fc00b1a370!2s900+Guelph+St+%23204%2C+Kitchener%2C+ON+N2H+5Z2!5e0!3m2!1sen!2sca!4v1413859469778" width="260" height="310" frameborder="0" style="border:0"></iframe>
+                    <div class="well">
+                       <p>{{ entity.title }}</p>
+                       <p>900 Guelph Street</p>
+                       <p>Unit 204</p>
+                       <p>Kitchener,ON, N2C 2L8</p>
+            </div>
             <div class="col-md-3">
 			<!-- 3. Place event data -->
                     <span class="addtocalendar atc-style-blue" >
@@ -76,6 +126,54 @@
             </div>
         </div>
             </div>
+                            
+        </div>
+        <div class="modal fade" id="addComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Comment on this Event</h4>
+                     </div>
+                     <div class="modal-body">
+                        
+                        <table>
+                            <tr>
+                                <td class="text-right">
+                                    <label for="username">Username</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="username"  class="form-control" >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    <label for="email">E-Mail Address</label>
+                                </td>
+                                <td>
+                                    <input type="email" id="email" class="form-control" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    <label for="comment">Comment</label>
+                                </td>
+                                <td>
+                                    <textarea id="comment"  class="form-control" rows="5" required></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-warning">Save changes</button>
+                   
+                     </div>
+                 </div>
+            </div>
+        </div>
+        
             <tr>
                 <th>Date</th>
                 <td>{{ entity.date|date('Y-m-d H:i:s') }}</td>
