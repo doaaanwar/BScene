@@ -20,13 +20,13 @@ class MeetingType extends AbstractType
                 'required' => true,
                 'attr' => array('id' =>'title')))
            
-            ->add('date','date', array(
+            ->add('date','text', array(
                 'label' => '* Date',
                 
                 'required' => true,
                 'attr' => array('id' =>'date')))
             ->add('time')
-            ->add('endDate','date', array(
+            ->add('endDate','text', array(
                 'label' => 'End Date',        
                 'attr' => array('id' =>'endDate')))
             ->add('endTime')
