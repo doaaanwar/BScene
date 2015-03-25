@@ -66,7 +66,7 @@ class Meeting
     
     /**
      *
-     * @ORM\Column(type="integer", length=10)
+     * @ORM\Column(type="integer", length=10, options={"default":0})
      */
     protected $capacity;
     

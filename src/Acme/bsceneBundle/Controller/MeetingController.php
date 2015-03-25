@@ -140,6 +140,10 @@ class MeetingController extends Controller
         
         $entity->setAccount($account);
         
+        
+        //set the organization to the account organization
+        $entity->setOrganization($account->getOrganization());
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
