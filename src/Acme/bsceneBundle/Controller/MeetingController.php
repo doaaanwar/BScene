@@ -191,10 +191,11 @@ class MeetingController extends Controller
     {
         $entity = new Meeting();
         $form   = $this->createCreateForm($entity);
-
+        $relatedEventList = $this->relatedEventAction($id);
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'relatedEvents'   => $relatedEventList,
         ));
     }
 
@@ -207,6 +208,7 @@ class MeetingController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+        
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
@@ -334,19 +336,23 @@ class MeetingController extends Controller
     }
      /**
     * Mahmoud Jallala
-    * function compares the category of the new event with events in the database
-    * @param type $category
+    * function gets a list of the events in the same date and category with the new event
+    * @param type $id
     * @return type
     */
-    private function relatedEventAction($Category)
+    private function relatedEventAction($id)
     {   
+        $currentDate = new \DateTime();
         $em = $this->getDoctrine()->getEntityManager();
  
         //To get the events with the same titles 
-        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.meeting >= '$category'");
-        $relatedEvents = $q->getResult();
+        $q = $em->createQuery("select e "
+                . "from \Acme\bsceneBundle\Entity\Meeting e "
+                . "WHERE e.meeting = '$id' AND e.date = :date AND e.category = :category"
+                . " ORDER BY e.date ASC")->setParameter('date', $currentDate);
+        $relatedEventList = $q->getResult();
 
-        return $relatedEvents;
+        return $relatedEventList;
         
     }
 }
