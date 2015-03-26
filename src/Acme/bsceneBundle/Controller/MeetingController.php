@@ -70,39 +70,34 @@ class MeetingController extends Controller {
         
     }
 
-    /**
-     * Creates a new Meeting entity.
-     * updated, doaa elfayoumi 23.03.2015
-     * updated, doaa elfayoumi 24.03.2015
-     * updated, doaa elfayoumi 25.03.2015
-     * updated, doaa elfayoumi 26.03.2015
-     */
+     /**
+        * Creates a new Meeting entity.
+        * updated, doaa elfayoumi 23.03.2015
+        * updated, doaa elfayoumi 24.03.2015
+        * updated, doaa elfayoumi 25.03.2015
+        * updated, doaa elfayoumi 26.03.2015
+      */
     public function createAction(Request $request) {
-
-
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
-
         $image = $request->files->get('imageUpload');
-
+        $imageEntity = NULL;
         //commented till finish implementation
         if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
-
             $originalName = $image->getClientOriginalName();
             $name_array = explode('.', $originalName);
             $file_type = $name_array[sizeof($name_array) - 1];
             $valid_filetypes = array('jpg', 'jpeg', 'png', 'bmp');
             if (in_array(strtolower($file_type), $valid_filetypes)) {
-
-                //upload and save the path to the image.url
+            //upload and save the path to the image.url
                 $imageEntity = new Image();
                 $imageEntity->setFile($image);
-                $imageEntity->upload();
+            //TODO check if name already there
                 $imageEntity->setName($originalName);
-                //TODO set the URL/path
-                $imageEntity->setURL("");
+                $imageEntity->upload();
+            //TODO set the URL/path
+                $imageEntity->setURL($imageEntity->getWebPath());
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($imageEntity);
                 $em->flush();
@@ -115,12 +110,9 @@ class MeetingController extends Controller {
             print_r($image->getError());
             die();
         }
-
-
         //create speakers, maximum 5 speakers
         //initialize an array to save created speaker
         $speakerList = array();
-
         for ($i = 1; $i <= 5; $i++) {
             if ($request->get('nameTextbox' . $i) != "") {
                 //create new speaker
@@ -128,15 +120,12 @@ class MeetingController extends Controller {
                 $speakerEntity->setName($request->get('nameTextbox' . $i));
                 $speakerEntity->setTitle($request->get('titleTextbox' . $i));
                 $speakerEntity->setBiography($request->get('bioTextbox' . $i));
-
                 $em = $this->getDoctrine()->getManager();
-
                 $em->persist($speakerEntity);
                 $em->flush();
                 $speakerList[] = $speakerEntity;
             }
         }
-
         //Create venue and assign it to the event
         $placeId = $request->get('place_id');
         if ($placeId) {
@@ -144,15 +133,12 @@ class MeetingController extends Controller {
             $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
             $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
             if (!$venueEntity) {
-                //the format for the lat lng (43.4433963, -80.52255709999997)
+            //the format for the lat lng (43.4433963, -80.52255709999997)
                 $newArray = array();
-
                 $latlng = $request->get('lng');
                 $latlng = str_replace('(', '', $latlng);
                 $latlng = str_replace(')', '', $latlng);
                 $latlngVal = explode(',', $latlng, 2);
-
-
                 $venueEntity = new Venue();
                 $venueEntity->setPlaceId($placeId);
                 $venueEntity->setAddress1($request->get('street_number'));
@@ -166,37 +152,27 @@ class MeetingController extends Controller {
                 $em->persist($venueEntity);
                 $em->flush();
             }
-
             $entity->setVenue($venueEntity);
         }
-
-
         $format = 'Y-m-d';
         $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
-
         //check if the endDate is not null and format it
         if ($entity->getEndDate()) {
             $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
         }
-
         //TODO check if the date is on the future
         //TODO handle if the session expire
         //set the account to the logged one
         $em = $this->getDoctrine()->getManager();
         $accountId = $request->getSession()->get('memberId');
         $account = $em->getRepository('AcmebsceneBundle:Account')->findOneBy(array('id' => $accountId));
-
         $entity->setAccount($account);
-
-
         //set the organization to the account organization
         $entity->setOrganization($account->getOrganization());
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
             //loop on each speaker created and add the many to many relation between speaker and event
             foreach ($speakerList as $speaker) {
                 $speaker->addEvent($entity);
@@ -205,10 +181,8 @@ class MeetingController extends Controller {
                 $em->persist($entity);
                 $em->flush();
             }
-
             return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
         }
-
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
