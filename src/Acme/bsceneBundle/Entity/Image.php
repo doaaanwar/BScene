@@ -187,16 +187,16 @@ class Image
     
      public function getAbsolutePath()
     {
-        return null === $this->URL
+        return null === $this->Name
             ? null
-            : $this->getUploadRootDir().'/'.$this->URL;
+            : $this->getUploadRootDir().'/'.$this->Name;
     }
 
     public function getWebPath()
     {
-        return null === $this->URL
+        return null === $this->Name
             ? null
-            : $this->getUploadDir().'/'.$this->URL;
+            : $this->getUploadDir().'/'.$this->Name;
     }
 
     protected function getUploadRootDir()
