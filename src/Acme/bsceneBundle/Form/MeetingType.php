@@ -38,7 +38,10 @@ class MeetingType extends AbstractType
             ->add('organization','hidden', array(
                 'data_class' => 'Acme\bsceneBundle\Entity\Organization'
             ))
-            ->add('image','hidden')
+            ->add('image','file',array(
+                'data_class' => 'Acme\bsceneBundle\Entity\Image'
+            ))
+           
             ->add('account','hidden', array(
                 'data_class' => 'Acme\bsceneBundle\Entity\Account'
             ))

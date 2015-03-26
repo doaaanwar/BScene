@@ -12,6 +12,7 @@ use \DateTime;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Acme\bsceneBundle\Entity\Speaker;
 use Acme\bsceneBundle\Entity\Venue;
+use Doctrine\ORM\Query\AST\Functions\SizeFunction;
 
 /**
  * Meeting controller.
@@ -44,54 +45,49 @@ class MeetingController extends Controller
     public function createAction(Request $request)
     {
    
-        
-        
+   
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
      
-        $image = $request->get('imageUpload');
+        
+        $image = $request->files->get('imageUpload');
         
         //commented till finish implementation
-        /*if(($image instanceof UploadedFile) && ($image->getError() == '0'))
+        if(($image instanceof UploadedFile) && ($image->getError() == '0'))
         {
-            if($image->getSize() > 2000000)
-            {
+          
                 $originalName = $image->getClientOriginalName();
                 $name_array = explode('.',$originalName);
-                $file_type = $name_array(sizeof($name_array-1));
+                $file_type = $name_array[sizeof($name_array)-1];
                 $valid_filetypes =  array('jpg','jpeg','png','bmp');
                 if(in_array(strtolower($file_type),$valid_filetypes))
                 {
                     
-                    //TODO upload and save the path to the image.url
+                    //upload and save the path to the image.url
                     $imageEntity = new Image();
-                    $imageEntity->setName($image);
-                    $imageEntity->setURL($image);
+                    $imageEntity->setFile($image);
+                    $imageEntity->upload();
+                    $imageEntity->setName($originalName);
+                    //TODO set the URL/path
+                    $imageEntity->setURL("");
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($imageEntity);
                     $em->flush();
+                    $entity->setImage($imageEntity);
                 }
                 else
                 {
                     print_r("Invalid file type");
                     die();
                 }
-               
-            }
-            else
-            {
-                print_r("Size exceed limit");
-                die();
-            }
+   
           }
-          else
-         {
-             print_r($image->getError());
-             die();
-         }
-*/
-        
+        else
+        {
+            print_r($image->getError());
+            die();
+        }
         
        
         //create speakers, maximum 5 speakers
@@ -115,25 +111,7 @@ class MeetingController extends Controller
                 $speakerList[]=$speakerEntity;
             }
         }
-       
-       
-        
-       
-
-        //commented till finish implementation
-       /* $imageEntity = new Image();
-                    $imageEntity->setName($image);
-                    $imageEntity->setURL($image);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($imageEntity);
-                    $em->flush();
-        $entity->setImage($imageEntity);*/
-        
-        
-        
-       
-        
-        
+     
         //Create venue and assign it to the event
         $placeId = $request->get('place_id');
         if($placeId)
@@ -220,7 +198,8 @@ class MeetingController extends Controller
             'form'   => $form->createView(),
         ));
     }
-
+    
+    
     /**
      * Creates a form to create a Meeting entity.
      *
