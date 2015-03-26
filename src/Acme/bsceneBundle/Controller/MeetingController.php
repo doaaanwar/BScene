@@ -129,9 +129,9 @@ class MeetingController extends Controller
                     $em->flush();
         $entity->setImage($imageEntity);*/
         
-        //TODO the same with the enddate
-        //TODO check if the date is on the future
-        //TODO check if the endDate is null
+        
+        
+       
         
         
         //Create venue and assign it to the event
@@ -177,7 +177,13 @@ class MeetingController extends Controller
         $format = 'Y-m-d';
         $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
      
+        //check if the endDate is not null and format it
+        if($entity->getEndDate())
+        {
+            $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
+        }
         
+        //TODO check if the date is on the future
        
         //TODO handle if the session expire
         //set the account to the logged one
