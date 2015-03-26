@@ -102,8 +102,7 @@ class Account implements UserInterface
     protected $address2;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Cities", inversedBy="accounts")
-     * @ORM\JoinColumn(name="citiesId", referencedColumnName="id")
+     * @ORM\Column(type="string", length=255, nullable=true)
     */
     protected $city;
     
@@ -543,7 +542,7 @@ class Account implements UserInterface
      * @param \Acme\bsceneBundle\Entity\Cities $city
      * @return Account
      */
-    public function setCity(\Acme\bsceneBundle\Entity\Cities $city = null)
+    public function setCity($city = null)
     {
         $this->city = $city;
 
@@ -553,7 +552,7 @@ class Account implements UserInterface
     /**
      * Get city
      *
-     * @return \Acme\bsceneBundle\Entity\Cities 
+     * @return Account
      */
     public function getCity()
     {
