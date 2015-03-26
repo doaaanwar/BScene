@@ -28,8 +28,6 @@ class MeetingController extends Controller {
 
         $keyword = $this->get('request')->request->get('searchTerm');
 
-        echo("Keyword is: _" . $keyword . "_");
-
         if (($keyword != "") && ($keyword != " ")) {
 
             $searchResults = $this->searchEvents($request->get("searchTerm"));
@@ -453,11 +451,16 @@ class MeetingController extends Controller {
      */
     private function searchEvents($keyword) {
         $em = $this->getDoctrine()->getManager();
+        
 
         $q = $em->createQuery("SELECT e "
                 . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                . "WHERE (e.title LIKE '%" . $keyword . "%') OR (e.description LIKE '%" . $keyword . "%') "
+                . "WHERE (e.title LIKE CONCAT('%', :keyword, '%')) OR "
+                . "(e.description LIKE CONCAT('%', :keyword2, '%')) "
                 . " ORDER BY e.date ASC");
+        $q->setParameters(array(
+                    'keyword'=>$keyword,
+                    'keyword2' => $keyword));
         $searchResult = $q->getResult();
 
         return $searchResult;
