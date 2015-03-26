@@ -57,7 +57,7 @@ function fillInAddress() {
   
   document.getElementById("lng").value = place.geometry.location;
   document.getElementById("name").value = place.name;
-  document.getElementById("id").value = place.id;
+  
   document.getElementById("place_id").value = place.place_id;
 }
 // [END region_fillform]

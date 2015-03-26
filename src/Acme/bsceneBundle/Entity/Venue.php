@@ -11,6 +11,7 @@
 namespace Acme\bsceneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Acme\bsceneBundle\Entity\Cities;
 
 
 /**
@@ -28,6 +29,13 @@ class Venue
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+    */
+    protected $placeId;
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -274,7 +282,7 @@ class Venue
      * @param \Acme\bsceneBundle\Entity\City $city
      * @return Venue
      */
-    public function setCity(\Acme\bsceneBundle\Entity\City $city = null)
+    public function setCity($city = null)
     {
         $this->city = $city;
 
@@ -284,7 +292,7 @@ class Venue
     /**
      * Get city
      *
-     * @return \Acme\bsceneBundle\Entity\City 
+     * @return \Acme\bsceneBundle\Entity\Cities 
      */
     public function getCity()
     {
@@ -329,5 +337,28 @@ class Venue
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Set placeId
+     *
+     * @param string $placeId
+     * @return Venue
+     */
+    public function setPlaceId($placeId)
+    {
+        $this->placeId = $placeId;
+
+        return $this;
+    }
+
+    /**
+     * Get placeId
+     *
+     * @return string 
+     */
+    public function getPlaceId()
+    {
+        return $this->placeId;
     }
 }
