@@ -11,6 +11,7 @@ use Acme\bsceneBundle\Entity\Image;
 use \DateTime;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Acme\bsceneBundle\Entity\Speaker;
+use Acme\bsceneBundle\Entity\Venue;
 
 /**
  * Meeting controller.
@@ -88,6 +89,7 @@ class MeetingController extends Controller
          }
 */
         
+        
        
         //create speakers, maximum 5 speakers
         //initialize an array to save created speaker
@@ -127,6 +129,37 @@ class MeetingController extends Controller
         //TODO the same with the enddate
         //TODO check if the date is on the future
         //TODO check if the endDate is null
+        
+        
+        //Create venue and assign it to the event
+        $placeId = $request->get('place_id');
+        if($placeId)
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+            $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
+            $venueEntity = $repository->findOneBy(array('placeId'=> $placeId));
+            if(!$venueEntity)
+            {
+                $venueEntity = new Venue();
+                $venueEntity->setPlaceId($placeId);
+                $venueEntity->setAddress1($request->get('street_number'));
+                $venueEntity->setAddress2($request->get('route'));
+                $venueEntity->setPostalCode($request->get('postal_code'));
+                $venueEntity->setCountry($request->get('country'));
+                $venueEntity->setName($request->get('name'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($venueEntity);
+                $em->flush();
+               
+            }
+            
+            $entity->setVenue($venueEntity);
+            
+            
+            
+        }
+        
+       
         $format = 'Y-m-d';
         $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
      

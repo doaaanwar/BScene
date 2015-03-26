@@ -28,6 +28,13 @@ class Venue
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+    */
+    protected $placeId;
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
