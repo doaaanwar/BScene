@@ -63,4 +63,8 @@ acmebscene_keywordSearch:
     path: /meeting/searchResults/
     defaults: {_controller: AcmebsceneBundle:Meeting:keywordSearch }
     
+acmebscene_categorySearch:
+    path: /meeting/searchResults/{id}
+    defaults: {_controller: AcmebsceneBundle:Meeting:categorySearch }
+    
  

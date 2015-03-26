@@ -28,11 +28,11 @@ class MeetingController extends Controller {
 
         $keyword = $request->get("searchTerm");
 
-        echo("Keyword is: " . $keyword);
+        echo("Keyword is: _" . $keyword . "_");
 
         if (($keyword != "") && ($keyword != " ")) {
 
-            $searchResults = $this->searchEvents($keyword);
+            $searchResults = $this->searchEvents($request->get("searchTerm"));
             $resultCount = \Count($searchResults);
             $noResults = "Sorry, there are no results. Try a different search.";
         } else {
@@ -50,8 +50,26 @@ class MeetingController extends Controller {
     /**
      * Lists results from category search
      */
-    public function categorySearchAction() {
+    public function categorySearchAction($id) {
         $em = $this->getDoctrine()->getManager();
+        
+        $resultList = $this->searchCategories($id);
+        $resultCount = \Count($resultList);
+        $noResults = "";
+        
+        if ($resultCount == 0)
+        {
+            $noResults = "There are no events in this category. Please try again.";
+        }
+
+        return $this->render('AcmebsceneBundle:Meeting:index.html.twig', array(
+                    'searchResults' => $resultList,
+                    'resultCount' => $resultCount,
+                    'noResults' => $noResults,
+        ));
+        
+        
+        
     }
 
     /**

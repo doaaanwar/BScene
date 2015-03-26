@@ -28,10 +28,11 @@
                                 <h3>{{item.name}}</h3>
                                 <p>{{item.description}}</p>
                                 <p>
-                                    <a href="eventListByCategory.html" class="btn btn-warning">See Events</a> 
+                                    <a href="{{path('acmebscene_categorySearch', { 'id' : item.id } )}}"{{item.id}} class="btn btn-warning">See Events</a> 
                                 </p>
                             </div>
                         </div>
+                        </a>
 	            </div>
                     {%set count =  count + 1%}
                     {% if count == 4%}
