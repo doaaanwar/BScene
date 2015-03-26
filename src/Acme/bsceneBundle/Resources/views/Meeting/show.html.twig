@@ -114,7 +114,7 @@
                                                     <label for="username">Username</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="username"  class="form-control" >
+                                                    <input type="textbox" id="commenterUsername" name="commenterUsername"  class="form-control" >
                                                 </td>
                                             </tr>
                                             <tr>
@@ -122,7 +122,7 @@
                                                     <label for="email">E-Mail Address</label>
                                                 </td>
                                                 <td>
-                                                    <input type="email" id="email" class="form-control" required>
+                                                    <input type="email" id="commenterEmail" name="commenterEmail" class="form-control" required>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -130,12 +130,12 @@
                                                     <label for="comment">Comment</label>
                                                 </td>
                                                 <td>
-                                                    <textarea id="comment"  class="form-control" rows="5" required></textarea>
+                                                    <textarea id="commenterComment" name="commenterComment" class="form-control" rows="5" required></textarea>
                                                 </td>
                                             </tr>
                                              <div class="modal-footer">
                         <button class="btn btn-default" type="submit" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Close</button>
-                        <button type="button" class="btn btn-warning">Save changes</button>
+                        <button type="button" value="Addcomment" id="addButton" class="btn btn-warning">Save changes</button>
                    
                      </div>
                                      </table>
