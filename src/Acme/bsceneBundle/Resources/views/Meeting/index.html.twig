@@ -1,51 +1,39 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Events list</h1>
+    {% if resultCount > 1 %}
+        <h1>{{resultCount}} matching events found</h1>
+    {%elseif resultCount == 1%}
+        <h1>{{resultCount}} matching event found</h1>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Enddate</th>
-                <th>Endtime</th>
-                <th>Description</th>
-                <th>Capacity</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if resultCount > 0 %}
-                {% for result in searchResults %}
-                    <tr>
-                        <td><a href="{{ path('meeting_show', { 'id': result.id }) }}">{{ result.id }}</a></td>
-                        <td>{{ result.title }}</td>
-                        <td>{{ result.description }}
-                            <ul>
-                                <li>
-                                    <a href="{{ path('meeting_show', { 'id': result.id }) }}">show</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('meeting_edit', { 'id': result.id }) }}">edit</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                {{ noResults }}
-            {% endif %}
-        </tbody>
-    </table>
+    {% else %}
+        <h1>{{noResults}}</h1>
+    {%endif%}
+    {% if resultCount > 0 %}
+        {% for result in searchResults %}
+            <div class="row">
+                <article class="search-result row">
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <a href="eventDetails.html" title="Lorem ipsum" class="thumbnail"><img src="http://lorempixel.com/250/140/people" alt="Lorem ipsum" /></a>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2">
+                        <ul class="meta-search">
+                            <li><i class="glyphicon glyphicon-calendar"></i> <span>{{result.date|date('M d, Y')}}</span></li>
+                            <li><i class="glyphicon glyphicon-time"></i> <span>{{result.time|date('g:i a')}}</span></li>
+                            <li><i class="glyphicon glyphicon-tags"></i> <span>People</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+                        <h3><a href="{{path('acmebscene_eventDetail', { 'id' :result.id } )}}"{{result.id}} title="">{{result.title}}</a></h3>
+                        <p>{{result.description}} </p>						
+                        <span class="plus"><a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>
+                    </div>
+                    <span class="clearfix borda"></span>
+                </article>
+            </div>
+        {% endfor %}
+    {% else %}
+        
+    {% endif %}
 
-    <ul>
-        <li>
-            <a href="{{ path('meeting_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
 {% endblock %}
