@@ -55,9 +55,10 @@ function fillInAddress() {
     
   }
   
+  
+  //update to set some value on the create event page so it can be saved on the venue entity
   document.getElementById("lng").value = place.geometry.location;
   document.getElementById("name").value = place.name;
-  
   document.getElementById("place_id").value = place.place_id;
 }
 // [END region_fillform]

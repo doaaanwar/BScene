@@ -62,11 +62,11 @@ class Venue
      */
     protected $country;
     /**
-     * @ORM\Column(type="decimal", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $latitude;
     /**
-     * @ORM\Column(type="decimal", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $longitude;
     

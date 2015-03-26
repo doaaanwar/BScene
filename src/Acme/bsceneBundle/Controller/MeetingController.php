@@ -36,7 +36,10 @@ class MeetingController extends Controller
     }
     /**
      * Creates a new Meeting entity.
-     *
+     * updated, doaa elfayoumi 23.03.2015
+     * updated, doaa elfayoumi 24.03.2015
+     * updated, doaa elfayoumi 25.03.2015
+     * updated, doaa elfayoumi 26.03.2015
      */
     public function createAction(Request $request)
     {
@@ -140,6 +143,15 @@ class MeetingController extends Controller
             $venueEntity = $repository->findOneBy(array('placeId'=> $placeId));
             if(!$venueEntity)
             {
+                //the format for the lat lng (43.4433963, -80.52255709999997)
+                $newArray = array();
+               
+                $latlng= $request->get('lng');
+                $latlng = str_replace('(','',$latlng);
+                $latlng = str_replace(')','',$latlng);
+                $latlngVal = explode(',', $latlng,2);
+              
+                
                 $venueEntity = new Venue();
                 $venueEntity->setPlaceId($placeId);
                 $venueEntity->setAddress1($request->get('street_number'));
@@ -147,6 +159,8 @@ class MeetingController extends Controller
                 $venueEntity->setPostalCode($request->get('postal_code'));
                 $venueEntity->setCountry($request->get('country'));
                 $venueEntity->setName($request->get('name'));
+                $venueEntity->setLatitude($latlngVal[0]);
+                $venueEntity->setLongitude($latlngVal[1]);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($venueEntity);
                 $em->flush();
