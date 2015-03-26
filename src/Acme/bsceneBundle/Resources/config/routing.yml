@@ -50,7 +50,9 @@ acmebscene_eventDetail:
     path: /meeting/detail/{id}
     defaults: {_controller: AcmebsceneBundle:Meeting:show }
         
-  
+acmebscene_logout:
+    path:   /logout
+    defaults: { _controller: AcmebsceneBundle:Default:logout }
     
     
 acmebscene_login:

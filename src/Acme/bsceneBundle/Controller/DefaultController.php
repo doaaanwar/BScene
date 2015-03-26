@@ -134,4 +134,17 @@ class DefaultController extends Controller
              return $this->render('AcmebsceneBundle:Default:index.html.twig',array('categoryList' => $categoryList));
         }
     }
+    
+    /**
+     * added 25.03.2015 doaa elfayoumi
+     * function to logout
+     * @param Request $request
+     */
+    public function logoutAction(Request $request)
+    {
+        $request->getSession()->invalidate();
+        $categoryList = $this->getCategoryList();
+        return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
+  
+    }
 }
