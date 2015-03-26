@@ -15,7 +15,7 @@ use Symfony\Component\BrowserKit\Response;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
         $categoryList = $this->getCategoryList();
         
@@ -146,5 +146,14 @@ class DefaultController extends Controller
         $categoryList = $this->getCategoryList();
         return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
   
+    }
+    
+    public function contactAction()
+    {
+        return $this->render('AcmebsceneBundle:Default:contact.html.twig');
+    }
+        public function aboutAction()
+    {
+        return $this->render('AcmebsceneBundle:Default:about.html.twig');
     }
 }

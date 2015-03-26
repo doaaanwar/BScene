@@ -23,7 +23,7 @@ acmebscene_account:
     prefix:   /account
 
 acmebscene_homepage:
-    path:     /hello/{name}
+    path:     /hello/
     defaults: { _controller: AcmebsceneBundle:Default:index }
 
 acmebscene_dashboard:
@@ -66,5 +66,14 @@ acmebscene_keywordSearch:
 acmebscene_categorySearch:
     path: /meeting/searchResults/{id}
     defaults: {_controller: AcmebsceneBundle:Meeting:categorySearch }
+    
+acmebscene_contact:
+    path: /default/contact/
+    defaults: {_controller: AcmebsceneBundle:Default:contact }
+    
+acmebscene_about:
+    path: /default/about/
+    defaults: {_controller: AcmebsceneBundle:Default:about }
+    
     
  

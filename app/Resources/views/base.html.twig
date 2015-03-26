@@ -25,22 +25,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#"> B-Scene</a>
+                        <a class="navbar-brand" href="{{path('acmebscene_homepage')}}"> B-Scene</a>
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="#">About</a>
+                                <a href="{{path('acmebscene_about')}}">About</a>
                             </li>
                             <li>
-                                <a href="#">Services</a>
-                            </li>
-                            <li>
-                                <a href="#">Contact</a>
+                                <a href="{{path('acmebscene_contact')}}">Contact</a>
                             </li>
                         </ul>
-                        <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
+                        <form class="navbar-form navbar-right" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
                             <div class="form-group">
                                 <input class="form-control" type="search" name="searchTerm" id="searchTerm"/>
                             </div> 
