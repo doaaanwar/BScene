@@ -26,7 +26,7 @@ class MeetingController extends Controller {
     public function keywordSearchAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
-        $keyword = $request->get("searchTerm");
+        $keyword = $this->get('request')->request->get('searchTerm');
 
         echo("Keyword is: _" . $keyword . "_");
 
