@@ -244,7 +244,9 @@ class MeetingController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $commentsList = $this->comments($id);
-         $commentCount = \Count($commentsList);
+        $speakerList = $this->speaker($id);
+        $commentCount = \Count($commentsList);
+        $speakerCount = \Count($speakerList);
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
         
 
@@ -259,6 +261,8 @@ class MeetingController extends Controller
             'delete_form' => $deleteForm->createView(),
             'comments' => $commentsList,
             'commentCount' => $commentCount,
+            'speaker' => $speakerList,
+            'speakerCount' => $speakerCount,
         ));
     }
 
@@ -412,6 +416,25 @@ class MeetingController extends Controller
         $commentsList = $q->getResult();
 
         return $commentsList;
+        
+    }
+      /**
+    * Mahmoud Jallala
+    * function to get the speaker on the Event Details page 
+    * @param type $id
+    * @return type
+    */
+     private function speaker($id)
+    {   
+        $em = $this->getDoctrine()->getEntityManager();
+ 
+        //To get the events with the same titles 
+        $q = $em->createQuery("select e "
+                . "from \Acme\bsceneBundle\Entity\Speaker e "
+                . "WHERE e.id = :id")->setParameter('id', $id);
+        $speakerList = $q->getResult();
+
+        return $speakerList;
         
     }
 }
