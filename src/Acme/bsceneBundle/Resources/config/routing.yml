@@ -45,6 +45,11 @@ meeting_admin_list:
 acmebscene_homepageCalender:
     path:     /calender
     defaults: { _controller: AcmebsceneBundle:Default:getEventsDayList }
+    
+acmebscene_eventDetail:
+    path: /meeting/detail/{id}
+    defaults: {_controller: AcmebsceneBundle:Meeting:show }
+        
   
     
     

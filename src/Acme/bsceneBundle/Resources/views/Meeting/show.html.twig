@@ -42,7 +42,7 @@
                               <!-- Twitter -->
                               
                               <a class="twitter-share-button"  data-count="none" href="<?php the_permalink(); ?>" Tweet> </a>
-                              
+                              <br>
                               <!-- Google+ -->
                               <link rel="canonical" /> <g:plus action="share" ></g:plus>
                             </div>
@@ -73,9 +73,7 @@
                </div>
               <div class="well">
 
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#addComment">Leave a Review</a>
-                        </div>
+               
                         <hr>
 
                        
@@ -97,7 +95,53 @@
                                     </div>
                                 {% endif %}
                             {% endblock %}
-                        
+        <div class="text-right">
+            <button type="submit" class="btn btn-warning" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Leave a Review</a></button>
+                         
+            <tr>
+                <td colspan="7" >
+                    <div  id="createComColumn">
+                        <div class="collapse" id="collapseComment">
+                            <div class="well">
+                                <form class="form-group" id="createNew" novalidate>
+                                     <table>
+                                            <tr>
+                                                <td class="text-right">
+                                                    <label for="username">Username</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="username"  class="form-control" >
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">
+                                                    <label for="email">E-Mail Address</label>
+                                                </td>
+                                                <td>
+                                                    <input type="email" id="email" class="form-control" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">
+                                                    <label for="comment">Comment</label>
+                                                </td>
+                                                <td>
+                                                    <textarea id="comment"  class="form-control" rows="5" required></textarea>
+                                                </td>
+                                            </tr>
+                                             <div class="modal-footer">
+                        <button class="btn btn-default" type="submit" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Close</button>
+                        <button type="button" class="btn btn-warning">Save changes</button>
+                   
+                     </div>
+                                     </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </div>
 
                     </div>
         </div>
@@ -128,6 +172,7 @@
             </div>
                             
         </div>
+          
         <div class="modal fade" id="addComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                  <div class="modal-content">

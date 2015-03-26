@@ -63,12 +63,12 @@
                             <td class="text-left"><a href="{{organization}}">{{ entity.organization }}</a></td>
                         </tr>
                         <tr>
-                            <th class="text-right">Membersince</th>
+                            <th class="text-right">Member Since</th>
                             <td class="text-left">{{ entity.memberSince|date('Y-m-d') }}</td>
                         </tr>
 
                         <tr>
-                            <th class="text-right">Lastlogin</th>
+                            <th class="text-right">Last Login</th>
                             <td class="text-left">{{ entity.lastLogin|date('Y-m-d H:i:s') }}</td>
                         </tr>
                     </tbody>
@@ -103,7 +103,7 @@
                                     <h5>Description</h5>
 
                                     <p>{{item.description}}</p>
-                                    <a href="#" class="btn btn-warning">Event Details</a>
+                                    <a href="{{path('acmebscene_eventDetail', { 'id' : item.id } )}}" class="btn btn-warning" {{ item.id }}>Event Details</a>
                                 </div>
                             </div>
                         </div>
@@ -162,10 +162,9 @@
             </a>
         </li>
         <li>
-            <a href="{{ path('account_edit', { 'id': entity.id }) }}">
-                Edit
+            <a class="btn btn-warning" href="{{ path('account_edit', { 'id': entity.id }) }}">
+                Edit Account
             </a>
         </li>
-        <li>{{ form(delete_form) }}</li>
     </ul>
 {% endblock %}
