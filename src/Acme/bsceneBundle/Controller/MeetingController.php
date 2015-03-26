@@ -69,7 +69,7 @@ class MeetingController extends Controller {
         
         
     }
-
+    
      /**
         * Creates a new Meeting entity.
         * updated, doaa elfayoumi 23.03.2015
