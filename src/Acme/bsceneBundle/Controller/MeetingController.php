@@ -52,7 +52,7 @@ class MeetingController extends Controller
      
         
         $image = $request->files->get('imageUpload');
-        
+        $imageEntity = NULL;
         //commented till finish implementation
         if(($image instanceof UploadedFile) && ($image->getError() == '0'))
         {
@@ -67,14 +67,21 @@ class MeetingController extends Controller
                     //upload and save the path to the image.url
                     $imageEntity = new Image();
                     $imageEntity->setFile($image);
-                    $imageEntity->upload();
+                    //TODO check if name already there
                     $imageEntity->setName($originalName);
+                    $imageEntity->upload();
+                    
+                   
                     //TODO set the URL/path
-                    $imageEntity->setURL("");
+                   
+                    $imageEntity->setURL($imageEntity->getWebPath());
+                    
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($imageEntity);
+                    
                     $em->flush();
                     $entity->setImage($imageEntity);
+                    
                 }
                 else
                 {
@@ -189,7 +196,7 @@ class MeetingController extends Controller
                 $em->persist($entity);
                 $em->flush();
             }
-            
+          
             return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
         }
 
