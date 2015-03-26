@@ -3,181 +3,311 @@
 
 {% block stylesheets %}
     <link href="{{ asset('bundles/acmebscene/css/meeting.css')}}" rel="stylesheet">
-     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.css')}}">
-      <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.min.css')}}">
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/googleMapAPI.css')}}">
+    <!---->
+
+
 {% endblock %}
-    
+
 {% block body -%}
     <div class="text-center">
-    <h1>Create an Event</h1>
-    <p class="lead">All fields marked with * are required</p>
+        <h1>Create an Event</h1>
+        <p class="lead">All fields marked with * are required</p>
     </div>
     {{ form_start(form) }}
     {{ form_errors(form) }}
-   
+
     <div align='center'>
-    <table>
-        <tr>
-            <td >{{ form_row(form.title) }}</td>
-        </tr>
-         <tr>
-             <td>{{ form_row(form.date) }}</td>
-        </tr>
-        <tr>
-             <td>{{ form_row(form.time) }}</td>
-        </tr>
-        
-        <tr>
-             <td >{{ form_row(form.endDate) }}</td>
-        </tr>
-        <tr>
-             <td >{{ form_row(form.endTime) }}</td>
-        </tr>
-       
-       
-         <tr>
-             <td>{{ form_row(form.capacity) }}</td>
-        </tr>
-          <tr>
-             <td>{{ form_row(form.venue) }}</td>
-        </tr>
-        
-        <tr>
-             <td>{{ form_row(form.organization) }}</td>
-        </tr>
-        <tr>
-            <td><label for="imageUplaod">Event Logo</label><input type="file" name="imageUpload" id="imageUplaod"></td>
-        </tr>
-         <tr>
-             <td>{{ form_row(form.image) }}</td>
-        </tr>
-        
-        <tr>
-             <td>{{ form_row(form.category) }}</td>
-        </tr>
-        <tr>
-             <td  >{{ form_row(form.description) }}</td>
-        </tr>
-        <tr>
-            <td >
-                <div id='TextBoxesGroup'>
+        <table>
+            <tr>
+                <td >{{ form_row(form.title) }}</td>
+
+            </tr>
+           
+           
+            <tr>
+                <td>
+               
+                    <div><label>Location</label></div>
+                    <div id="locationField">
+
+                        <input id="autocomplete" placeholder="Enter your address"
+                               onFocus="geolocate()" type="text"></input>
+
+                    </div>
+                    <br>
+
+                    <table id="address">
+                        <tr>
+                            <input class="field" hidden="true" id="name"/>
+                            <input class="field"  hidden="true" id="place_id"/>
+                            <input class="field" hidden="true" id="id"/>
+                            <input class="field" hidden="true" id="lng"/>
+                            <td class="label">Street address</td>
+                            
+                           
+                            
+                            <td class="slimField"><input class="field" id="street_number"
+                                                         disabled="true"></input></td>
+                            <td class="wideField" colspan="2"><input class="field" id="route"
+                                                                     disabled="true"></input></td>
+                        </tr>
+                        <tr>
+                            <td class="label">City</td>
+                            <td class="wideField" colspan="3"><input class="field" id="locality"
+                                                                     disabled="true"></input></td>
+                        </tr>
+                        <tr>
+                            <td class="label">State</td>
+                            <td class="slimField"><input class="field"
+                                                         id="administrative_area_level_1" disabled="true"></input></td>
+                            <td class="label">Zip code</td>
+                            <td class="wideField"><input class="field" id="postal_code"
+                                                         disabled="true"></input></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Country</td>
+                            <td class="wideField" colspan="3"><input class="field"
+                                                                     id="country" disabled="true"></input></td>
+                        </tr>
+                    </table>
+                
+            </td>
+            <td  width="400px">
+               
+
+                <div id="map-canvas"></div>
+
+            </td>
+
+            </tr>
+            <tr>
+                <td>{{ form_row(form.date) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(form.time) }}</td>
+            </tr>
+
+            <tr>
+                <td >{{ form_row(form.endDate) }}</td>
+            </tr>
+            <tr>
+                <td >{{ form_row(form.endTime) }}</td>
+            </tr>
 
 
-                    <div id="TextBoxDiv1">
+            <tr>
+                <td>{{ form_row(form.capacity) }}</td>
+            </tr>
+            
+            <tr>
+                <td><label for="imageUplaod">Event Logo</label><input type="file" name="imageUpload" id="imageUplaod"></td>
+            </tr>
+            <tr>
+                <td>{{ form_row(form.image) }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ form_row(form.category) }}</td>
+            </tr>
+            <tr>
+                <td  >{{ form_row(form.description) }}</td>
+            </tr>
+            <tr>
+                <td >
+                    <div id='TextBoxesGroup'>
+
+                        <h4>Event Speakers</h4> (you can add 0 to 5 speakers)
+                        <div id="TextBoxDiv1">
 
                             <label>Speaker #1 : </label><br>
                             <label>Name : </label><br><input type='textbox' id='nameTextbox' name='nameTextbox' ><br>
                             <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox'><br>
                             <label>Biography :</label><br><input type='textbox' id='bioTextbox' name='bioTextbox'>
 
+                        </div>
                     </div>
-                </div>
-            </td>
-           
-        </tr>
-        <tr>
-            <td >
-                 <input type='button' value='Add Speaker' id='addButton'>
-           
-           
-                <input type='button' value='Remove' id='removeButton'>
-            </td>
-        </tr>
-      
-        
-        
-         <tr>
-            <td colspan="3" class="text-center">
-                {{ form_row(form._token) }}
-                {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
-            </td>
-        </tr>
-    </table>
+                </td>
+
+            </tr>
+            <tr>
+                <td >
+                    <input type='button' value='Add Speaker' id='addButton'>
+
+
+                    <input type='button' value='Remove' id='removeButton'>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td colspan="3" class="text-center">
+                    {{ form_row(form._token) }}
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+                </td>
+            </tr>
+        </table>
     </div>
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('meeting') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('meeting') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
 {% endblock %}
 {% block javascripts %}
-   
-  
-   <script src="{{ asset('bundles/acmebscene/js/jquery-ui.js')}}"></script>
-   <script src="{{ asset('bundles/acmebscene/js/jquery-ui.min.js')}}"></script>
-   <script>
-      
-        $(function() {
-          $( "#acme_bscenebundle_meeting_date" ).datepicker(  {dateFormat: "yy-mm-dd"} );
-          $( "#acme_bscenebundle_meeting_endDate" ).datepicker( { dateFormat: "yy-mm-dd"} );
-        });
-   </script>
-    <!-- needed script for the datetimepicker for date fields -->
-    <!-- cdn for modernizr, if you haven't included it already -->
-    <!--<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>-->
-    <!-- polyfiller file to detect and load polyfills -->
-    <!--<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+
+
+    <script src="{{ asset('bundles/acmebscene/js/jquery-ui.js')}}"></script>
+    <script src="{{ asset('bundles/acmebscene/js/jquery-ui.min.js')}}"></script>
+    <!--script needed for the datetime picker -->
     <script>
-        webshims.setOptions('waitReady', false);
-        webshims.setOptions('forms-ext', {types: 'date'});
-        webshims.polyfill('forms forms-ext');
-    </script>-->
+
+                               $(function () {
+                                   $("#acme_bscenebundle_meeting_date").datepicker({dateFormat: "yy-mm-dd"});
+                                   $("#acme_bscenebundle_meeting_endDate").datepicker({dateFormat: "yy-mm-dd"});
+                               });
+    </script>
     <!--script used for adding dynamic fields for speakers-->
     <script type="text/javascript">
-    
-    $(document).ready(function(){
 
-        var counter = 2;
+        $(document).ready(function () {
 
-        $("#addButton").click(function () {
+            var counter = 2;
 
-            if(counter>5){
-                alert("Only 5 textboxes allow");
-                return false;
-            }   
+            $("#addButton").click(function () {
 
-            var newTextBoxDiv = $(document.createElement('div'))
-                 .attr("id", 'TextBoxDiv' + counter);
+                if (counter > 5) {
+                    alert("Only 5 textboxes allow");
+                    return false;
+                }
 
-            newTextBoxDiv.after().html('<label>Speaker #'+ counter + ' : </label><br>' +
-                  '<label>Name : </label><br><input type="text" name="nameTextbox' + counter + 
-                  '" id="nameTextbox' + counter + '" value="" ><br>'+
-                  '<label>Title : </label><br><input type="text" name="titleTextbox' + counter + 
-                  '" id="titleTextbox' + counter + '" value="" ><br>'+
-                  '<label>Biography : </label><br><input type="text" name="bioTextbox' + counter + 
-                  '" id="bioTextbox' + counter + '" value="" >');
+                var newTextBoxDiv = $(document.createElement('div'))
+                        .attr("id", 'TextBoxDiv' + counter);
 
-
-
-                           
-            newTextBoxDiv.appendTo("#TextBoxesGroup");
+                newTextBoxDiv.after().html('<label>Speaker #' + counter + ' : </label><br>' +
+                        '<label>Name : </label><br><input type="text" name="nameTextbox' + counter +
+                        '" id="nameTextbox' + counter + '" value="" ><br>' +
+                        '<label>Title : </label><br><input type="text" name="titleTextbox' + counter +
+                        '" id="titleTextbox' + counter + '" value="" ><br>' +
+                        '<label>Biography : </label><br><input type="text" name="bioTextbox' + counter +
+                        '" id="bioTextbox' + counter + '" value="" >');
 
 
-            counter++;
-         });
 
-         $("#removeButton").click(function () {
-            if(counter==1){
-              alert("No more textbox to remove");
-              return false;
-           }   
 
-            counter--;
+                newTextBoxDiv.appendTo("#TextBoxesGroup");
 
-            $("#TextBoxDiv" + counter).remove();
 
-         });
+                counter++;
+            });
 
-         $("#getButtonValue").click(function () {
+            $("#removeButton").click(function () {
+                if (counter == 1) {
+                    alert("No more textbox to remove");
+                    return false;
+                }
 
-            var msg = '';
-            for(i=1; i<counter; i++){
-              msg += "\n Textbox #" + i + " : " + $('#textbox' + i).val();
-            }
-              alert(msg);
-         });
-      });
+                counter--;
+
+                $("#TextBoxDiv" + counter).remove();
+
+            });
+
+            $("#getButtonValue").click(function () {
+
+                var msg = '';
+                for (i = 1; i < counter; i++) {
+                    msg += "\n Textbox #" + i + " : " + $('#textbox' + i).val();
+                }
+                alert(msg);
+            });
+        });
     </script>
+    <!-- js needed for the google map API -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+
+    <script  src="{{ asset('bundles/acmebscene/js/googleMapAPI.js')}}"></script>
+    <!---->
+
+    <script>
+        
+        function initializeMap() {
+            var mapOptions = {
+                center: new google.maps.LatLng(-33.8688, 151.2195),
+                zoom: 13
+            };
+            var map = new google.maps.Map(document.getElementById('map-canvas'),
+                    mapOptions);
+
+            var input = /** @type {HTMLInputElement} */(
+                    document.getElementById('autocomplete'));
+
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            //autocomplete.bindTo('bounds', map);
+
+            var infowindow = new google.maps.InfoWindow();
+            var marker = new google.maps.Marker({
+                map: map,
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                infowindow.close();
+                marker.setVisible(false);
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    return;
+                }
+
+                // If the place has a geometry, then present it on a map.
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);  // Why 17? Because it looks good.
+                }
+                marker.setIcon(/** @type {google.maps.Icon} */({
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(35, 35)
+                }));
+                marker.setPosition(place.geometry.location);
+                marker.setVisible(true);
+
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                        (place.address_components[0] && place.address_components[0].short_name || ''),
+                        (place.address_components[1] && place.address_components[1].short_name || ''),
+                        (place.address_components[2] && place.address_components[2].short_name || '')
+                    ].join(' ');
+                }
+
+                infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+                infowindow.open(map, marker);
+            });
+
+           
+        }
+
+        google.maps.event.addDomListener(window, 'load', initializeMap);
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script> 
+    
 {%endblock%}

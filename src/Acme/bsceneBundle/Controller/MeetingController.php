@@ -88,7 +88,7 @@ class MeetingController extends Controller
          }
 */
         
-        
+        $request.get();
         //create speakers, maximum 5 speakers
         //initialize an array to save created speaker
         $speakerList = array();
