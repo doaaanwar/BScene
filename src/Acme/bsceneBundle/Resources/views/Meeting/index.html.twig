@@ -18,36 +18,34 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('meeting_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.title }}</td>
-                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.time %}{{ entity.time|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.endDate %}{{ entity.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.endTime %}{{ entity.endTime|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.description }}</td>
-                <td>{{ entity.capacity }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('meeting_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('meeting_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% if resultCount > 0 %}
+                {% for result in searchResults %}
+                    <tr>
+                        <td><a href="{{ path('meeting_show', { 'id': result.id }) }}">{{ result.id }}</a></td>
+                        <td>{{ result.title }}</td>
+                        <td>{{ result.description }}
+                            <ul>
+                                <li>
+                                    <a href="{{ path('meeting_show', { 'id': result.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('meeting_edit', { 'id': result.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                {{ noResults }}
+            {% endif %}
         </tbody>
     </table>
 
-        <ul>
+    <ul>
         <li>
             <a href="{{ path('meeting_new') }}">
                 Create a new entry
             </a>
         </li>
     </ul>
-    {% endblock %}
+{% endblock %}

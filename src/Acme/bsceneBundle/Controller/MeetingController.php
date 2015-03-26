@@ -26,19 +26,22 @@ class MeetingController extends Controller {
     public function keywordSearchAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
-        if ($request->get("searchTerm" != null) && $request->get("searchTerm" != " ")) {
-            $keyword = $request->get("searchTerm");
-            $keyword = (string)$keyword;
-            $searchResults = searchEvents($keyword);
+        $keyword = $request->get("searchTerm");
+
+        echo("Keyword is: " . $keyword);
+
+        if (($keyword != "") && ($keyword != " ")) {
+
+            $searchResults = $this->searchEvents($keyword);
             $resultCount = \Count($searchResults);
             $noResults = "Sorry, there are no results. Try a different search.";
-        } 
-        else {
+        } else {
+            $searchResults = [];
+            $resultCount = 0;
             $noResults = "That is not a valid search! Please try again.";
         }
-        
         return $this->render('AcmebsceneBundle:Meeting:index.html.twig', array(
-                    'entities' => $searchResults,
+                    'searchResults' => $searchResults,
                     'resultCount' => $resultCount,
                     'noResults' => $noResults,
         ));
@@ -434,11 +437,10 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e "
-                        . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                        . "WHERE e.title LIKE '%:keyword%' OR e.description LIKE '%:keyword%' "
-                        . "OR e.organization LIKE '%:keyword%' OR e.speakers LIKE '%:keyword%' "
-                        . "ORDER BY e.date ASC")->setParameter('keyword', $keyword);
-        $searchResult = $q->getArrayResult();
+                . "FROM \Acme\bsceneBundle\Entity\Meeting e "
+                . "WHERE (e.title LIKE '%" . $keyword . "%') OR (e.description LIKE '%" . $keyword . "%') "
+                . " ORDER BY e.date ASC");
+        $searchResult = $q->getResult();
 
         return $searchResult;
     }
@@ -450,7 +452,7 @@ class MeetingController extends Controller {
                         . "WHERE e.category = :categoryId ORDER BY e.date ASC")
                 ->setParameter('categoryId', $categoryId);
 
-        $searchResult = $q->getArrayResult();
+        $searchResult = $q->getResult();
         return $searchResult;
     }
 
