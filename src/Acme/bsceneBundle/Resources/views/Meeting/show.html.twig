@@ -18,11 +18,14 @@
                 
                 <div class="col-md-9">
               <div class="thumbnail">
-                  <div align="left">
-                        <img class="img-responsive"  style="width: 260px; height: 310px"  src="{{asset(uploadedURL)}}" alt="">
-                  </div>
-                        <div class="caption-full">
-                            <h4><a href="#">{{ entity.title }}</a>
+                  <div class="row">
+
+            <div class="col-md-4">
+                <img class="img-responsive" src="{{asset(uploadedURL)}}" alt="">
+            </div>
+
+            <div class="col-md-4">
+                <h4><a href="#">{{ entity.title }}</a>
                             </h4>
                             <p>{{ entity.description }} </p>
                            
@@ -40,7 +43,9 @@
                               <!-- Google+ -->
                               <link rel="canonical" /> <g:plus action="share" ></g:plus>
                             </div>
-                      </div>
+            </div>
+
+        </div>
                       
                 </div>
             <div class="well">
@@ -63,6 +68,8 @@
                         <h6><b>Biography:</b> {{item.biography}}more events for this speaker</h6>
 					 
                     {% endfor %}
+                    {%else%}
+                        <h4 class="createOrg">No Speaker for This Event</h4> <br>
                 {% endif %}
             {%endblock %}
 	        
@@ -230,7 +237,7 @@
 			</div>
 			<span class="clearfix border" ></span>
                         <br>
-                   <div class="well" style="margin-right: 2px">
+                   <div class="well" style="margin-right:  2px">
                        <p>Conestoga Knowledge Exchange</p>
                        <p>900 Guelph Street</p>
                        <p>Unit 204</p>
