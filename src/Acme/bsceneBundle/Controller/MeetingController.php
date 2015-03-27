@@ -263,21 +263,19 @@ class MeetingController extends Controller {
     public function showAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $commentsList = $this->comments($id);
-        $speakerList = $this->speaker($id);
+        //$speakerList = $this->speaker($id);
         $venueList = $this->getVenue($id);
         $orgList = $this->getOrg($id);
         $venueCont = \Count($venueList);
         $orgCount = \Count($orgList);
         $commentCount = \Count($commentsList);
-        $speakerCount = \Count($speakerList);
+        
         //$imageURL  = Image::URL;
         //$imageEntity  = $this->event->getImage();
-        $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Image');
-       
+        //$repository = $em->getRepository('\Acme\bsceneBundle\Entity\Image');
+        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
        
          
-        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
-
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
@@ -286,12 +284,14 @@ class MeetingController extends Controller {
         $deleteForm = $this->createDeleteForm($id);
          $imageEntity= $entity->getImage();
         $uploadedURL = $imageEntity->getURL();
+        $speakers=$entity->getSpeakers();
+        $speakerCount = \Count($speakers);
         return $this->render('AcmebsceneBundle:Meeting:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
                     'comments' => $commentsList,
                     'commentCount' => $commentCount,
-                    'speaker' => $speakerList,
+                    'speaker' => $speakers,
                     'speakerCount' => $speakerCount,
                     'org' => $orgList,
                     'orgCount' => $orgCount,
