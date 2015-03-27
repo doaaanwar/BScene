@@ -232,6 +232,13 @@ class MeetingController extends Controller {
         $speakerList = $this->speaker($id);
         $commentCount = \Count($commentsList);
         $speakerCount = \Count($speakerList);
+        //$imageURL  = Image::URL;
+        //$imageEntity  = $this->event->getImage();
+       $imageEntity = $this->getDoctrine()
+        ->getRepository('AcmebsceneBundle:Image')
+        ->find($id);
+       
+         
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
 
 
@@ -248,6 +255,8 @@ class MeetingController extends Controller {
                     'commentCount' => $commentCount,
                     'speaker' => $speakerList,
                     'speakerCount' => $speakerCount,
+                    'uploadedURL' => $imageEntity,
+                    
         ));
     }
 
@@ -398,6 +407,24 @@ class MeetingController extends Controller {
 
         return $commentsList;
     }
+    /**
+     * Mahmoud Jallala
+     * function to get the comments on the Event Details page 
+     * @param type $id
+     * @return type
+     */
+    private function getImage($id) {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        //To get the events with the same titles 
+        $q = $em->createQuery("select e "
+                        . "from \Acme\bsceneBundle\Entity\Image e "
+                        . "WHERE e.event = :id")->setParameter('id', $id);
+        $imageURL = $q->getResult();
+
+        return $imageURL;
+    }
+    
 
     /**
      * Mahmoud Jallala
