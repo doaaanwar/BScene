@@ -75,5 +75,8 @@ acmebscene_about:
     path: /default/about/
     defaults: {_controller: AcmebsceneBundle:Default:about }
     
+acmebscene_newAccount:
+    path: /account/new/
+    defaults: {_controller: AcmebsceneBundle:Account:create }
     
  

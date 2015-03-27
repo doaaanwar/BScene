@@ -37,7 +37,7 @@
                                 <a href="{{path('acmebscene_contact')}}">Contact</a>
                             </li>
                         </ul>
-                        <form class="navbar-form navbar-right" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
+                        <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
                             <div class="form-group">
                                 <input class="form-control" type="search" name="searchTerm" id="searchTerm"/>
                             </div> 
@@ -74,7 +74,7 @@
                                         <a class="login-window" href="#login-box">Login</a>
                                     </li>
                                     <li>
-                                        <a href="#">Sign up</a>
+                                        <a href="{{path('acmebscene_newAccount')}}">Sign up</a>
                                     </li>
                             {% endif %}
                         </ul>
