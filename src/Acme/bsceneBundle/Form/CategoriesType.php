@@ -35,7 +35,8 @@ class CategoriesType extends AbstractType {
                     ),
                     'label' => 'Homepage Ranking',
                     'required' => true))
-                ->add('image', 'file', array(
+                ->add('image', 'entity', array(
+                    'class' => 'AcmebsceneBundle:Image',
                     'label' => 'Select Image',
                     'required' => true))
                 ->add('meetupCategory', 'entity', array(
