@@ -137,6 +137,7 @@ class MeetingController extends Controller {
                 //the format for the lat lng is (43.4433963, -80.52255709999997)
                 //split it to get each value
                 $newArray = array();
+                $venueEntity = new Venue();
                 $latlng = $request->get('lng');
                 $latlng = str_replace('(', '', $latlng);
                 $latlng = str_replace(')', '', $latlng);
@@ -160,7 +161,7 @@ class MeetingController extends Controller {
                 $provinceName = $request->get('administrative_area_level_1');
                 
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Province');
-                $provinceEntity = $repository->findOneBy(array('name' => $$provinceName));
+                $provinceEntity = $repository->findOneBy(array('name' => $provinceName));
                 if($provinceEntity)
                 {
                     $venueEntity->setProvince($provinceEntity);
@@ -172,7 +173,7 @@ class MeetingController extends Controller {
                 //TODO put the province constraint
                 
                 
-                $venueEntity = new Venue();
+                
                 $venueEntity->setPlaceId($placeId);
                 $venueEntity->setAddress1($request->get('street_number'));
                 $venueEntity->setAddress2($request->get('route'));

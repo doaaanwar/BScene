@@ -102,7 +102,7 @@ class DefaultController extends Controller
                 {
                     //$session = new Session();
                     //$session->start();
-                    $session->invalidate(500);
+                    $session->invalidate(5000);
                     $session->set('member',$user->getUsername());
                     $session->set('memberId',$user->getId());
                     if($user->getIsAdmin() == 1)
