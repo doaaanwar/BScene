@@ -51,10 +51,10 @@
             <div class="well">
                  <h3>Event Time Details</h3>
                  
-                 <p><b>Starting Date:</b>  {{ entity.date|date('Y-m-d') }}</p>
-                 <p><b>Starting Time:</b> {{ entity.time|date('H:i') }}</p>
-                 <p><b>End Date:</b>  {{ entity.endDate|date('Y-m-d') }}</p>
-                 <p><b>End Time:</b> {{ entity.endTime|date('H:i') }}</p>
+                 <p><b>Starting Date:</b>  {{ entity.date|date('M d, Y') }}</p>
+                 <p><b>Starting Time:</b> {{ entity.time|date('g:i a') }}</p>
+                 <p><b>End Date:</b>  {{ entity.endDate|date('M d, Y') }}</p>
+                 <p><b>End Time:</b> {{ entity.endTime|date('g:i a') }}</p>
             </div>
         <div class="well">
 	    {% block speaker %}
