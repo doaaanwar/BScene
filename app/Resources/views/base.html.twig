@@ -56,7 +56,7 @@
                                            <ul class="dropdown-menu">
                                                {% if app.session.get('admin') == null %}
                                                <li>
-                                                   <a href="profile.html"><i class="fa fa-fw fa-user"></i> Profile</a>
+                                                   <a href="{{path('account_show',{'id' : app.session.get('memberId')})}}"><i class="fa fa-fw fa-user"></i> Profile</a>
                                                </li>
                                                 {% endif %} 
                                                <li>
