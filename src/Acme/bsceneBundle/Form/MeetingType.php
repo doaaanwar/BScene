@@ -28,7 +28,9 @@ class MeetingType extends AbstractType {
                     'attr' => array('id' => 'endDate')))
                 ->add('endTime')
                 ->add('description', 'textarea')
-                ->add('capacity')
+                ->add('capacity', 'number', array(
+                    'label' => 'Venue Capacity'
+                ))
                 ->add('venue', 'hidden')
                 ->add('organization', 'hidden', array(
                     'data_class' => 'Acme\bsceneBundle\Entity\Organization'
