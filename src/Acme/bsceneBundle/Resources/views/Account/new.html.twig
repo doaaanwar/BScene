@@ -96,9 +96,7 @@
                     {{ form_row(form.isAdmin) }}
                     {{ form_row(form.status) }}
                     {{ form_row(form._token) }}
-                    <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#confirmDetails" id="submitProfile">
-                        Submit
-                    </button></td>
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
             </tr>  
         </table>
 
@@ -216,7 +214,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Edit Details</button>
-                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+                    
                 </div>
             </div>
         </div>

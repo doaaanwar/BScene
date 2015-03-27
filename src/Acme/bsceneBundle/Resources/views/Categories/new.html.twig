@@ -1,15 +1,54 @@
 {% extends '::base.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/account.css')}}" rel="stylesheet">
+{% endblock %}
 
 {% block body -%}
-    <h1>Categories creation</h1>
+    <h1>Create New Category</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('category') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <div align="center">
+
+        <table>
+            <tr>
+                <td>{{ form_row(form.name) }}</td>
+                <td>{{ form_row(form.image) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">{{ form_row(form.description) }}</td>
+            </tr>
+            <tr>
+            <div class="radio-inline">
+                <td>{{ form_row(form.ranking) }}</td>
+            </div>
+            <td>{{ form_row(form.meetupCategory) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_row(form.eventBriteCategory) }}</td>
+                <td>{{ form_row(form.eventfullCategory) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-center">
+                    {{ form_row(form._token) }}
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('category') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
 {% endblock %}
