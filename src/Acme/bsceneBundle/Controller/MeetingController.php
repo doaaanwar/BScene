@@ -233,6 +233,7 @@ class MeetingController extends Controller {
         $speakerList = $this->speaker($id);
         $venueList = $this->getVenue($id);
         $orgList = $this->getOrg($id);
+        $venueCont = \Count($venueList);
         $orgCount = \Count($orgList);
         $commentCount = \Count($commentsList);
         $speakerCount = \Count($speakerList);
@@ -262,6 +263,8 @@ class MeetingController extends Controller {
                     'org' => $orgList,
                     'orgCount' => $orgCount,
                     'uploadedURL' => $uploadedURL,
+                    'venue' => $venueList,
+                    'venueCont' => $venueCont,
                     
         ));
     }

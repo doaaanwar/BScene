@@ -245,12 +245,24 @@
 			</div>
 			<span class="clearfix border" ></span>
                         <br>
-                   <div class="well" style="margin-right:  2px">
-                       <p>Conestoga Knowledge Exchange</p>
-                       <p>900 Guelph Street</p>
-                       <p>Unit 204</p>
-                       <p>Kitchener,ON, N2C 2L8</p>
-                   </div>
+                  {% block venue %}
+                                {% if venueCont != 0 %}
+                                    {% for item in venue %}
+                                         <div class="well">
+                                         <div class="row">
+                                        <div class="col-md-12">
+                                            <p>{{item.name}}:</p>
+                                            <p>{{item.country}}</P>
+                                        </div>  
+                                        </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="row">
+                                    <p>No Comments</p>
+                                    </div>
+                                {% endif %}
+                            {% endblock %}
             </div>
             <div class="col-md-3">
                 
