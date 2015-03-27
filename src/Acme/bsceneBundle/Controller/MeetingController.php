@@ -227,16 +227,15 @@ class MeetingController extends Controller {
      *
      */
     public function showAction($id) {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getEntityManager();
         $commentsList = $this->comments($id);
         $speakerList = $this->speaker($id);
         $commentCount = \Count($commentsList);
         $speakerCount = \Count($speakerList);
         //$imageURL  = Image::URL;
         //$imageEntity  = $this->event->getImage();
-       $imageEntity = $this->getDoctrine()
-        ->getRepository('AcmebsceneBundle:Image')
-        ->find($id);
+        $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Image');
+       
        
          
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
@@ -247,7 +246,8 @@ class MeetingController extends Controller {
         }
 
         $deleteForm = $this->createDeleteForm($id);
-
+         $imageEntity= $entity->getImage();
+        $uploadedURL = $imageEntity->getURL();
         return $this->render('AcmebsceneBundle:Meeting:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
@@ -255,31 +255,8 @@ class MeetingController extends Controller {
                     'commentCount' => $commentCount,
                     'speaker' => $speakerList,
                     'speakerCount' => $speakerCount,
-                    'uploadedURL' => $imageEntity,
+                    'uploadedURL' => $uploadedURL,
                     
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing Meeting entity.
-     *
-     */
-    public function editAction($id) {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Meeting entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
-                    'entity' => $entity,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
