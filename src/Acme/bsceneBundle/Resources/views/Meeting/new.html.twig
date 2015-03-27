@@ -66,7 +66,7 @@
                                                                      disabled="true" name="locality"></input></td>
                         </tr>
                         <tr>
-                            <td class="label">State</td>
+                            <td class="label">Province</td>
                             <td class="slimField"><input class="field"
                                                          id="administrative_area_level_1" name="administrative_area_level_1" disabled="true"></input></td>
                             <td class="label">Zip code</td>
@@ -121,14 +121,15 @@
                 <td >
                     <div id='TextBoxesGroup'>
 
-                        <h4>Event Speakers</h4> (you can add 0 to 5 speakers)
+                        <div><h4>Event Speakers</h4> **you can add up to 5 speakers</div>
+                        <br>
                         <div id="TextBoxDiv1">
 
                             <label>Speaker #1 : </label><br>
                             <label>Name : </label><br><input type='textbox' id='nameTextbox' name='nameTextbox' ><br>
                             <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox'><br>
-                            <label>Biography :</label><br><input type='textbox' id='bioTextbox' name='bioTextbox'>
-
+                            <label>Biography :</label><br><textarea  id='bioTextbox' name='bioTextbox'></textarea>
+                            <br>
                         </div>
                     </div>
                 </td>
@@ -196,8 +197,8 @@
                         '" id="nameTextbox' + counter + '" value="" ><br>' +
                         '<label>Title : </label><br><input type="text" name="titleTextbox' + counter +
                         '" id="titleTextbox' + counter + '" value="" ><br>' +
-                        '<label>Biography : </label><br><input type="text" name="bioTextbox' + counter +
-                        '" id="bioTextbox' + counter + '" value="" >');
+                        '<label>Biography : </label><br><textarea name="bioTextbox' + counter +
+                        '" id="bioTextbox' + counter + '" value="" ></textarea><br>');
 
 
 

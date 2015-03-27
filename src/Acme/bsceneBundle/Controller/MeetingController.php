@@ -134,12 +134,44 @@ class MeetingController extends Controller {
             $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
             $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
             if (!$venueEntity) {
-            //the format for the lat lng (43.4433963, -80.52255709999997)
+                //the format for the lat lng is (43.4433963, -80.52255709999997)
+                //split it to get each value
                 $newArray = array();
                 $latlng = $request->get('lng');
                 $latlng = str_replace('(', '', $latlng);
                 $latlng = str_replace(')', '', $latlng);
                 $latlngVal = explode(',', $latlng, 2);
+                
+                //get the city
+                $cityName = $request->get('locality');
+                
+                $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Cities');
+                $cityEntity = $repository->findOneBy(array('name' => $cityName));
+                if($cityEntity)
+                {
+                    $venueEntity->setCity($cityEntity);
+                }
+                else
+                {
+                    //TODO the city constraint
+                }
+                
+                //get the province
+                $provinceName = $request->get('administrative_area_level_1');
+                
+                $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Province');
+                $provinceEntity = $repository->findOneBy(array('name' => $$provinceName));
+                if($provinceEntity)
+                {
+                    $venueEntity->setProvince($provinceEntity);
+                }
+                else
+                {
+                    //TODO the city constraint
+                }
+                //TODO put the province constraint
+                
+                
                 $venueEntity = new Venue();
                 $venueEntity->setPlaceId($placeId);
                 $venueEntity->setAddress1($request->get('street_number'));
