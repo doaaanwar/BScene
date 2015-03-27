@@ -159,6 +159,9 @@
                     </div>
         </div>
             <div class="col-md-3">
+                 {% block venue %}
+                                {% if venueCont != 0 %}
+                                    {% for item in venue %}
                  <div class="col-xs-12 col-sm-12 col-md-7">
 			
 			<div id="map"  style="width: 260px; height: 310px;" frameborder="0" style="border:0"></div>
@@ -168,8 +171,8 @@
     // Define your locations: HTML content for the info window, latitude, longitude
     var locations = [
   
-      ['<h4>{{entity.title}}</h4>', 43.410475, -80.491969],
-      ['<h4>Active Day <br><br> Conestoga Waterloo</h4>', 43.479029,-80.517932],
+      ['<h4>{{entity.title}}</h4>', {{item.latitude}}, {{item.longitude}}],
+      
     ];
     
     // Setup the different icons and shadows
@@ -245,9 +248,7 @@
 			</div>
 			<span class="clearfix border" ></span>
                         <br>
-                  {% block venue %}
-                                {% if venueCont != 0 %}
-                                    {% for item in venue %}
+                 
                                          <div class="well">
                                          <div class="row">
                                         <div class="col-md-12">
