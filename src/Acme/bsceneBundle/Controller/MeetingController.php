@@ -230,6 +230,8 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $commentsList = $this->comments($id);
         $speakerList = $this->speaker($id);
+        $orgList = $this->getOrg($id);
+        $orgCount = \Count($orgList);
         $commentCount = \Count($commentsList);
         $speakerCount = \Count($speakerList);
         //$imageURL  = Image::URL;
@@ -255,6 +257,8 @@ class MeetingController extends Controller {
                     'commentCount' => $commentCount,
                     'speaker' => $speakerList,
                     'speakerCount' => $speakerCount,
+                    'org' => $orgList,
+                    'orgCount' => $orgCount,
                     'uploadedURL' => $uploadedURL,
                     
         ));
@@ -376,7 +380,7 @@ class MeetingController extends Controller {
     private function comments($id) {
         $em = $this->getDoctrine()->getEntityManager();
 
-        //To get the events with the same titles 
+        //To get the comments with the id  
         $q = $em->createQuery("select e "
                         . "from \Acme\bsceneBundle\Entity\EventComments e "
                         . "WHERE e.event = :id")->setParameter('id', $id);
@@ -386,20 +390,37 @@ class MeetingController extends Controller {
     }
     /**
      * Mahmoud Jallala
-     * function to get the comments on the Event Details page 
+     * function to get the Image on the Event Details page 
      * @param type $id
      * @return type
      */
     private function getImage($id) {
         $em = $this->getDoctrine()->getEntityManager();
 
-        //To get the events with the same titles 
+        //To get the Image for the event 
         $q = $em->createQuery("select e "
                         . "from \Acme\bsceneBundle\Entity\Image e "
                         . "WHERE e.event = :id")->setParameter('id', $id);
         $imageURL = $q->getResult();
 
         return $imageURL;
+    }
+    /**
+     * Mahmoud Jallala
+     * function to get the Organization on the Event Details page 
+     * @param type $id
+     * @return type
+     */
+    private function getOrg($id) {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        //To get the Organization for the event 
+        $q = $em->createQuery("select e "
+                        . "from \Acme\bsceneBundle\Entity\Organization e "
+                        . "WHERE e.id = $id");
+        $orglist = $q->getResult();
+
+        return $orglist;
     }
     
 
