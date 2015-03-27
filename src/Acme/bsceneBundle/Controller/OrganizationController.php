@@ -22,8 +22,8 @@ class OrganizationController extends Controller
      */
     public function adminIndexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Organization');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AcmebsceneBundle:Organization');
 
         
         $organizationList = $repository->findAll();
