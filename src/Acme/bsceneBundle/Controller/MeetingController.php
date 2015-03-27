@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Acme\bsceneBundle\Entity\Meeting;
 use Acme\bsceneBundle\Form\MeetingType;
 use Acme\bsceneBundle\Entity\Image;
+use Acme\bsceneBundle\Entity\Organization;
 use \DateTime;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Acme\bsceneBundle\Entity\Speaker;
@@ -230,6 +231,7 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $commentsList = $this->comments($id);
         $speakerList = $this->speaker($id);
+        $venueList = $this->getVenue($id);
         $orgList = $this->getOrg($id);
         $orgCount = \Count($orgList);
         $commentCount = \Count($commentsList);
@@ -416,11 +418,28 @@ class MeetingController extends Controller {
 
         //To get the Organization for the event 
         $q = $em->createQuery("select e "
-                        . "from \Acme\bsceneBundle\Entity\Organization e "
-                        . "WHERE e.id = $id");
+                        . "from \Acme\bsceneBundle\Entity\Organization e INNER JOIN e.events p "
+                        . "WHERE p.id = :id")->setParameter('id', $id);
         $orglist = $q->getResult();
 
         return $orglist;
+    }
+    /**
+     * Mahmoud Jallala
+     * function to get the Organization on the Event Details page 
+     * @param type $id
+     * @return type
+     */
+    private function getVenue($id) {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        //To get the Organization for the event 
+        $q = $em->createQuery("select e "
+                        . "from \Acme\bsceneBundle\Entity\Venue e INNER JOIN e.events p "
+                        . "WHERE p.id = :id")->setParameter('id', $id);
+        $venuelist = $q->getResult();
+
+        return $venuelist;
     }
     
 
