@@ -180,24 +180,20 @@
     
     var icons = [
       iconURLPrefix + 'red-dot.png',
-      iconURLPrefix + 'green-dot.png',
-      iconURLPrefix + 'blue-dot.png',
-      iconURLPrefix + 'orange-dot.png',
-      iconURLPrefix + 'purple-dot.png',
-      iconURLPrefix + 'pink-dot.png',      
-      iconURLPrefix + 'yellow-dot.png'
+      
     ]
     var iconsLength = icons.length;
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 10,
-      center: new google.maps.LatLng(-37.92, 151.25),
+      center: new google.maps.LatLng(-28.643387, 153.612224),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: false,
       streetViewControl: false,
       panControl: false,
       zoomControlOptions: {
-         position: google.maps.ControlPosition.LEFT_BOTTOM
+        style: google.maps.ZoomControlStyle.LARGE,
+        position: google.maps.ControlPosition.LEFT_CENTER
       }
     });
 
@@ -242,6 +238,10 @@
       }
       //  Fit these bounds to the map
       map.fitBounds(bounds);
+      var listener = google.maps.event.addListener(map, "idle", function() { 
+  if (map.getZoom() > 14) map.setZoom(14); 
+  google.maps.event.removeListener(listener); 
+});
     }
     autoCenter();
   </script> 
