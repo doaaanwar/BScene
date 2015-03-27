@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Acme\bsceneBundle\Entity\Categories;
 use Acme\bsceneBundle\Form\CategoriesType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Acme\bsceneBundle\Entity\Image;
 
 /**
  * Categories controller.
@@ -36,10 +38,40 @@ class CategoriesController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Categories();
+        
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
+        $image = $request->files->get('imageCatUpload');
         if ($form->isValid()) {
+            
+            $imageEntity = NULL;
+            //commented till finish implementation
+            if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                $originalName = $image->getClientOriginalName();
+                $name_array = explode('.', $originalName);
+                $file_type = $name_array[sizeof($name_array) - 1];
+                $valid_filetypes = array('jpg', 'jpeg', 'png', 'bmp');
+                if (in_array(strtolower($file_type), $valid_filetypes)) {
+                //upload and save the path to the image.url
+                    $imageEntity = new Image();
+                    $imageEntity->setFile($image);
+                //TODO check if name already there
+                    $imageEntity->setName($originalName);
+                    $imageEntity->upload();
+                //TODO set the URL/path
+                    $imageEntity->setURL($imageEntity->getWebPath());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($imageEntity);
+                    $em->flush();
+                    $entity->setImage($imageEntity);
+                } else {
+                    print_r("Invalid file type");
+                    die();
+                }
+            } else {
+                print_r("image upload error");
+                die();
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
