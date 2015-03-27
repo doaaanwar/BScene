@@ -53,7 +53,7 @@ class DefaultController extends Controller
         
         //transform the result to the format need for the calender
         
-        $dateArray = Null;
+        $dateArray = array();
         $dateArrayEntry = Null;
         
         foreach($dateList as $item)
@@ -70,6 +70,9 @@ class DefaultController extends Controller
 
         //return json result into a php page
         return new JsonResponse($dateArray);
+         //echo json_encode($dateArrayEntry);
+        //return $this->render('AcmebsceneBundle:Default:calender.php',array('calenderList' => $dateArray));
+  
       }
     
     public function loginAction(Request $request)
