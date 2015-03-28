@@ -29,6 +29,11 @@ acmebscene_homepage:
 acmebscene_dashboard:
     path:   /admin/{lastLogin}
     defaults: { _controller: AcmebsceneBundle:Admin:index }
+    
+acmebscene_calender:
+     path: /calender
+     defaults: { _controller: AcmebsceneBundle:Default:getEventsDayList,_format: json  }
+     
  
 acmebscene_adminComment:
     path:   /admin/comment/{lastLogin}
