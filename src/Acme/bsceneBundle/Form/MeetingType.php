@@ -29,7 +29,8 @@ class MeetingType extends AbstractType {
                 ->add('endTime')
                 ->add('description', 'textarea')
                 ->add('capacity', 'number', array(
-                    'label' => 'Venue Capacity'
+                    'label' => 'Venue Capacity',
+                    'data' => '0'
                 ))
                 ->add('venue', 'hidden')
                 ->add('organization', 'hidden', array(
