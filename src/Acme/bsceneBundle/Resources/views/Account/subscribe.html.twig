@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/subscription.css')}}" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+    <div class='text-center'>
+        <h1>Subscriptions</h1>
+        <p>Select the categories you're interested in. We'll alert you by e-mail when there are new events that match your interests.</p>
+    </div>
+    <form>
+        <table align='center'>
+
+            {% for category in categories %}
+
+                <tr>
+                    <td class='text-right'><input type='checkbox' id='{{category.id}}' name='{{category.id}}'></td>
+                    <td class='text-left'><label for='{{category.id}}'>{{category.name}}</label></td>
+                </tr>
+
+            {% endfor %}
+            <tr>
+                <td colspan='2' class='text-center' id='submitButton'><input type='submit' class='btn btn-warning'/></td>
+            </tr>
+        </table>
+
+    </form>
+
+{% endblock %}
+{% block footer %}
+{% endblock %}
+
