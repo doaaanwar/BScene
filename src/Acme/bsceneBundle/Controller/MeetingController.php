@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Acme\bsceneBundle\Entity\Speaker;
 use Acme\bsceneBundle\Entity\Venue;
 use Doctrine\ORM\Query\AST\Functions\SizeFunction;
+use \Symfony\Component\Form\FormError;
 
 /**
  * Meeting controller.
@@ -82,152 +83,161 @@ class MeetingController extends Controller {
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-        $image = $request->files->get('imageUpload');
-        $imageEntity = NULL;
-        //commented till finish implementation
-        if($image)
+        if($request->getSession()->get("memberId") != null)
         {
-            if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
-                $originalName = $image->getClientOriginalName();
-                $name_array = explode('.', $originalName);
-                $file_type = $name_array[sizeof($name_array) - 1];
-                $valid_filetypes = array('jpg', 'jpeg', 'png', 'bmp');
-                if (in_array(strtolower($file_type), $valid_filetypes)) {
-                //upload and save the path to the image.url
-                    $imageEntity = new Image();
-                    $imageEntity->setFile($image);
-                //TODO check if name already there
-                    $imageEntity->setName($originalName);
-                    $imageEntity->upload();
-                //TODO set the URL/path
-                    $imageEntity->setURL($imageEntity->getWebPath());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($imageEntity);
-                    $em->flush();
-                    $entity->setImage($imageEntity);
+            
+            $image = $request->files->get('imageUpload');
+            $imageEntity = NULL;
+            //commented till finish implementation
+            if($image)
+            {
+                if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                    $originalName = $image->getClientOriginalName();
+                    $name_array = explode('.', $originalName);
+                    $file_type = $name_array[sizeof($name_array) - 1];
+                    $valid_filetypes = array('jpg', 'jpeg', 'png', 'bmp');
+                    if (in_array(strtolower($file_type), $valid_filetypes)) {
+                    //upload and save the path to the image.url
+                        $imageEntity = new Image();
+                        $imageEntity->setFile($image);
+                    //TODO check if name already there
+                        $imageEntity->setName($originalName);
+                        $imageEntity->upload();
+                    //TODO set the URL/path
+                        $imageEntity->setURL($imageEntity->getWebPath());
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($imageEntity);
+                        $em->flush();
+                        $entity->setImage($imageEntity);
+                    } else {
+                        print_r("Invalid file type");
+                        die();
+                    }
                 } else {
-                    print_r("Invalid file type");
+                    print_r($image->getError());
                     die();
                 }
-            } else {
-                print_r($image->getError());
-                die();
+            }
+            else
+            {
+                //TODO error
+            }
+
+            //create speakers, maximum 5 speakers
+            //initialize an array to save created speaker
+            $speakerList = array();
+            for ($i = 1; $i <= 5; $i++) {
+                if ($request->get('nameTextbox' . $i) != "") {
+                    //create new speaker
+                    $speakerEntity = new Speaker();
+                    $speakerEntity->setName($request->get('nameTextbox' . $i));
+                    $speakerEntity->setTitle($request->get('titleTextbox' . $i));
+                    $speakerEntity->setBiography($request->get('bioTextbox' . $i));
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($speakerEntity);
+                    $em->flush();
+                    $speakerList[] = $speakerEntity;
+                }
+            }
+            //Create venue and assign it to the event
+            $placeId = $request->get('place_id');
+            if ($placeId) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
+                $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
+                if (!$venueEntity) {
+                    //the format for the lat lng is (43.4433963, -80.52255709999997)
+                    //split it to get each value
+                    $newArray = array();
+                    $venueEntity = new Venue();
+                    $latlng = $request->get('lng');
+                    $latlng = str_replace('(', '', $latlng);
+                    $latlng = str_replace(')', '', $latlng);
+                    $latlngVal = explode(',', $latlng, 2);
+
+                    //get the city
+                    $cityName = $request->get('locality');
+
+                    $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Cities');
+                    $cityEntity = $repository->findOneBy(array('name' => $cityName));
+                    if($cityEntity)
+                    {
+                        $venueEntity->setCity($cityEntity);
+                    }
+                    else
+                    {
+                        //TODO the city constraint
+                    }
+
+                    //get the province
+                    $provinceName = $request->get('administrative_area_level_1');
+
+                    $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Province');
+                    $provinceEntity = $repository->findOneBy(array('name' => $provinceName));
+                    if($provinceEntity)
+                    {
+                        $venueEntity->setProvince($provinceEntity);
+                    }
+                    else
+                    {
+                        //TODO the city constraint
+                    }
+                    //TODO put the province constraint
+
+
+
+                    $venueEntity->setPlaceId($placeId);
+                    $venueEntity->setAddress1($request->get('street_number'));
+                    $venueEntity->setAddress2($request->get('route'));
+                    $venueEntity->setPostalCode($request->get('postal_code'));
+                    $venueEntity->setCountry($request->get('country'));
+                    $venueEntity->setName($request->get('name'));
+                    $venueEntity->setLatitude($latlngVal[0]);
+                    $venueEntity->setLongitude($latlngVal[1]);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($venueEntity);
+                    $em->flush();
+                }
+                $entity->setVenue($venueEntity);
+            }
+
+            //TODO handle if the session expire
+            //set the account to the logged one
+            $em = $this->getDoctrine()->getManager();
+            $accountId = $request->getSession()->get('memberId');
+            $account = $em->getRepository('AcmebsceneBundle:Account')->findOneBy(array('id' => $accountId));
+            $entity->setAccount($account);
+            //set the organization to the account organization
+            $entity->setOrganization($account->getOrganization());
+            if ($form->isValid()) {
+                $format = 'Y-m-d';
+                $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
+                //check if the endDate is not null and format it
+                if ($entity->getEndDate()) {
+                    $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
+                }
+                //TODO check if the date is on the future
+
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
+                //loop on each speaker created and add the many to many relation between speaker and event
+                foreach ($speakerList as $speaker) {
+                    $speaker->addEvent($entity);
+                    $entity->addSpeaker($speaker);
+                    $em->persist($speaker);
+                    $em->persist($entity);
+                    $em->flush();
+                }
+                return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
             }
         }
         else
         {
-            //TODO error
-        }
-        
-        //create speakers, maximum 5 speakers
-        //initialize an array to save created speaker
-        $speakerList = array();
-        for ($i = 1; $i <= 5; $i++) {
-            if ($request->get('nameTextbox' . $i) != "") {
-                //create new speaker
-                $speakerEntity = new Speaker();
-                $speakerEntity->setName($request->get('nameTextbox' . $i));
-                $speakerEntity->setTitle($request->get('titleTextbox' . $i));
-                $speakerEntity->setBiography($request->get('bioTextbox' . $i));
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($speakerEntity);
-                $em->flush();
-                $speakerList[] = $speakerEntity;
-            }
-        }
-        //Create venue and assign it to the event
-        $placeId = $request->get('place_id');
-        if ($placeId) {
-            $em = $this->getDoctrine()->getEntityManager();
-            $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
-            $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
-            if (!$venueEntity) {
-                //the format for the lat lng is (43.4433963, -80.52255709999997)
-                //split it to get each value
-                $newArray = array();
-                $venueEntity = new Venue();
-                $latlng = $request->get('lng');
-                $latlng = str_replace('(', '', $latlng);
-                $latlng = str_replace(')', '', $latlng);
-                $latlngVal = explode(',', $latlng, 2);
-                
-                //get the city
-                $cityName = $request->get('locality');
-                
-                $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Cities');
-                $cityEntity = $repository->findOneBy(array('name' => $cityName));
-                if($cityEntity)
-                {
-                    $venueEntity->setCity($cityEntity);
-                }
-                else
-                {
-                    //TODO the city constraint
-                }
-                
-                //get the province
-                $provinceName = $request->get('administrative_area_level_1');
-                
-                $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Province');
-                $provinceEntity = $repository->findOneBy(array('name' => $provinceName));
-                if($provinceEntity)
-                {
-                    $venueEntity->setProvince($provinceEntity);
-                }
-                else
-                {
-                    //TODO the city constraint
-                }
-                //TODO put the province constraint
-                
-                
-                
-                $venueEntity->setPlaceId($placeId);
-                $venueEntity->setAddress1($request->get('street_number'));
-                $venueEntity->setAddress2($request->get('route'));
-                $venueEntity->setPostalCode($request->get('postal_code'));
-                $venueEntity->setCountry($request->get('country'));
-                $venueEntity->setName($request->get('name'));
-                $venueEntity->setLatitude($latlngVal[0]);
-                $venueEntity->setLongitude($latlngVal[1]);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($venueEntity);
-                $em->flush();
-            }
-            $entity->setVenue($venueEntity);
-        }
-       
-        //TODO handle if the session expire
-        //set the account to the logged one
-        $em = $this->getDoctrine()->getManager();
-        $accountId = $request->getSession()->get('memberId');
-        $account = $em->getRepository('AcmebsceneBundle:Account')->findOneBy(array('id' => $accountId));
-        $entity->setAccount($account);
-        //set the organization to the account organization
-        $entity->setOrganization($account->getOrganization());
-        if ($form->isValid()) {
-            $format = 'Y-m-d';
-            $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
-            //check if the endDate is not null and format it
-            if ($entity->getEndDate()) {
-                $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
-            }
-            //TODO check if the date is on the future
+            $form->addError(new FormError("Your session Expired. You have to login again."));
+        }    
             
-            
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-            //loop on each speaker created and add the many to many relation between speaker and event
-            foreach ($speakerList as $speaker) {
-                $speaker->addEvent($entity);
-                $entity->addSpeaker($speaker);
-                $em->persist($speaker);
-                $em->persist($entity);
-                $em->flush();
-            }
-            return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
-        }
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
