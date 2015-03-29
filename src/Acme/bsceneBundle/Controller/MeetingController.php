@@ -196,13 +196,7 @@ class MeetingController extends Controller {
             }
             $entity->setVenue($venueEntity);
         }
-        $format = 'Y-m-d';
-        $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
-        //check if the endDate is not null and format it
-        if ($entity->getEndDate()) {
-            $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
-        }
-        //TODO check if the date is on the future
+       
         //TODO handle if the session expire
         //set the account to the logged one
         $em = $this->getDoctrine()->getManager();
@@ -212,6 +206,15 @@ class MeetingController extends Controller {
         //set the organization to the account organization
         $entity->setOrganization($account->getOrganization());
         if ($form->isValid()) {
+            $format = 'Y-m-d';
+            $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
+            //check if the endDate is not null and format it
+            if ($entity->getEndDate()) {
+                $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
+            }
+            //TODO check if the date is on the future
+            
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -253,7 +256,8 @@ class MeetingController extends Controller {
      * Displays a form to create a new Meeting entity.
      *
      */
-    public function newAction() {
+    public function newAction(Request $request) {
+        
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         //$relatedEventList = $this->relatedEventAction($id);
