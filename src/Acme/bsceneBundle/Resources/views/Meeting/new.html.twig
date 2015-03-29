@@ -90,15 +90,13 @@
 
             </tr>
             <tr>
-               <td><label>* Date</label><br><input type="text" name="date" id="date" ></td>
-               
+                <td >{{ form_row(form.date) }}</td>
            
                 <td>{{ form_row(form.time) }}</td>
             </tr>
 
             <tr>
-                <td ><label>End Date</label><br><input type="text" name="endDate" id="endDate"></td>
-           
+                <td >{{ form_row(form.endDate) }}</td>
            
                 <td >{{ form_row(form.endTime) }}</td>
             </tr>
@@ -173,8 +171,8 @@
     <script>
 
         $(function () {
-            $("#date").datepicker({dateFormat: "yy-mm-dd"});
-            $("#endDate").datepicker({dateFormat: "yy-mm-dd"});
+            $("#acme_bscenebundle_meeting_date").datepicker({dateFormat: "yy-mm-dd"});
+            $("#acme_bscenebundle_meeting_endDate").datepicker({dateFormat: "yy-mm-dd"});
         });
     </script>
     <!--script used for adding dynamic fields for speakers-->
