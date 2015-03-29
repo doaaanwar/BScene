@@ -94,7 +94,8 @@ class MeetingController extends Controller {
             }
             $image = $request->files->get('imageUpload');
             $imageEntity = NULL;
-            //commented till finish implementation
+            
+            
             if($image)
             {
                 if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
@@ -348,6 +349,30 @@ class MeetingController extends Controller {
                     'venue' => $venueList,
                     'venueCont' => $venueCont,
                     
+        ));
+    }
+    
+    
+     /**
+     * Displays a form to edit an existing Account entity.
+     *
+     */
+    public function editAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Meeting entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
