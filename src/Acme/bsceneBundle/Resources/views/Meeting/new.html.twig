@@ -90,13 +90,15 @@
 
             </tr>
             <tr>
-                <td>{{ form_row(form.date) }}</td>
+               <td><label>* Date</label><br><input type="text" name="date" id="date" ></td>
+               
            
                 <td>{{ form_row(form.time) }}</td>
             </tr>
 
             <tr>
-                <td >{{ form_row(form.endDate) }}</td>
+                <td ><label>End Date</label><br><input type="text" name="endDate" id="endDate"></td>
+           
            
                 <td >{{ form_row(form.endTime) }}</td>
             </tr>
@@ -107,7 +109,7 @@
             </tr>
             
             <tr>
-                <td><label for="imageUplaod">Event Logo</label><input type="file" name="imageUpload" id="imageUplaod"></td>
+                <td><label for="imageUplaod">* Event Logo</label><input type="file" name="imageUpload" id="imageUplaod"></td>
             </tr>
          
 
@@ -171,8 +173,8 @@
     <script>
 
         $(function () {
-            $("#acme_bscenebundle_meeting_date").datepicker({dateFormat: "yy-mm-dd"});
-            $("#acme_bscenebundle_meeting_endDate").datepicker({dateFormat: "yy-mm-dd"});
+            $("#date").datepicker({dateFormat: "yy-mm-dd"});
+            $("#endDate").datepicker({dateFormat: "yy-mm-dd"});
         });
     </script>
     <!--script used for adding dynamic fields for speakers-->

@@ -91,12 +91,12 @@
             </tr>
             <tr>
                
-                <td><label>* Date</label><br><input type="text" name="acme_bscenebundle_meeting_date" id="acme_bscenebundle_meeting_date" value="{{ entity.date|date('Y-m-d') }}"></td>
+                <td><label>* Date</label><br><input type="text" name="date" id="date" value="{{ entity.date|date('Y-m-d') }}"></td>
                 <td>{{ form_row(edit_form.time) }}</td>
             </tr>
 
             <tr>
-                <td ><label>End Date</label><br><input type="text" name="acme_bscenebundle_meeting_endDate" id="acme_bscenebundle_meeting_endDate" value="{{ entity.endDate|date('Y-m-d') }}"></td>
+                <td ><label>End Date</label><br><input type="text" name="endDate" id="endDate" value="{{ entity.endDate|date('Y-m-d') }}"></td>
            
                 <td >{{ form_row(edit_form.endTime) }}</td>
             </tr>
