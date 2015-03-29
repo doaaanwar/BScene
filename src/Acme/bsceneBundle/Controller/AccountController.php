@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Acme\bsceneBundle\Entity\Account;
 use Acme\bsceneBundle\Form\AccountType;
 use Acme\bsceneBundle\Entity\Organization;
+use Acme\bsceneBundle\Entity\Categories;
+use Acme\bsceneBundle\Form\CategoriesType;
 
 /**
  * Account controller.
@@ -129,9 +131,9 @@ class AccountController extends Controller {
         $pastEventCount = \Count($pastEventList);
         $noEventsMsg = "There are no upcoming events posted by this user";
         $noPastEventsMsg = "There are no past events for this user";
-        
+
         $organization = $this->getOrgUrl($id);
-        
+
 
         if ($eventCount > 3) {
             $eventList = array_slice($eventList, 0, 3);
@@ -285,9 +287,9 @@ class AccountController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e "
-                . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                . "WHERE e.account = '$id' AND e.date >= :date "
-                . "ORDER BY e.date ASC")->setParameter('date', $currentDate);
+                        . "FROM \Acme\bsceneBundle\Entity\Meeting e "
+                        . "WHERE e.account = '$id' AND e.date >= :date "
+                        . "ORDER BY e.date ASC")->setParameter('date', $currentDate);
         $eventList = $q->getArrayResult();
 
         return $eventList;
@@ -299,29 +301,52 @@ class AccountController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e "
-                . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                . "WHERE e.account = :id AND e.date < :date "
-                . "ORDER BY e.date ASC")->setParameters(array ('date'=> $currentDate, 'id' => $id));
+                        . "FROM \Acme\bsceneBundle\Entity\Meeting e "
+                        . "WHERE e.account = :id AND e.date < :date "
+                        . "ORDER BY e.date ASC")->setParameters(array('date' => $currentDate, 'id' => $id));
         $pastEventList = $q->getArrayResult();
 
         return $pastEventList;
     }
-    
-    private function getOrgUrl($id)
-    {
+
+    private function getOrgUrl($id) {
         $em = $this->getDoctrine()->getManager();
-        
+
         $qA = $em->createQuery("SELECT IDENTITY(a.organization) FROM \Acme\bsceneBundle\Entity\Account a WHERE a.id = :id")->setParameter('id', $id);
         $userOrganization = $qA->getResult();
-        
+
         $userOrgId = implode($userOrganization[0]);
-        
+
         $qB = $em->createQuery("SELECT o.website FROM \Acme\bsceneBundle\Entity\Organization o WHERE o.id = '$userOrgId'");
         $userOrganizationSite = $qB->getResult();
         $userOrganizationSite = implode($userOrganizationSite[0]);
-                
-        
+
+
         return $userOrganizationSite;
+    }
+    
+    
+    /*
+     * Creates the subscription form
+     */
+    
+    /*
+     * Persist subscription info to database
+     */
+    public function subscribeAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQuery("SELECT c FROM \Acme\bsceneBundle\Entity\Categories c");
+        $categories = $q->getResult();
+        
+      return $this->render('AcmebsceneBundle:Account:subscribe.html.twig', array(
+                    'categories' => $categories,
+        ));
+    }
+    
+    public function newSubscription(Request $request)
+    {
         
     }
 
