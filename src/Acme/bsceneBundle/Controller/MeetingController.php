@@ -72,20 +72,26 @@ class MeetingController extends Controller {
         
     }
     
-     /**
-        * Creates a new Meeting entity.
-        * updated, doaa elfayoumi 23.03.2015
-        * updated, doaa elfayoumi 24.03.2015
-        * updated add map api, doaa elfayoumi 25.03.2015
-        * updated add upload, doaa elfayoumi 26.03.2015 
-      */
+    /**
+    * Creates a new Meeting entity.
+    * updated, doaa elfayoumi 23.03.2015
+    * updated, doaa elfayoumi 24.03.2015
+    * updated add map api, doaa elfayoumi 25.03.2015
+    * updated add upload, doaa elfayoumi 26.03.2015 
+    * updated add more validation and error message, 29.03.2015
+    */
     public function createAction(Request $request) {
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
         if($request->getSession()->get("memberId") != null)
         {
-            
+            //check for matching event by date and category
+            $matchingList = $this->getMatchingEvent($entity);
+            if($matchingList)
+            {
+                //$form->addError(new FormError("There is similar event."));
+            }
             $image = $request->files->get('imageUpload');
             $imageEntity = NULL;
             //commented till finish implementation
@@ -97,13 +103,13 @@ class MeetingController extends Controller {
                     $file_type = $name_array[sizeof($name_array) - 1];
                     $valid_filetypes = array('jpg', 'jpeg', 'png', 'bmp');
                     if (in_array(strtolower($file_type), $valid_filetypes)) {
-                    //upload and save the path to the image.url
+                        //upload and save the path to the image.url
                         $imageEntity = new Image();
                         $imageEntity->setFile($image);
-                    //TODO check if name already there
+                        //TODO check if name already there
                         $imageEntity->setName($originalName);
                         $imageEntity->upload();
-                    //TODO set the URL/path
+                        //set the URL/path
                         $imageEntity->setURL($imageEntity->getWebPath());
                         $em = $this->getDoctrine()->getManager();
                         $em->persist($imageEntity);
@@ -120,7 +126,8 @@ class MeetingController extends Controller {
             }
             else
             {
-                //TODO error
+                //add mantatory error
+                $form->addError(new FormError("Uploading a logo is mandatory."));
             }
 
             //create speakers, maximum 5 speakers
@@ -209,6 +216,9 @@ class MeetingController extends Controller {
             $entity->setAccount($account);
             //set the organization to the account organization
             $entity->setOrganization($account->getOrganization());
+            
+            
+            
             if ($form->isValid()) {
                 $format = 'Y-m-d';
                 $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
@@ -244,6 +254,23 @@ class MeetingController extends Controller {
         ));
     }
 
+    private function getMatchingEvent(Meeting $entity)
+    {
+        $matchingList = null;
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
+                        . "WHERE e.category = :category and e.date = :date")
+                ->setParameter('category', $entity->getCategory())->setParameter('date',$entity->getDate());
+
+        $matchingList = $q->getResult();
+        
+        return $matchingList;
+       
+    }
+    
+    
     /**
      * Creates a form to create a Meeting entity.
      *
