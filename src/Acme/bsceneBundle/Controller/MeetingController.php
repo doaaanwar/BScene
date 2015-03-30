@@ -262,7 +262,7 @@ class MeetingController extends Controller {
                
                 if($matchingList)
                 {
-                    //$form->addError(new FormError("There is similar event."));
+                    
                     //matchResults
                     return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(),'entity' => $entity,
                     'matchCount' => \count($matchingList),
