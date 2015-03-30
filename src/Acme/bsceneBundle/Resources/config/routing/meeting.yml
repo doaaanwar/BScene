@@ -6,6 +6,10 @@ meeting_show:
     path:     /{id}/show
     defaults: { _controller: "AcmebsceneBundle:Meeting:show" }
 
+meeting_confirm:
+    path:     /{id}/confirm
+    defaults: { _controller: "AcmebsceneBundle:Meeting:confirm" }
+
 meeting_new:
     path:     /new
     defaults: { _controller: "AcmebsceneBundle:Meeting:new" }
