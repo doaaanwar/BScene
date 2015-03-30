@@ -33,7 +33,9 @@ class MeetingType extends AbstractType {
             'label' => 'Venue Capacity',
             'data' => '0'
             ))
-            ->add('venue', 'hidden')
+            ->add('venue', 'hidden', array(
+            'data_class' => 'Acme\bsceneBundle\Entity\Venue'
+            ))
             ->add('organization', 'hidden', array(
             'data_class' => 'Acme\bsceneBundle\Entity\Organization'
             ))

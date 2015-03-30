@@ -366,6 +366,8 @@ class MeetingController extends Controller {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
         }
 
+        $entity->setDate($entity->getDate()->format('yy-mm-dd'));
+        //$entity->setEndDate($entity->getEndDate()->format('yy-mm-dd'));
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -388,7 +390,6 @@ class MeetingController extends Controller {
             'action' => $this->generateUrl('meeting_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
         $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
