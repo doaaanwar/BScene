@@ -9,7 +9,7 @@
         <h1>Subscriptions</h1>
         <p>Select the categories you're interested in. We'll alert you by e-mail when there are new events that match your interests.</p>
     </div>
-    <form>
+    <form method="post" action="{{path('acmebscene_saveSubscription')}}" id='subscription'>
         <table align='center'>
 
             {% for category in categories %}

@@ -100,3 +100,7 @@ acmebscene_accountDetail:
 acmebscene_emailValidated:
     path: /account/validated/
     defaults: {_controller: AcmebsceneBundle:Account:emailValidated }
+    
+acmebscene_saveSubscription:
+    path: /account/newsubscription/
+    defaults: {_controller: AcmebsceneBundle:Account:newSubscription }

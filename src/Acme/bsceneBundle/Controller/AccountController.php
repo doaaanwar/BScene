@@ -118,7 +118,7 @@ class AccountController extends Controller {
      * Finds and displays a Account entity.
      *
      */
-    public function showAction($id) {
+    public function showAction(Request $request, $id) {
 
 
         $em = $this->getDoctrine()->getManager();
@@ -149,7 +149,7 @@ class AccountController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
+        return $this->render('AcmebsceneBundle:Account:profile.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
                     'upcoming' => $eventList,
@@ -324,37 +324,42 @@ class AccountController extends Controller {
 
         return $userOrganizationSite;
     }
-   
-    
+
     /*
      * Show subscription form
      */
-    public function subscribeAction()
-    {
+
+    public function subscribeAction() {
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT c FROM \Acme\bsceneBundle\Entity\Categories c");
         $categories = $q->getResult();
-        
-      return $this->render('AcmebsceneBundle:Account:subscribe.html.twig', array(
+
+        return $this->render('AcmebsceneBundle:Account:subscribe.html.twig', array(
                     'categories' => $categories,
         ));
     }
-    
+
     /*
      * Save new subscription details
+     * Incomplete - not functional yet
+     * Victoria Betts
      */
-    public function newSubscription(Request $request)
-    {
-        
+
+    public function newSubscriptionAction(Request $request) {
+
+        /*
+          $userId = $request->getSession()->get("memberId");
+          $categories = $this->get('request')->request->get('subscription');
+         */
     }
-    
+
     /*
      * Show 'e-mail validated' page with links to subscription and profile
      */
-    public function emailValidatedAction()
-    {
-        $id = 1;
+
+    public function emailValidatedAction() {
+        //$id = 1;
         return $this->render('AcmebsceneBundle:Account:emailValidated.html.twig', array('id' => $id,));
     }
 
