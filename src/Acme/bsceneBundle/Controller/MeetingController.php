@@ -11,6 +11,7 @@ use Acme\bsceneBundle\Entity\Organization;
 use \DateTime;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Acme\bsceneBundle\Entity\Speaker;
+use Acme\bsceneBundle\Entity\EventComments;
 use Acme\bsceneBundle\Entity\Venue;
 use Doctrine\ORM\Query\AST\Functions\SizeFunction;
 use \Symfony\Component\Form\FormError;
@@ -46,6 +47,27 @@ class MeetingController extends Controller {
                     'noResults' => $noResults,
         ));
     }
+    /**
+     * Lists results from keyword search.
+     *
+     */
+    public function addCommentAction(Request $request) {
+     
+        $commentEntity = new eventComments();
+        $commentEntity->setUsername($request->get('commenterUsername'));
+        $commentEntity->setEmail($request->get('commenterEmail'));
+        $commentEntity->setComment($request->get('commenterComment'));
+        $commentEntity->setCommentTime(new \DateTime());
+        //$id=$request->get('id');
+        //$commentEntity->setEvemt($request->get($id));
+        $id=5;
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($commentEntity);
+        $em->flush();
+        
+       return $this->showAction($id);
+    }
+
 
     /**
      * Lists results from category search

@@ -104,3 +104,7 @@ acmebscene_emailValidated:
 acmebscene_saveSubscription:
     path: /account/newsubscription/
     defaults: {_controller: AcmebsceneBundle:Account:newSubscription }
+
+acmebscene_addComment:
+    path: /meeting/addComment/
+    defaults: {_controller: AcmebsceneBundle:Meeting:addComment }

@@ -112,12 +112,12 @@
         <div class="text-right">
             <button type="submit" class="btn btn-warning" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Leave a Review</a></button>
                          
-            <tr>
-                <td colspan="7" >
+         
                     <div  id="createComColumn">
                         <div class="collapse" id="collapseComment">
                             <div class="well">
-                                <form class="form-group" id="createNew" novalidate>
+                                <form class="form-group" id="addComment" name="addComment" method="post" action="{{path('acmebscene_addComment')}}">
+                                
                                      <table>
                                             <tr>
                                                 <td class="text-right">
@@ -134,6 +134,7 @@
                                                 <td>
                                                     <input type="email" id="commenterEmail" name="commenterEmail" class="form-control" required>
                                                 </td>
+                                                 
                                             </tr>
                                             <tr>
                                                 <td class="text-right">
@@ -145,7 +146,7 @@
                                             </tr>
                                              <div class="modal-footer">
                         <button class="btn btn-default" type="submit" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Close</button>
-                        <button type="button" value="Addcomment" id="addButton" class="btn btn-warning">Save changes</button>
+                        <button type="submit" class="btn btn-warning">Save changes</button>
                    
                      </div>
                                      </table>
@@ -153,8 +154,7 @@
                             </div>
                         </div>
                     </div>
-                </td>
-            </tr>
+             
         </div>
 
                     </div>
