@@ -94,7 +94,7 @@ class MeetingController extends Controller {
         
     }
     
-    /**
+        /**
     * Creates a new Meeting entity.
     * updated, doaa elfayoumi 23.03.2015
     * updated, doaa elfayoumi 24.03.2015
@@ -108,12 +108,7 @@ class MeetingController extends Controller {
         $form->handleRequest($request);
         if($request->getSession()->get("memberId") != null)
         {
-            //check for matching event by date and category
-            $matchingList = $this->getMatchingEvent($entity);
-            if($matchingList)
-            {
-                //$form->addError(new FormError("There is similar event."));
-            }
+            
             $image = $request->files->get('imageUpload');
             $imageEntity = NULL;
             
@@ -241,7 +236,7 @@ class MeetingController extends Controller {
             $entity->setOrganization($account->getOrganization());
             
             
-            
+            $matchingList = $this->getMatchingEvent($entity);
             if ($form->isValid()) {
                 $format = 'Y-m-d';
                 $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
@@ -251,7 +246,7 @@ class MeetingController extends Controller {
                 }
                 //TODO check if the date is on the future
 
-
+                 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
@@ -263,7 +258,21 @@ class MeetingController extends Controller {
                     $em->persist($entity);
                     $em->flush();
                 }
-                return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
+                //check for matching event by date and category
+               
+                if($matchingList)
+                {
+                    //$form->addError(new FormError("There is similar event."));
+                    //matchResults
+                    return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(),'entity' => $entity,
+                    'matchCount' => \count($matchingList),
+                    'matchResults' => $matchingList,'form' => $form->createView(),));
+           
+                }
+                else
+                {
+                    return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
+                }
             }
         }
         else
@@ -276,6 +285,7 @@ class MeetingController extends Controller {
                     'form' => $form->createView(),
         ));
     }
+
 
     private function getMatchingEvent(Meeting $entity)
     {
