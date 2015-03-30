@@ -324,14 +324,10 @@ class AccountController extends Controller {
 
         return $userOrganizationSite;
     }
-    
-    
-    /*
-     * Creates the subscription form
-     */
+   
     
     /*
-     * Persist subscription info to database
+     * Show subscription form
      */
     public function subscribeAction()
     {
@@ -345,9 +341,21 @@ class AccountController extends Controller {
         ));
     }
     
+    /*
+     * Save new subscription details
+     */
     public function newSubscription(Request $request)
     {
         
+    }
+    
+    /*
+     * Show 'e-mail validated' page with links to subscription and profile
+     */
+    public function emailValidatedAction()
+    {
+        $id = 1;
+        return $this->render('AcmebsceneBundle:Account:emailValidated.html.twig', array('id' => $id,));
     }
 
 }

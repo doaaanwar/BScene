@@ -92,3 +92,11 @@ acmebscene_subscribe:
 acmebscene_newSubscribe:
     path: /account/newSubscription/
     defaults: {_controller: AcmebsceneBundle:Account:newSubscription }
+    
+acmebscene_accountDetail:
+    path: /account/detail/{id}
+    defaults: {_controller: AcmebsceneBundle:Account:show }
+    
+acmebscene_emailValidated:
+    path: /account/validated/
+    defaults: {_controller: AcmebsceneBundle:Account:emailValidated }

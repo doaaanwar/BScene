@@ -96,7 +96,11 @@
                     {{ form_row(form.isAdmin) }}
                     {{ form_row(form.status) }}
                     {{ form_row(form._token) }}
-                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
+
+                    <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#confirmDetails">
+                        Create Account
+                    </button>
+                </td>
             </tr>  
         </table>
 
@@ -109,112 +113,15 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Please verify your details</h4>
+                    <h3 class="modal-title" id="myModalLabel" align='center'>Confirm</h3>
                 </div>
                 <div class="modal-body">
-                    <table>
-                        <table>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.username)}}
-                                </td>
-                                <td>
-                                    <div id="username"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    <label for="password">Password</label>
-                                </td>
-                                <td>
-                                    <div id="password"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.firstName)}}
-                                </td>
-                                <td>
-                                    <div id="firstName"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.lastName)}}
-                                </td>
-                                <td>
-                                    <div id="lastName"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.email)}}
-                                </td>
-                                <td>
-                                    <div id="email"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.organization)}}
-                                </td>
-                                <td>
-                                    <div id="organization"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{form_label(form.businessPhone)}}
-                                </td>
-                                <td>
-                                    <div id="busPhone"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.url)}}
-                                </td>
-                                <td>
-                                    <div id="memberUrl"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.address1)}}
-                                </td>
-                                <td>
-                                    <div id="address1"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.address2)}}
-                                </td>
-                                <td>
-                                    <div id="address2"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.city)}}
-                                </td>
-                                <td>
-                                    <div id="city"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    {{ form_label(form.province)}}
-                                </td>
-                                <td>
-                                    <div id="prov"></div>
-                                </td>
-                            </tr>
-                        </table>
+                    <h4 class='text-center'>Please confirm that your details are correct!</h4>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Edit Details</button>
-                    
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+
                 </div>
             </div>
         </div>
