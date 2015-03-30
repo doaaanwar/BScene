@@ -116,7 +116,7 @@
                     <div  id="createComColumn">
                         <div class="collapse" id="collapseComment">
                             <div class="well">
-                                <form class="form-group" id="addComment" name="addComment" method="post" action="{{path('acmebscene_addComment')}}">
+                                <form class="form-group" id="addComment" name="addComment" method="post" action="{{path('acmebscene_addComment', { 'id' :entity.id } )}}">
                                 
                                      <table>
                                             <tr>

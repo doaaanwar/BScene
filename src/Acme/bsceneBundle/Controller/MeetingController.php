@@ -51,19 +51,32 @@ class MeetingController extends Controller {
      * Lists results from keyword search.
      *
      */
-    public function addCommentAction(Request $request) {
+    public function addCommentAction(Request $request, $id) {
      
         $commentEntity = new eventComments();
         $commentEntity->setUsername($request->get('commenterUsername'));
         $commentEntity->setEmail($request->get('commenterEmail'));
         $commentEntity->setComment($request->get('commenterComment'));
         $commentEntity->setCommentTime(new \DateTime());
-        //$id=$request->get('id');
-        //$commentEntity->setEvemt($request->get($id));
-        $id=5;
+        
+        //$id=5;
+        
+       
         $em = $this->getDoctrine()->getManager();
         $em->persist($commentEntity);
+       // $em->flush();
+        //$eventEntity=addEventComment();
+        //$event.addEventComment;
+        
+       
+        $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Meeting');
+        $eventEntity = $repository->find($id);
+        $eventEntity->addEventComment($commentEntity);
+        $commentEntity->setEvent($eventEntity);
+        $em->persist($commentEntity);
+        
         $em->flush();
+        
         
        return $this->showAction($id);
     }
