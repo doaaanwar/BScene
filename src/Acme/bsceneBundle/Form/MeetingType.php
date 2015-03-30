@@ -25,7 +25,7 @@ class MeetingType extends AbstractType {
             ->add('time')
             ->add('endDate', 'text', array(
             'label' => 'End Date',
-            'required' => true,
+            'required' => false,
             'attr' => array('id' => 'enddDate')))
             ->add('endTime')
             ->add('description', 'textarea')
