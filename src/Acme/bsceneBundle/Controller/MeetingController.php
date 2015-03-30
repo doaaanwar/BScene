@@ -635,14 +635,21 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
         
 
-        $q = $em->createQuery("SELECT e "
+        $q = $em->createQuery("SELECT e, o, s "
                 . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                . "WHERE (e.title LIKE CONCAT('%', :keyword, '%')) OR "
-                . "(e.description LIKE CONCAT('%', :keyword2, '%')) "
+                . "LEFT JOIN e.organization o "
+                . "LEFT JOIN e.speakers s "
+                . "WHERE ((e.title LIKE CONCAT('%', :keyword, '%')) OR "
+                . "(e.description LIKE CONCAT('%', :keyword2, '%')) OR "
+                . "(o.name LIKE CONCAT('%', :keyword3, '%')) OR "
+                . "(s.name LIKE CONCAT('%', :keyword4, '%')))"
                 . " ORDER BY e.date ASC");
         $q->setParameters(array(
-                    'keyword'=>$keyword,
-                    'keyword2' => $keyword));
+            'keyword' => $keyword,
+            'keyword2' => $keyword,
+            'keyword3' => $keyword,
+            'keyword4' => $keyword,
+        ));
         $searchResult = $q->getResult();
 
         return $searchResult;
