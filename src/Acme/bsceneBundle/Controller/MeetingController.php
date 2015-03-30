@@ -335,26 +335,25 @@ class MeetingController extends Controller {
     public function showAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $commentsList = $this->comments($id);
-        //$speakerList = $this->speaker($id);
         $venueList = $this->getVenue($id);
         $orgList = $this->getOrg($id);
+       
+       
         $venueCont = \Count($venueList);
         $orgCount = \Count($orgList);
         $commentCount = \Count($commentsList);
         
-        //$imageURL  = Image::URL;
-        //$imageEntity  = $this->event->getImage();
-        //$repository = $em->getRepository('\Acme\bsceneBundle\Entity\Image');
-        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
-       
-         
+       $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+       $relatedEventList = $this->relatedEvents($entity);
+       $relatedEventCount=\Count($relatedEventList);
+      
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-         $imageEntity= $entity->getImage();
+        $imageEntity= $entity->getImage();
         $uploadedURL = $imageEntity->getURL();
         $speakers=$entity->getSpeakers();
         $speakerCount = \Count($speakers);
@@ -370,6 +369,8 @@ class MeetingController extends Controller {
                     'uploadedURL' => $uploadedURL,
                     'venue' => $venueList,
                     'venueCont' => $venueCont,
+                    'relatedEvents' => $relatedEventList,
+                    'relatedEventsCount' => $relatedEventCount,
                     
         ));
     }
@@ -492,15 +493,15 @@ class MeetingController extends Controller {
      * @param type $id
      * @return type
      */
-    private function relatedEventAction($id) {
-        $currentDate = new \DateTime();
+    private function relatedEvents(Meeting $entity) {
+        //$currentDate = new \DateTime();
         $em = $this->getDoctrine()->getEntityManager();
 
         //To get the events with the same category and date  
-        $q = $em->createQuery("select e "
-                        . "from \Acme\bsceneBundle\Entity\Meeting e "
-                        . "WHERE e.meeting = '$id' AND e.date = :date AND e.category = :category"
-                        . " ORDER BY e.date ASC")->setParameter('date', $currentDate);
+         $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
+                        . "WHERE e.category = :category OR e.date = :date")
+                ->setParameter('category', $entity->getCategory())->setParameter('date',$entity->getDate());
+
         $relatedEventList = $q->getResult();
 
         return $relatedEventList;

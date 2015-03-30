@@ -266,7 +266,22 @@
                                     </div>
                                 {% endif %}
                             {% endblock %}
+                          
             </div>
+                  <div class="col-md-3">
+                                <p class="lead">Related Events</p>
+                                   <div class="list-group">
+                            {%block relatedEvents%}
+                                 {% if relatedEventsCount != 0 %}
+                                    {%for item in relatedEvents|slice(0, 3)%}
+                                        <a href="#" class="list-group-item">{{item.title}}</a>
+                                    {%endfor%}
+                                   {%else%}
+                                        <p>you're here</p>
+                                  {%endif%}
+                            {%endblock%}
+                             </div>
+                            </div>             
             <div class="col-md-3">
                 
 			<!-- 3. Place event data -->
@@ -283,6 +298,7 @@
                         </var>
                     </span>
             </div>
+                           
         </div>
             </div>
                             
