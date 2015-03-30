@@ -266,7 +266,7 @@ class MeetingController extends Controller {
                     //matchResults
                     return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(),'entity' => $entity,
                     'matchCount' => \count($matchingList),
-                    'matchResults' => $matchingList,'form' => $form->createView(),));
+                    'matchResults' => $matchingList,'form' => $form->createView()));
            
                 }
                 else
@@ -440,15 +440,22 @@ class MeetingController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
         }
-
+        $entity->setDate($entity->getDate()->format('y-m-d'));
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $format = 'Y-m-d';
+            $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
+            //check if the endDate is not null and format it
+            if ($entity->getEndDate()) {
+                $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
+            }
             $em->flush();
 
-            return $this->redirect($this->generateUrl('meeting_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId(),'form' => $form->createView(),)));
+                
         }
 
         return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(

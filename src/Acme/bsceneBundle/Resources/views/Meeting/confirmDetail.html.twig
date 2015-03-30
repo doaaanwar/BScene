@@ -21,8 +21,7 @@
                         <th>Time</th>
 
                         <th>Category</th>
-                        <th>Capacity</th>
-                        <th></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -35,11 +34,7 @@
                        
                         <td>{{ entity.category }}</td>
                         <td>{{ entity.venue.name }}</td>
-                        <td>
-
-                        <a href="{{ path('meeting_edit', { 'id': entity.id }) }}">edit</a>
-
-                        </td>
+                      
                      </tr>
             {% endfor %}
        
@@ -66,17 +61,20 @@
                 <th>Category</th>
                 <td>{{ entity.category }}</td>
             </tr>
-        </tbody>
-    </table>
+           <tr>
+         </tbofy>     
+        </table>
 
         <ul class="record_actions">
    
+    
     <li>
-        <a href="{{ path('meeting_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
+         <li>
+            <a class="btn btn-warning" href="{{ path('meeting_edit', { 'id': entity.id }) }}">
+                Edit Account
+            </a>
+
+        </li>
         <a href="{{ path('meeting_confirm', { 'id': entity.id }) }}">
             Confirm Post Event
         </a>
