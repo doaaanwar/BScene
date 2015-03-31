@@ -107,7 +107,7 @@ class MeetingController extends Controller {
         
     }
     
-        /**
+    /**
     * Creates a new Meeting entity.
     * updated, doaa elfayoumi 23.03.2015
     * updated, doaa elfayoumi 24.03.2015
@@ -399,6 +399,12 @@ class MeetingController extends Controller {
     }
     
     
+    /**
+     * remove the generated edit function and use a manual one 
+     * 
+     * updated: 31.03.2015, doaa elfayoumi
+     */
+    
      /**
      * Displays a form to edit an existing Account entity.
      *
@@ -478,6 +484,12 @@ class MeetingController extends Controller {
         ));
     }*/
     
+    
+    /**
+     * remove the generated edit function and use a manual one 
+     * 
+     * updated: 31.03.2015, doaa elfayoumi
+     */
      public function editAction($id){
         $em = $this->getDoctrine()->getManager();
 
@@ -723,6 +735,48 @@ class MeetingController extends Controller {
 
         $searchResult = $q->getResult();
         return $searchResult;
+    }
+    
+    /**
+     * the search by date function given a date
+     * @param date $searchDate
+     * @return searchResult list
+     */
+    private function searchByDate($searchDate) {
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
+                        . "WHERE e.date = :searchDate ORDER BY e.title ASC")
+                ->setParameter('searchDate', $searchDate);
+
+        $searchResult = $q->getResult();
+        return $searchResult;
+    }
+    
+    
+    /**
+     * Lists results from category search
+     */
+    public function dateSearchAction($day) {
+        $em = $this->getDoctrine()->getManager();
+        
+        $resultList = $this->searchByDate($day);
+        $resultCount = \Count($resultList);
+        $noResults = "";
+        
+        if ($resultCount == 0)
+        {
+            $noResults = "There are no events on that day. Please peak another day from the calender.";
+        }
+
+        return $this->render('AcmebsceneBundle:Meeting:index.html.twig', array(
+                    'searchResults' => $resultList,
+                    'resultCount' => $resultCount,
+                    'noResults' => $noResults,
+        ));
+        
+        
+        
     }
 
 }
