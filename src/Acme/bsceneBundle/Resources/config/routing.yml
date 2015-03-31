@@ -72,6 +72,11 @@ acmebscene_categorySearch:
     path: /meeting/searchResults/{id}
     defaults: {_controller: AcmebsceneBundle:Meeting:categorySearch }
     
+    
+acmebscene_dateSearch:
+    path: /meeting/eventByDay/{day}
+    defaults: {_controller: AcmebsceneBundle:Meeting:dateSearch }
+    
 acmebscene_contact:
     path: /default/contact/
     defaults: {_controller: AcmebsceneBundle:Default:contact }

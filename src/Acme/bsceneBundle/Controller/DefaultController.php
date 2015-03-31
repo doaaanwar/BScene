@@ -58,7 +58,12 @@ class DefaultController extends Controller
         
         foreach($dateList as $item)
         {
-          $dateArrayEntry = array("date"=>$item['date']->format('j/n/Y'),"title"=>"event on ".$item['date']->format('Y-m-d'),"link"=>"www.google.com","color"=>"green");   
+          $day = $item['date']->format('Y-m-d');
+        
+      
+          $url = " ./meeting/eventByDay/$day ";
+         
+          $dateArrayEntry = array("date"=>$item['date']->format('j/n/Y'),"title"=>"event on ".$item['date']->format('Y-m-d'),"link"=>$url,"color"=>"green");   
           
           $dateArray[] = $dateArrayEntry;
         }
