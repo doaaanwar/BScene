@@ -21,7 +21,7 @@
 
 {% block body -%}
     <div class="text-center">
-        <h1>Create an Event</h1>
+        <h1>Edit {{entity.title}} Event</h1>
         <p class="lead">All fields marked with * are required</p>
     </div>
     <form  class="signin" method="POST" action="{{path('meeting_update',{'id' : entity.id }) }}">
@@ -30,7 +30,7 @@
     <div align='center'>
         <table>
             <tr>
-                <td >Edit {{entity.title}} event</td>
+             <td><input type="text" value="{{entity.title}}" name="title" id="title"</td>
 
             </tr>
            
@@ -104,7 +104,7 @@
 
 
             <tr>
-                <td><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity"</td>
+                <td><label>Capacity</label><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity"</td>
             </tr>
              <tr>
                  <td><label for="imageUplaod">Logo picked</label><br> </td>
@@ -120,10 +120,10 @@
          
 
             <tr>
-                <td><input type="text" value="{{entity.category}}" name="category" id="category"</td>
+                <td><label>* Category</label><br><input type="text" value="{{entity.category}}" name="category" id="category"</td>
             </tr>
             <tr>
-               <td><input type="textarea" value="{{entity.description}}" name="description" id="description"</td>
+               <td><label>* Description</label><input type="textarea" value="{{entity.description}}" name="description" id="description"</td>
             </tr>
             <tr>
                 <td >

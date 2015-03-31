@@ -489,6 +489,7 @@ class MeetingController extends Controller {
      * remove the generated edit function and use a manual one 
      * 
      * updated: 31.03.2015, doaa elfayoumi
+     *
      */
      public function editAction($id){
         $em = $this->getDoctrine()->getManager();
@@ -526,14 +527,33 @@ class MeetingController extends Controller {
         else
         {
             $valid = false;
-            //$entity ->addError(new FormError("Please fill the date. It is mandatory field"));
+            $errors[] = "Please fill the date. It is mandatory field";
+            
         }
         
        if ($request->get('endDate')) {
             $entity->setEndDate(DateTime::createFromFormat($format,$request->get('endDate')));
-            //$entity->setDate($request->get('endDate'));
+           
        }
         
+       if($request->get('autocomplete'))
+       {
+           //TODO save new venue
+       }
+       
+       //TODO save the time and endTime
+       
+       //TODO upload and save new image
+       
+       $entity->setTitle($request->get('title'));
+       $entity->setCapacity($request->get('capacity'));
+       
+       //TODO load list and save category
+       //$entity->setCategory($request->get('category'));
+       
+       //TODO load and update speaker
+       
+       $entity->setDescription($request->get('description'));
         
         if($valid)
         {
