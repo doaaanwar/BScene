@@ -403,7 +403,7 @@ class MeetingController extends Controller {
      * Displays a form to edit an existing Account entity.
      *
      */
-    public function editAction($id) {
+    /*public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
@@ -422,7 +422,7 @@ class MeetingController extends Controller {
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
-    }
+    }*/
 
     /**
      * Creates a form to edit a Meeting entity.
@@ -431,7 +431,7 @@ class MeetingController extends Controller {
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(Meeting $entity) {
+    /*private function createEditForm(Meeting $entity) {
         $form = $this->createForm(new MeetingType(), $entity, array(
             'action' => $this->generateUrl('meeting_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -439,13 +439,13 @@ class MeetingController extends Controller {
         $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
-    }
+    }*/
 
     /**
      * Edits an existing Meeting entity.
      *
      */
-    public function updateAction(Request $request, $id) {
+    /*public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
@@ -474,6 +474,65 @@ class MeetingController extends Controller {
         return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+        ));
+    }*/
+    
+     public function editAction($id){
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Meeting entity.');
+        }
+
+        $errors= array();
+        $deleteForm = $this->createDeleteForm($id);
+        return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
+                    'entity' => $entity,
+                    'errors' => $errors,
+                    'delete_form' => $deleteForm->createView(),
+        ));
+    }
+    
+    public function updateAction(Request $request, $id)
+    {
+        $valid = true;
+        $errors= array();
+        
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+        
+        $format = 'Y-m-d';
+        if ($request->get('date')) {
+            $entity->setDate(DateTime::createFromFormat($format,$request->get('date')));
+            //$entity->setDate($request->get('date'));
+        }
+        else
+        {
+            $valid = false;
+            //$entity ->addError(new FormError("Please fill the date. It is mandatory field"));
+        }
+        
+       if ($request->get('endDate')) {
+            $entity->setEndDate(DateTime::createFromFormat($format,$request->get('endDate')));
+            //$entity->setDate($request->get('endDate'));
+       }
+        
+        
+        if($valid)
+        {
+            $em->persist($entity);
+            $em->flush();
+            return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
+     
+        }
+         return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
+                    'entity' => $entity,
+                    'errors' => $errors,
                     'delete_form' => $deleteForm->createView(),
         ));
     }
