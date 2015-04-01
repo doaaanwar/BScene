@@ -30,7 +30,7 @@ class DefaultController extends Controller
         
         $qb = $em->createQueryBuilder();
         
-        $qb->select('c')->From('AcmebsceneBundle:Categories','c')->orderBy('c.ranking','DESC');
+        $qb->select('c')->From('AcmebsceneBundle:Categories','c')->where('c.ranking != 0')->orderBy('c.ranking','DESC');
         $query = $qb->getQuery();
         
         $categoryList = $query->getResult();
