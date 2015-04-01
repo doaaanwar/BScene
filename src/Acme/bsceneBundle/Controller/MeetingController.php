@@ -502,10 +502,13 @@ class MeetingController extends Controller {
         }
 
         $errors= array();
+        $categories = $em->getRepository('AcmebsceneBundle:Categories')->findAll();
+                
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
                     'entity' => $entity,
                     'errors' => $errors,
+                    'categories' => $categories,
                     'delete_form' => $deleteForm->createView(),
         ));
     }

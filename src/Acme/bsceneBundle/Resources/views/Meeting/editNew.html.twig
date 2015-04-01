@@ -122,7 +122,20 @@
          
 
             <tr>
-                <td><label>* Category</label><br><input type="text" value="{{entity.category}}" name="category" id="category"</td>
+                <td><label>* Category</label><br>
+                
+                    <select name="category" >
+                        {% for c in categories %}
+                            {%if entity.category == c%}
+                             <option value="{{ c.name }}" selected="true">{{ c.name }}</option>   
+                            {%else%}
+                            <option value="{{ c.name }}">{{ c.name }}</option>
+                            {%endif%}
+                        {% endfor %}
+                        </select>
+                    </td>
+               
+            
             </tr>
             <tr>
                 <td><label>* Description</label><br><textarea  value="{{entity.description}}" name="description" id="description"></textarea></td>
