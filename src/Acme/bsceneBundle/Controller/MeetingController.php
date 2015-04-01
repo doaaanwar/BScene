@@ -555,10 +555,27 @@ class MeetingController extends Controller {
        $entity->setTitle($request->get('title'));
        $entity->setCapacity($request->get('capacity'));
        
+       $categoryName = $request->get('category');
+       $category = $em->getRepository('AcmebsceneBundle:Categories')->findOneBy(array('name'=>$categoryName));
+               
+       $entity->setCategory($category);
        
-       $entity->setCategory($request->get('category'));
+       //update speaker with new ones
+       for ($i = 1; $i <= 5; $i++) {
+            if ($request->get('nameTextbox' . $i) != "") {
+                //create new speaker
+                $speakerEntity = new Speaker();
+                $speakerEntity->setName($request->get('nameTextbox' . $i));
+                $speakerEntity->setTitle($request->get('titleTextbox' . $i));
+                $speakerEntity->setBiography($request->get('bioTextbox' . $i));
+                $speakerEntity->addEvent($entity);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($speakerEntity);
+                $em->flush();
+                $entity->addSpeaker($speakerEntity);
+            }
+       }
        
-       //TODO load and update speaker
        
        $entity->setDescription($request->get('description'));
         
