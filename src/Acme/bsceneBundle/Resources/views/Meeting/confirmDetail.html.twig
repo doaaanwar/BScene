@@ -65,20 +65,20 @@
          </tbofy>     
         </table>
 
-        <ul class="record_actions">
+        <div align="center">
    
     
-    <li>
-         <li>
+   
+        
             <a class="btn btn-warning" href="{{ path('meeting_edit', { 'id': entity.id }) }}">
                 Edit Account
             </a>
 
-        </li>
-        <a href="{{ path('meeting_confirm', { 'id': entity.id }) }}">
-            Confirm Post Event
-        </a>
-    </li>
+            <a class="btn btn-warning" href="{{ path('meeting_show', { 'id': entity.id }) }}">
+                Confirm Post Event
+            </a>
+       
+   
     
-</ul>
+      </div>
 {% endblock %}

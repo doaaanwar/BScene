@@ -555,6 +555,8 @@ class MeetingController extends Controller {
        
        $entity->setDescription($request->get('description'));
         
+       
+        //TODO check matching event
         if($valid)
         {
             $em->persist($entity);

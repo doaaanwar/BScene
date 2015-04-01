@@ -30,7 +30,7 @@
     <div align='center'>
         <table>
             <tr>
-             <td><input type="text" value="{{entity.title}}" name="title" id="title"</td>
+             <td><label>* Title</label><br><input type="text" value="{{entity.title}}" name="title" id="title"</td>
 
             </tr>
            
@@ -93,13 +93,13 @@
             <tr>
                
                 <td><label>* Date</label><br><input type="text" name="date" id="date" value="{{ entity.date |date('Y-m-d')}}"></td>
-                <td><input type="time"  name="time" id="time" value="{{entity.time| date('g:i a')}}"<</td>
+                <td><label>* Time</label><br><input type="time"  name="time" id="time" value="{{entity.time| date('g:i a')}}"<</td>
             </tr>
 
             <tr>
                 <td ><label>End Date</label><br><input type="text" name="endDate" id="endDate" value="{{ entity.endDate |date('Y-m-d')}}"></td>
            
-                  <td><input type="time"  name="endTime" id="endTime" value="{{entity.time|date('g:i a')}}"</td>
+                  <td><label>End Time</label><br><input type="time"  name="endTime" id="endTime" value="{{entity.time|date('g:i a')}}"</td>
             </tr>
 
 
@@ -123,7 +123,7 @@
                 <td><label>* Category</label><br><input type="text" value="{{entity.category}}" name="category" id="category"</td>
             </tr>
             <tr>
-               <td><label>* Description</label><input type="textarea" value="{{entity.description}}" name="description" id="description"</td>
+                <td><label>* Description</label><br><textarea  value="{{entity.description}}" name="description" id="description"></textarea></td>
             </tr>
             <tr>
                 <td >
@@ -156,7 +156,7 @@
 
             <tr>
                 <td colspan="3" class="text-center">
-                   <button class="button" type="submit">Update</button>
+                   <button class="btn btn-warning" type="submit">Update</button>
                 </td>
             </tr>
         </table>
