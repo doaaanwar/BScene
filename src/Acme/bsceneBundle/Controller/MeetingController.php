@@ -552,8 +552,8 @@ class MeetingController extends Controller {
        $entity->setTitle($request->get('title'));
        $entity->setCapacity($request->get('capacity'));
        
-       //TODO load list and save category
-       //$entity->setCategory($request->get('category'));
+       
+       $entity->setCategory($request->get('category'));
        
        //TODO load and update speaker
        
