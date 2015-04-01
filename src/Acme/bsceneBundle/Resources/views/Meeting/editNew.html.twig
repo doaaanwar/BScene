@@ -140,15 +140,46 @@
             <tr>
                 <td><label>* Description</label><br><textarea  value="{{entity.description}}" name="description" id="description"></textarea></td>
             </tr>
+           
             <tr>
                 <td >
                     <div id='TextBoxesGroup'>
 
                         <div><h4>Event Speakers</h4> **you can add up to 5 speakers</div>
                         <br>
+                               <div>
+                                {% if speakercount > 0 %}
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Title</th>
+                                                <th>Speaker Name</th>
+                                                <th>Speaker Biography</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                       {% for speaker in speakers %}
+
+                                            <tr>
+                                                <td>{{ speaker.title}}</td>
+                                                <td>{{ speaker.name }}</td>
+                                                <td>{{ speaker.biography }}</td>
+
+                                             </tr>
+                                      {% endfor %}
+
+`                                        </tbody>
+                                    </table>
+                                {% endif %}
+                                
+
+                            </div>
+                        <br>
                         <div id="TextBoxDiv1">
 
-                            <label>Speaker #1 : </label><br>
+                            <label>Speaker: </label><br>
                             <label>Name : </label><br><input type='textbox' id='nameTextbox' name='nameTextbox1' ><br>
                             <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox1'><br>
                             <label>Biography :</label><br><textarea  id='bioTextbox' name='bioTextbox1'></textarea>
