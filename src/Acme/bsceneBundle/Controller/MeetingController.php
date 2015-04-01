@@ -177,6 +177,8 @@ class MeetingController extends Controller {
                     $speakerList[] = $speakerEntity;
                 }
             }
+            
+            //TODO venue is manadatory
             //Create venue and assign it to the event
             $placeId = $request->get('place_id');
             if ($placeId) {
@@ -272,7 +274,6 @@ class MeetingController extends Controller {
                     $em->flush();
                 }
                 //check for matching event by date and category
-               
                 if($matchingList)
                 {
                     

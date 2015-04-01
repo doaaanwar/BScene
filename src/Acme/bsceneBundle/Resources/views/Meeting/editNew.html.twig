@@ -5,6 +5,7 @@
     <link href="{{ asset('bundles/acmebscene/css/meeting.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.min.css')}}">
+     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery.timepicker.css')}}">
     <style>
         html, body, #map-canvas {
             height: 100%;
@@ -175,12 +176,15 @@
 </form>
     <script src="{{ asset('bundles/acmebscene/js/jquery-ui.js')}}"></script>
     <script src="{{ asset('bundles/acmebscene/js/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('bundles/acmebscene/js/jquery.timepicker.js')}}"></script>
     <!--script needed for the datetime picker -->
     <script>
 
         $(function () {
             $("#date").datepicker({dateFormat: "yy-mm-dd"});
             $("#endDate").datepicker({dateFormat: "yy-mm-dd"});
+            $('#time').timepicker();
+            $('#endTime').timepicker();
         });
     </script>
     <!--script used for adding dynamic fields for speakers-->
