@@ -97,9 +97,10 @@
             </tr>
 
             <tr>
-                <td ><label>End Date</label><br><input type="text" name="endDate" id="endDate" value="{{ entity.endDate |date('Y-m-d')}}"></td>
+                <td ><label>End Date</label><br>{%if entity.endDate != null%}<input type="text" name="endDate" id="endDate" value="{{ entity.endDate |date('Y-m-d')}}">{%else%} <input type="text" name="endDate" id="endDate" value="{{ entity.endDate}}">{%endif%}</td>
+                
            
-                  <td><label>End Time</label><br><input type="time"  name="endTime" id="endTime" value="{{entity.time|date('g:i a')}}"</td>
+                  <td><label>End Time</label><br>{%if entity.endTime != null%}<input type="time"  name="endTime" id="endTime" value="{{entity.endTime|date('g:i a')}}">{%else%}<input type="time"  name="endTime" id="endTime" value="{{entity.endTime}}">{%endif%}</td>
             </tr>
 
 

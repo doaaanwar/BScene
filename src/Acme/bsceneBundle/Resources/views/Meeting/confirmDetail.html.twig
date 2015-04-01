@@ -53,6 +53,27 @@
                 <th>Date</th>
                 <td>{{ entity.date|date('M d, Y')}}</td>
             </tr>
+             <tr>
+                <th>Time</th>
+                <td>{{ entity.time|date('g:i a')}}</td>
+            </tr>
+            <tr>
+                <th>End Date</th>
+                {% if entity.endDate != null%}
+                <td>{{ entity.endDate|date('M d, Y')}}</td>
+                 {% else %}   
+                 <td>{{ entity.endDate}}</td>
+                {% endif%}
+            </tr>
+            <tr>
+                <th>End Time</th>
+                {% if entity.endTime != null%}
+                <td>{{ entity.endTime|date('g:i a')}}</td>
+                {% else %}
+                    
+                  <td>{{ entity.endTime}}</td>
+                {% endif%}
+            </tr>
             <tr>
                 <th>Description</th>
                 <td>{{ entity.description }}</td>
