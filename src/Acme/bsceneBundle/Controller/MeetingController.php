@@ -516,8 +516,7 @@ class MeetingController extends Controller {
        
         
        if($request->get('autocomplete'))
-       {
-           
+       { 
            //TODO create external function for creating venue
             $placeId = $request->get('place_id');
             if ($placeId) {
