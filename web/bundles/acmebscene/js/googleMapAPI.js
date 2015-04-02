@@ -13,53 +13,97 @@
 
 var placeSearch, autocomplete;
 var componentForm = {
-  street_number: 'short_name',
-  route: 'long_name',
-  locality: 'long_name',
-  administrative_area_level_1: 'short_name',
-  country: 'long_name',
-  postal_code: 'short_name'
+    street_number: 'short_name',
+    route: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name'
 };
 
 function initialize() {
-  // Create the autocomplete object, restricting the search
-  // to geographical location types.
-  autocomplete = new google.maps.places.Autocomplete(
-      /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
-      { types: ['geocode'] });
-  // When the user selects an address from the dropdown,
-  // populate the address fields in the form.
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
-    fillInAddress();
-  });
+    // Create the autocomplete object, restricting the search
+    // to geographical location types.
+    autocomplete = new google.maps.places.Autocomplete(
+            /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+            {types: ['geocode']});
+            
+    //added by doaa elfayoumi for the map, 2.04.2015       
+    var markers = [];
+    var map = new google.maps.Map(document.getElementById('map-canvas'), {
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(-33.8902, 151.1759),
+            new google.maps.LatLng(-33.8474, 151.2631));
+    map.fitBounds(defaultBounds);
+    ///
+
+    // When the user selects an address from the dropdown,
+    // populate the address fields in the form.
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        fillInAddress();
+        
+        //added by doaa elfayoumi for the map, 2.04.2015    
+        var place = autocomplete.getPlace();
+        markers = [];
+        var bounds = new google.maps.LatLngBounds();
+
+        var image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+        };
+
+        // Create a marker for each place.
+        var marker = new google.maps.Marker({
+            map: map,
+            icon: image,
+            title: place.name,
+            position: place.geometry.location
+        });
+
+        markers.push(marker);
+
+        bounds.extend(place.geometry.location);
+
+
+        map.fitBounds(bounds);
+        ////
+
+
+    });
 }
 
 // [START region_fillform]
 function fillInAddress() {
-  // Get the place details from the autocomplete object.
-  var place = autocomplete.getPlace();
+    // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
 
-  for (var component in componentForm) {
-    document.getElementById(component).value = '';
-    document.getElementById(component).disabled = false;
-  }
-
-  // Get each component of the address from the place details
-  // and fill the corresponding field on the form.
-  for (var i = 0; i < place.address_components.length; i++) {
-    var addressType = place.address_components[i].types[0];
-    if (componentForm[addressType]) {
-      var val = place.address_components[i][componentForm[addressType]];
-      document.getElementById(addressType).value = val;
+    for (var component in componentForm) {
+        document.getElementById(component).value = '';
+        document.getElementById(component).disabled = false;
     }
-    
-  }
-  
-  
-  //update to set some value on the create event page so it can be saved on the venue entity
-  document.getElementById("lng").value = place.geometry.location;
-  document.getElementById("name").value = place.name;
-  document.getElementById("place_id").value = place.place_id;
+
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+    for (var i = 0; i < place.address_components.length; i++) {
+        var addressType = place.address_components[i].types[0];
+        if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+            document.getElementById(addressType).value = val;
+        }
+
+    }
+
+
+    //update to set some value on the create event page so it can be saved on the venue entity
+    document.getElementById("lng").value = place.geometry.location;
+    document.getElementById("name").value = place.name;
+    document.getElementById("place_id").value = place.place_id;
 }
 // [END region_fillform]
 
@@ -67,16 +111,16 @@ function fillInAddress() {
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
 function geolocate() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var geolocation = new google.maps.LatLng(
-          position.coords.latitude, position.coords.longitude);
-      var circle = new google.maps.Circle({
-        center: geolocation,
-        radius: position.coords.accuracy
-      });
-      autocomplete.setBounds(circle.getBounds());
-    });
-  }
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var geolocation = new google.maps.LatLng(
+                    position.coords.latitude, position.coords.longitude);
+            var circle = new google.maps.Circle({
+                center: geolocation,
+                radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+        });
+    }
 }
 // [END region_geolocation]
