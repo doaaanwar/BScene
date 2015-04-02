@@ -65,7 +65,7 @@ acmebscene_logout:
     
     
 acmebscene_login:
-    path:   ''
+    path:   /login
     defaults: { _controller: AcmebsceneBundle:Default:login }
 
 acmebscene_keywordSearch:

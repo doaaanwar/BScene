@@ -80,7 +80,7 @@ class DefaultController extends Controller
          $categoryList = $this->getCategoryList();
         
         
-         if($request->getMethod()=='POST'){
+       if($request->getMethod()=='POST'){
             $session = $request->getSession();
             $session->clear();
             $username = $request->get('username');
@@ -134,7 +134,7 @@ class DefaultController extends Controller
         }
         else
         {
-             return $this->render('AcmebsceneBundle:Default:login.html.twig',array('categoryList' => $categoryList));
+             return $this->render('AcmebsceneBundle:Default:index.html.twig',array('categoryList' => $categoryList));
         }
     }
     
