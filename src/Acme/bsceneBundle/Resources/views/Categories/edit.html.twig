@@ -1,3 +1,4 @@
+<!-- updated by doaa elfayoumi 02.04.2015 -->
 {% extends 'adminLayout.html.twig' %}
 {% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
 
@@ -17,9 +18,10 @@
             <tr>
                 <td>{{ form_row(edit_form.name) }}</td>
                
-                <td><label>Category Image</label><br><input type="file" name="imageCatUpload" id="imageCatUpload"></td>
+                <td><label>Change the category image</label><br><input type="file" name="imageCatUpload" id="imageCatUpload"></td>
            
             </tr>
+           
             <tr>
                 <td colspan="2">{{ form_row(edit_form.description) }}</td>
             </tr>
