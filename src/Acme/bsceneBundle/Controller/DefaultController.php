@@ -134,7 +134,7 @@ class DefaultController extends Controller
         }
         else
         {
-             return $this->render('AcmebsceneBundle:Default:index.html.twig',array('categoryList' => $categoryList));
+             return $this->render('AcmebsceneBundle:Default:login.html.twig',array('categoryList' => $categoryList));
         }
     }
     
