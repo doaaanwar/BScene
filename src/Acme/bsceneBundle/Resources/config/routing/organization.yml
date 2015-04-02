@@ -24,6 +24,11 @@ organization_update:
     defaults: { _controller: "AcmebsceneBundle:Organization:update" }
     requirements: { _method: post|put }
 
+organization_adminList:
+    path:   /admin/organization
+    defaults: { _controller: AcmebsceneBundle:Organization:adminIndexOrg}
+
+
 organization_delete:
     path:     /{id}/delete
     defaults: { _controller: "AcmebsceneBundle:Organization:delete" }

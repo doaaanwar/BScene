@@ -33,8 +33,22 @@ class AdminController extends Controller
         else
         {
             $commentMessage = Null;
+            
         }
-        //TODO get the number of new events
+        
+        $eventList = $this->getNewMeetingList($lastLogin);
+        
+        if(count($eventList) == 0)
+        {
+            $newEventMessage = "no new event found";
+        }
+        else
+        {
+            $newEventMessage = Null;
+            
+        }
+         
+       
         
         //TODO get the number of upccomming events
         
@@ -42,14 +56,17 @@ class AdminController extends Controller
         
         
         
-        //TODO get the list of new events
+      
         
         //TODO get the list of new members
         
         
         return $this->render('AcmebsceneBundle:Default:adminIndex.html.twig', array('commentList' => $commentList,
                                                                                     'commentMessage' => $commentMessage, 
-                                                                                    'commentCount' => Count($commentList)));
+                                                                                    'commentCount' => Count($commentList),
+                                                                                    'eventList' => $eventList,
+                                                                                    'eventCount' => Count($eventList),
+                                                                                    'newEventMessage' => $newEventMessage));
     }
     
     
@@ -86,6 +103,8 @@ class AdminController extends Controller
 
         return $eventList;
     }
+    
+    
     
     
     /**

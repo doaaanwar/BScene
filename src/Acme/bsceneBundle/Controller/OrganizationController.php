@@ -20,8 +20,9 @@ class OrganizationController extends Controller
      * doaa el fayoumi -- added the new index for admin side
      * function that get the list of organization and go to the organization list page
      */
-    public function adminIndexAction()
+    public function adminIndexOrgAction()
     {
+       
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AcmebsceneBundle:Organization');
 
