@@ -15,6 +15,7 @@ use Acme\bsceneBundle\Entity\EventComments;
 use Acme\bsceneBundle\Entity\Venue;
 use Doctrine\ORM\Query\AST\Functions\SizeFunction;
 use \Symfony\Component\Form\FormError;
+use \Symfony\Component\Validator\Constraints\Time;
 
 /**
  * Meeting controller.
@@ -537,18 +538,38 @@ class MeetingController extends Controller {
             $errors[] = "Please fill the date. It is mandatory field";
             
         }
+        $timeFormat = 'H:i:s';
+        
+        if ($request->get('time')) {
+           $entity->setTime(DateTime::createFromFormat($timeFormat,$request->get('time')));
+           //$entity->setTime($request->get('time'));
+        }
+        else
+        {
+            $valid = false;
+            $errors[] = "Please fill the time. It is mandatory field";
+            
+        }
+        
         
        if ($request->get('endDate')) {
-            $entity->setEndDate(DateTime::createFromFormat($format,$request->get('endDate')));
-           
+           $entity->setEndDate(DateTime::createFromFormat($format,$request->get('endDate')));
+         
        }
+       
+        
+       if ($request->get('endTime')) {
+            $entity->setEndTime(DateTime::createFromFormat($timeFormat,$request->get('endTime')));
+           //$entity->setEndTime($request->get('endTime'));
+       }
+       
         
        if($request->get('autocomplete'))
        {
            //TODO create external function for creating venue
             $placeId = $request->get('place_id');
             if ($placeId) {
-                $em = $this->getDoctrine()->getEntityManager();
+                
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
                 $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
                 if (!$venueEntity) {
@@ -610,10 +631,11 @@ class MeetingController extends Controller {
        else
        {
            $venue = $em->getRepository('AcmebsceneBundle:Venue')->find($request->get('venueId'));
-           $entity->setVenue();
+           $entity->setVenue($venue);
        }
        
-       //TODO save the time and endTime
+       
+       
        
        //TODO upload and save new image
        
