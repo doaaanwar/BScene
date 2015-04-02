@@ -35,5 +35,77 @@
     {% else %}
         
     {% endif %}
+	<div class="col-xs-12 col-sm-12 col-md-7">
+			
+			<div id="map"  style="width: 1000px; height: 400px;"></div>
+  
+  <script>
+    // Define your locations: HTML content for the info window, latitude, longitude
+    var locations = [
+  {% if resultCount > 0 %}
+        {% for result in searchResults %}
+         ['<h4>{{result.title}}</h4>', {{result.venue.latitude}}, {{result.venue.longitude}}],
+      {% endfor %}
+          {% endif %}
+    ];
+    
+   
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 10,
+      center: new google.maps.LatLng(-37.92, 151.25),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: false,
+      streetViewControl: false,
+      panControl: false,
+      zoomControlOptions: {
+         position: google.maps.ControlPosition.LEFT_BOTTOM
+      }
+    });
 
+    var infowindow = new google.maps.InfoWindow({
+      maxWidth: 160
+    });
+
+    var markers = new Array();
+    
+    var iconCounter = 0;
+    
+    // Add the markers and infowindows to the map
+    for (var i = 0; i < locations.length; i++) {  
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map,
+        
+      });
+
+      markers.push(marker);
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+      
+      iconCounter++;
+     
+    }
+
+    function autoCenter() {
+      //  Create a new viewpoint bound
+      var bounds = new google.maps.LatLngBounds();
+      //  Go through each...
+      for (var i = 0; i < markers.length; i++) {  
+				bounds.extend(markers[i].position);
+      }
+      //  Fit these bounds to the map
+      map.fitBounds(bounds);
+    }
+    autoCenter();
+  </script> 
+			</div>
 {% endblock %}
+{% block javascripts %}
+     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+{% endblock %}
+
