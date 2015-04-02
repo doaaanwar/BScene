@@ -77,6 +77,13 @@ class Categories
     */
     protected $events;
     
+       /**
+    * @ORM\ManyToMany(targetEntity="Account", mappedBy="categories")
+    * 
+    **/
+    
+    protected $accounts;
+    
     /**
      * Get id
      *

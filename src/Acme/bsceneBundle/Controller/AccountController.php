@@ -396,19 +396,19 @@ class AccountController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
 
-        $q = $em->createQuery("SELECT c.id FROM \Acme\bsceneBundle\Entity\Categories c");
+        $q = $em->createQuery("SELECT c.id, c.name FROM \Acme\bsceneBundle\Entity\Categories c");
         $categories = $q->getArrayResult();
-
+        
         $categoryList = array();
         $subscribeList = array();
         //Create array from DB results to be used in a for loop
         for ($i = 0; $i <= count($categories) - 1; $i++) {
-            $category = implode($categories[$i]);
+            $category = $categories[$i]['id'];
             array_push($categoryList, $category);
         }
-
+        
         /*
-         * Loop through IDs, check each time if it is checked (not null). If not null, persist to database memberId and value of category
+         * Loop through IDs, check each time if it is checked (not null). If not null, add to array
          */
 
         foreach ($categoryList as $categoryId) {

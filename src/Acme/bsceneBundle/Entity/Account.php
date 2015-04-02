@@ -162,6 +162,12 @@ class Account implements UserInterface
      * @ORM\OneToMany(targetEntity="Meeting", mappedBy="account")
      */
     protected $events;
+    
+        /**
+    * @ORM\ManyToMany(targetEntity="Categories", inversedBy="accounts")
+    * @ORM\JoinTable(name="SubscriberCategories")
+    **/
+    protected $categories;
    
     
     
