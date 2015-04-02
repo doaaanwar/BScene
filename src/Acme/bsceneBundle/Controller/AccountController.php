@@ -411,7 +411,8 @@ class AccountController extends Controller {
         }
         
         /*
-         * Loop through IDs, check each time if it is checked (not null). If not null, add to array
+         * Loop through checkbox IDs, check each time if it is checked (not null). 
+         * If not null, add the corresponding ID to $subscribeList array
          */
 
         foreach ($categoryIdList as $categoryId) {
@@ -423,7 +424,7 @@ class AccountController extends Controller {
         
         foreach ($subscribeList as $subscriber)
         {
-            //
+            //Add to database here?
         }
     
         $userId = $request->getSession()->get("memberId");
