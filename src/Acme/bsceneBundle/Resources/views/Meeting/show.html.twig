@@ -82,16 +82,18 @@
                                          <div class="row">
                                         <div class="col-md-12">
                         <!--hyperlink for now till we get the speakers page -->
-                          <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
-                            <div class="form-group">
-                                <input class="form-control" type="hidden" value="{{item.name}}" name="searchTerm" id="searchTerm"/>
-                            </div> 
-                            <button class="link" type="submit" ><b>Name: </b>{{item.name}}</button>
-                        </form>
-                        <br> <br>
+                         
+                        
+                        <p><b>&nbsp; &nbsp; &nbsp; Name:</b>{{item.name}}</p>
 			<p><b>&nbsp; &nbsp; &nbsp; Title:</b>{{item.title}}</p>
                          
                         <h6><b>&nbsp; &nbsp; &nbsp;  &nbsp; Biography:</b> {{item.biography}}</h6>
+                         <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
+                            <div class="form-group">
+                                <input class="form-control" type="hidden" value="{{item.name}}" name="searchTerm" id="searchTerm"/>
+                            </div> 
+                            <button class="link" type="submit" >more of {{item.name}}'s evnts as a speaker</button>
+                        </form>
                                         </div>
                                          </div>
                          </div>
