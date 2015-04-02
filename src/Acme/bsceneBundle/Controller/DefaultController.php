@@ -122,13 +122,13 @@ class DefaultController extends Controller
                 else
                 {
                     //password doesn't match
-                   return $this->render('AcmebsceneBundle:Default:index.html.twig',array('errormessage' => 'uncorrect password','categoryList' => $categoryList));
+                   return $this->render('AcmebsceneBundle:Default:login.html.twig',array('errormessage' => 'uncorrect password','categoryList' => $categoryList));
                 }
             }
             else
             {
                  
-                 return $this->render('AcmebsceneBundle:Default:index.html.twig',array('errormessage' => 'login failed','categoryList' => $categoryList));
+                 return $this->render('AcmebsceneBundle:Default:login.html.twig',array('errormessage' => 'login failed','categoryList' => $categoryList));
              
             }
         }
