@@ -6,6 +6,9 @@
 
 {% block body -%}
     <h1>Category {{ entity.name }} Detail</h1>
+     <div class="thumbnail">
+            <img class="img-responsive" src="{{asset(entity.image.URL)}}" alt="">
+     </div>
 
     <table class="table table-bordered  table-responsive">
         <tbody>

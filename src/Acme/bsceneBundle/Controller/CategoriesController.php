@@ -200,8 +200,37 @@ class CategoriesController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
+        $image = $request->files->get('imageCatUpload');
+         
         if ($editForm->isValid()) {
+            $imageEntity = NULL;
+            //commented till finish implementation
+            if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                $originalName = $image->getClientOriginalName();
+                $name_array = explode('.', $originalName);
+                $file_type = $name_array[sizeof($name_array) - 1];
+                $valid_filetypes = array('jpg', 'jpeg', 'png', 'bmp');
+                if (in_array(strtolower($file_type), $valid_filetypes)) {
+                //upload and save the path to the image.url
+                    $imageEntity = new Image();
+                    $imageEntity->setFile($image);
+                //TODO check if name already there
+                    $imageEntity->setName($originalName);
+                    $imageEntity->upload();
+                //TODO set the URL/path
+                    $imageEntity->setURL($imageEntity->getWebPath());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($imageEntity);
+                    $em->flush();
+                    $entity->setImage($imageEntity);
+                } else {
+                    print_r("Invalid file type");
+                    die();
+                }
+            } else {
+                print_r("image upload error");
+                die();
+            }
             $em->flush();
 
             return $this->redirect($this->generateUrl('category_edit', array('id' => $id)));
