@@ -487,23 +487,21 @@ class MeetingController extends Controller {
 
 
         //upload and save new image
-        $image = $request->files->get('imageUpload');
+        $image = $request->files->get('imageUpload2');
+       
         $imageEntity = null;
 
 
         if ($image) {
-            if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
-                //call upload image
-                $imageEntity = $this->uploadImage($image);
-                $entity->setImage($imageEntity);
+             if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                    //call upload image
+                    $imageEntity = $this->uploadImage($image);
+                    $entity->setImage($imageEntity);
             } else {
                 print_r($image->getError());
                 die();
             }
         }
-        
-
-
 
         $entity->setTitle($request->get('title'));
         $entity->setCapacity($request->get('capacity'));
