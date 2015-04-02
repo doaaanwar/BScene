@@ -4,10 +4,22 @@
     <link href="{{ asset('bundles/acmebscene/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/acmebscene/css/shop-item.css')}}" rel="stylesheet">
     <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+      <style>
+                button.link  {
+     background:none!important;
+     border:none; 
+     //padding:0!important;
+     //font: inherit;
+     /*border is optional*/
+     //border-bottom:1px solid #444; 
+     //cursor: pointer;
+     color: #337ab7;
+}
+            </style>  
 {% endblock %}
 
 {% block body -%}
-   
+
 
     <!--<table class="record_properties">-->
        
@@ -60,18 +72,29 @@
                  <p><b>End Time:</b> {{ entity.endTime|date('g:i a') }}</p>
                  {% endif%}
             </div>
+          
         <div class="well">
             <h4 class="createOrg">Speakers:</h4> <br>
 	    {% block speaker %}
                 {% if speakerCount != 0 %}
                     {% for item in speaker %}
-                        
+                         <div class="well">
+                                         <div class="row">
+                                        <div class="col-md-12">
                         <!--hyperlink for now till we get the speakers page -->
-                        <a data-toggle="collapse" href="#collapseSpeaker" aria-expanded="false" aria-controls="collapseSpeaker"><b>Name:</b> {{item.name}}</a>
-			<p><b>Title:</b>{{item.title}}</p>
+                          <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
+                            <div class="form-group">
+                                <input class="form-control" type="hidden" value="{{item.name}}" name="searchTerm" id="searchTerm"/>
+                            </div> 
+                            <button class="link" type="submit" ><b>Name: </b>{{item.name}}</button>
+                        </form>
+                        <br> <br>
+			<p><b>&nbsp; &nbsp; &nbsp; Title:</b>{{item.title}}</p>
                          
-                        <h6><b>Biography:</b> {{item.biography}}</h6>
-					 
+                        <h6><b>&nbsp; &nbsp; &nbsp;  &nbsp; Biography:</b> {{item.biography}}</h6>
+                                        </div>
+                                         </div>
+                         </div>
                     {% endfor %}
                     {%else%}
                         <h4 class="createOrg">No Speaker for This Event</h4> <br>
@@ -83,7 +106,7 @@
             {% block org %}
                 {% if orgCount != 0 %}
                     {% for item in org %}
-					 <h4>Organization: </h4><a href="Organization.html">{{item.name}}</a>
+					 <h4>Organization: </h4><a href="http:\\google.com">{{item.name}}</a>
                     {% endfor %}
                     {%else%}
                         <h4 class="createOrg"></h4> <br>
