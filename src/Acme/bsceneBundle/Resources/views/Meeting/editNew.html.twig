@@ -25,7 +25,7 @@
         <h1>Edit {{entity.title}} Event</h1>
         <p class="lead">All fields marked with * are required</p>
     </div>
-    <form  class="signin" method="POST" action="{{path('meeting_update',{'id' : entity.id }) }}">
+ <form  class="signin" method="POST" action="{{path('meeting_update',{'id' : entity.id }) }}">
    
     
     <div align='center'>
@@ -118,14 +118,10 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td><label for="imageUplaod">Change Event Logo</label>
-                    <br>
-                 
-                    <input type="file" name="imageUpload" id="imageUplaod">
-                </td>
+           
+             <tr>
+                <td><label for="imageUpload">Change Event Logo</label><input type="file" name="imageUpload" id="imageUpload"></td>
             </tr>
-         
 
             <tr>
                 <td><label>* Category</label><br>

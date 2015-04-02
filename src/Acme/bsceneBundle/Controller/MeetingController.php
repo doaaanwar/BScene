@@ -493,6 +493,7 @@ class MeetingController extends Controller {
                 die();
             }
         }
+        
 
 
 
@@ -598,7 +599,7 @@ class MeetingController extends Controller {
      * created 01.04.2015, doaa elfayoumi
      * @param UploadedFile $image
      */
-    public function uploadImage(UploadedFile $image) {
+    private function uploadImage(UploadedFile $image) {
         $imageEntity = NULL;
         $originalName = $image->getClientOriginalName();
         $name_array = explode('.', $originalName);
