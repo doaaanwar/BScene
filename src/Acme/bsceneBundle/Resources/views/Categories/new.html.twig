@@ -26,8 +26,15 @@
             <tr>
             <div class="radio-inline">
                 <td>{{ form_row(form.ranking) }}</td>
+               
             </div>
             <td>{{ form_row(form.meetupCategory) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                      <p class="text-danger">***Selecting 0 for the rank will hide the category from the Homepage</p> 
+                </td>
+             
             </tr>
             <tr>
                 <td>{{ form_row(form.eventBriteCategory) }}</td>
