@@ -1,4 +1,3 @@
-<!-- updated by doaa elfayoumi 02.04.2015 -->
 {% extends 'adminLayout.html.twig' %}
 
 {% block stylesheets %}
@@ -7,6 +6,9 @@
 
 {% block body -%}
     <h1>Category {{ entity.name }} Detail</h1>
+     <div class="thumbnail">
+            <img class="img-responsive" src="{{asset(entity.image.URL)}}" alt="">
+     </div>
 
     <table class="table table-bordered  table-responsive">
         <tbody>
