@@ -399,26 +399,38 @@ class AccountController extends Controller {
         $q = $em->createQuery("SELECT c.id, c.name FROM \Acme\bsceneBundle\Entity\Categories c");
         $categories = $q->getArrayResult();
         
-        $categoryList = array();
+        $categoryIdList = array();
+        $categoryNameList = array();
         $subscribeList = array();
         //Create array from DB results to be used in a for loop
         for ($i = 0; $i <= count($categories) - 1; $i++) {
-            $category = $categories[$i]['id'];
-            array_push($categoryList, $category);
+            $categoryId = $categories[$i]['id'];
+            $categoryName = $categories[$i]['name'];
+            $categoryIdList[]= $categoryId;
+            $categoryNameList[] = $categoryName;
         }
         
         /*
          * Loop through IDs, check each time if it is checked (not null). If not null, add to array
          */
 
-        foreach ($categoryList as $categoryId) {
+        foreach ($categoryIdList as $categoryId) {
             $userSelection = $this->get('request')->request->get($categoryId);
             if ($userSelection != null) {
                 array_push($subscribeList, $categoryId);
             }
         }
+        
+        foreach ($subscribeList as $subscriber)
+        {
+            //
+        }
     
         $userId = $request->getSession()->get("memberId");
+        
+        
+        
+        
         return $this->render('AcmebsceneBundle:Account:subscribe.html.twig', array(
                     'categories' => $categories,
         ));
