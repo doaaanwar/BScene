@@ -450,10 +450,18 @@ class MeetingController extends Controller {
         if ($request->get('endDate')) {
             $entity->setEndDate(DateTime::createFromFormat($format, $request->get('endDate')));
         }
+        else
+        {
+            $entity->setEndDate(null);
+        }
 
 
         if ($request->get('endTime')) {
             $entity->setEndTime(DateTime::createFromFormat($timeFormat, $request->get('endTime')));
+        }
+        else
+        {
+            $entity->setEndTime(null);
         }
 
 
