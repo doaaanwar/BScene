@@ -48,53 +48,45 @@ class MeetingController extends Controller {
                     'noResults' => $noResults,
         ));
     }
+
     /**
      * Lists results from keyword search.
      *
      */
     public function addCommentAction(Request $request, $id) {
-     
+
         $commentEntity = new eventComments();
         $commentEntity->setUsername($request->get('commenterUsername'));
         $commentEntity->setEmail($request->get('commenterEmail'));
         $commentEntity->setComment($request->get('commenterComment'));
         $commentEntity->setCommentTime(new \DateTime());
-        
-        //$id=5;
-        
-       
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($commentEntity);
-       // $em->flush();
-        //$eventEntity=addEventComment();
-        //$event.addEventComment;
-        
-       
+
         $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Meeting');
         $eventEntity = $repository->find($id);
         $eventEntity->addEventComment($commentEntity);
         $commentEntity->setEvent($eventEntity);
         $em->persist($commentEntity);
-        
-        $em->flush();
-        
-        
-       return $this->showAction($id);
-    }
 
+        $em->flush();
+
+
+        return $this->showAction($id);
+    }
 
     /**
      * Lists results from category search
      */
     public function categorySearchAction($id) {
         $em = $this->getDoctrine()->getManager();
-        
+
         $resultList = $this->searchCategories($id);
         $resultCount = \Count($resultList);
         $noResults = "";
-        
-        if ($resultCount == 0)
-        {
+
+        if ($resultCount == 0) {
             $noResults = "There are no events in this category. Please try again.";
         }
 
@@ -103,32 +95,27 @@ class MeetingController extends Controller {
                     'resultCount' => $resultCount,
                     'noResults' => $noResults,
         ));
-        
-        
-        
     }
-    
+
     /**
-    * Creates a new Meeting entity.
-    * updated, doaa elfayoumi 23.03.2015
-    * updated, doaa elfayoumi 24.03.2015
-    * updated add map api, doaa elfayoumi 25.03.2015
-    * updated add upload, doaa elfayoumi 26.03.2015 
-    * updated add more validation and error message, 29.03.2015
-    */
+     * Creates a new Meeting entity.
+     * updated, doaa elfayoumi 23.03.2015
+     * updated, doaa elfayoumi 24.03.2015
+     * updated add map api, doaa elfayoumi 25.03.2015
+     * updated add upload, doaa elfayoumi 26.03.2015 
+     * updated add more validation and error message, 29.03.2015
+     */
     public function createAction(Request $request) {
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-        if($request->getSession()->get("memberId") != null)
-        {
-            
+        if ($request->getSession()->get("memberId") != null) {
+
             $image = $request->files->get('imageUpload');
             $imageEntity = null;
-            
-            
-            if($image)
-            {
+
+
+            if ($image) {
                 if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
                     //call upload image
                     $imageEntity = $this->uploadImage($image);
@@ -137,9 +124,7 @@ class MeetingController extends Controller {
                     print_r($image->getError());
                     die();
                 }
-            }
-            else
-            {
+            } else {
                 //add mantatory error
                 $form->addError(new FormError("Uploading a logo is mandatory."));
             }
@@ -160,7 +145,7 @@ class MeetingController extends Controller {
                     $speakerList[] = $speakerEntity;
                 }
             }
-            
+
             //TODO venue is manadatory
             //Create venue and assign it to the event
             $placeId = $request->get('place_id');
@@ -169,7 +154,7 @@ class MeetingController extends Controller {
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
                 $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
                 if (!$venueEntity) {
-                   $venueEntity = $this->createVenue($request);
+                    $venueEntity = $this->createVenue($request);
                 }
                 $entity->setVenue($venueEntity);
             }
@@ -182,8 +167,8 @@ class MeetingController extends Controller {
             $entity->setAccount($account);
             //set the organization to the account organization
             $entity->setOrganization($account->getOrganization());
-            
-            
+
+
             $matchingList = $this->getMatchingEvent($entity);
             if ($form->isValid()) {
                 $format = 'Y-m-d';
@@ -194,7 +179,7 @@ class MeetingController extends Controller {
                 }
                 //TODO check if the date is on the future
 
-                 
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
@@ -207,50 +192,40 @@ class MeetingController extends Controller {
                     $em->flush();
                 }
                 //check for matching event by date and category
-                if($matchingList)
-                {
-                    
+                if ($matchingList) {
+
                     //matchResults
-                    return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(),'entity' => $entity,
-                    'matchCount' => \count($matchingList),
-                    'matchResults' => $matchingList,'form' => $form->createView()));
-           
-                }
-                else
-                {
+                    return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(), 'entity' => $entity,
+                                'matchCount' => \count($matchingList),
+                                'matchResults' => $matchingList, 'form' => $form->createView()));
+                } else {
                     return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
                 }
             }
-        }
-        else
-        {
+        } else {
             $form->addError(new FormError("Your session Expired. You have to login again."));
-        }    
-            
+        }
+
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
     }
 
-
-    private function getMatchingEvent(Meeting $entity)
-    {
+    private function getMatchingEvent(Meeting $entity) {
         $matchingList = null;
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
-                        . "WHERE e.category = :category and e.date = :date")
-                ->setParameter('category', $entity->getCategory())->setParameter('date',$entity->getDate());
+                                . "WHERE e.category = :category and e.date = :date")
+                        ->setParameter('category', $entity->getCategory())->setParameter('date', $entity->getDate());
 
         $matchingList = $q->getResult();
-        
+
         return $matchingList;
-       
     }
-    
-    
+
     /**
      * Creates a form to create a Meeting entity.
      *
@@ -274,7 +249,7 @@ class MeetingController extends Controller {
      *
      */
     public function newAction(Request $request) {
-        
+
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         //$relatedEventList = $this->relatedEventAction($id);
@@ -294,25 +269,25 @@ class MeetingController extends Controller {
         $commentsList = $this->comments($id);
         $venueList = $this->getVenue($id);
         $orgList = $this->getOrg($id);
-       
-       
+
+
         $venueCont = \Count($venueList);
         $orgCount = \Count($orgList);
         $commentCount = \Count($commentsList);
-        
-       $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
-       $relatedEventList = $this->relatedEvents($entity);
-       $relatedEventCount=\Count($relatedEventList);
-      
+
+        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+        $relatedEventList = $this->relatedEvents($entity);
+        $relatedEventCount = \Count($relatedEventList);
+
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $imageEntity= $entity->getImage();
+        $imageEntity = $entity->getImage();
         $uploadedURL = $imageEntity->getURL();
-        $speakers=$entity->getSpeakers();
+        $speakers = $entity->getSpeakers();
         $speakerCount = \Count($speakers);
         return $this->render('AcmebsceneBundle:Meeting:show.html.twig', array(
                     'entity' => $entity,
@@ -328,41 +303,38 @@ class MeetingController extends Controller {
                     'venueCont' => $venueCont,
                     'relatedEvents' => $relatedEventList,
                     'relatedEventsCount' => $relatedEventCount,
-                    
         ));
     }
-    
-    
+
     /**
      * remove the generated edit function and use a manual one 
      * 
      * updated: 31.03.2015, doaa elfayoumi
      */
-    
-     /**
+    /**
      * Displays a form to edit an existing Account entity.
      *
      */
-    /*public function editAction($id) {
-        $em = $this->getDoctrine()->getManager();
+    /* public function editAction($id) {
+      $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+      $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Meeting entity.');
-        }
+      if (!$entity) {
+      throw $this->createNotFoundException('Unable to find Meeting entity.');
+      }
 
-        $entity->setDate($entity->getDate()->format('y-m-d'));
-        //$entity->setEndDate($entity->getEndDate()->format('yy-mm-dd'));
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+      $entity->setDate($entity->getDate()->format('y-m-d'));
+      //$entity->setEndDate($entity->getEndDate()->format('yy-mm-dd'));
+      $editForm = $this->createEditForm($entity);
+      $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
-                    'entity' => $entity,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-        ));
-    }*/
+      return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
+      'entity' => $entity,
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+      ));
+      } */
 
     /**
      * Creates a form to edit a Meeting entity.
@@ -371,54 +343,53 @@ class MeetingController extends Controller {
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    /*private function createEditForm(Meeting $entity) {
-        $form = $this->createForm(new MeetingType(), $entity, array(
-            'action' => $this->generateUrl('meeting_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-        $form->add('submit', 'submit', array('label' => 'Update'));
+    /* private function createEditForm(Meeting $entity) {
+      $form = $this->createForm(new MeetingType(), $entity, array(
+      'action' => $this->generateUrl('meeting_update', array('id' => $entity->getId())),
+      'method' => 'PUT',
+      ));
+      $form->add('submit', 'submit', array('label' => 'Update'));
 
-        return $form;
-    }*/
+      return $form;
+      } */
 
     /**
      * Edits an existing Meeting entity.
      *
      */
-    /*public function updateAction(Request $request, $id) {
-        $em = $this->getDoctrine()->getManager();
+    /* public function updateAction(Request $request, $id) {
+      $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+      $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Meeting entity.');
-        }
-        $entity->setDate($entity->getDate()->format('y-m-d'));
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+      if (!$entity) {
+      throw $this->createNotFoundException('Unable to find Meeting entity.');
+      }
+      $entity->setDate($entity->getDate()->format('y-m-d'));
+      $deleteForm = $this->createDeleteForm($id);
+      $editForm = $this->createEditForm($entity);
+      $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $format = 'Y-m-d';
-            $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
-            //check if the endDate is not null and format it
-            if ($entity->getEndDate()) {
-                $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
-            }
-            $em->flush();
+      if ($editForm->isValid()) {
+      $format = 'Y-m-d';
+      $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
+      //check if the endDate is not null and format it
+      if ($entity->getEndDate()) {
+      $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
+      }
+      $em->flush();
 
-            return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId(),'form' => $form->createView(),)));
-                
-        }
+      return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId(),'form' => $form->createView(),)));
 
-        return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
-                    'entity' => $entity,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-        ));
-    }*/
-    
-    
+      }
+
+      return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
+      'entity' => $entity,
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+      ));
+      } */
+
     /**
      * remove the generated edit function and use a manual one 
      * 
@@ -426,7 +397,7 @@ class MeetingController extends Controller {
      * updated: 1.04.2015, doaa elfayoumi, save time, venue, speaker
      *
      */
-     public function editAction($id){
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
@@ -435,10 +406,10 @@ class MeetingController extends Controller {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
         }
 
-        $errors= array();
+        $errors = array();
         $categories = $em->getRepository('AcmebsceneBundle:Categories')->findAll();
         $speakers = $entity->getSpeakers();
-                
+
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
                     'entity' => $entity,
@@ -449,92 +420,92 @@ class MeetingController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
-    
-    public function updateAction(Request $request, $id)
-    {
+
+    public function updateAction(Request $request, $id) {
         $valid = true;
-        $errors= array();
-        
-        
+        $errors = array();
+
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
-        
+
         $format = 'Y-m-d';
         if ($request->get('date')) {
-            $entity->setDate(DateTime::createFromFormat($format,$request->get('date')));
-           
-        }
-        else
-        {
+            $entity->setDate(DateTime::createFromFormat($format, $request->get('date')));
+        } else {
             $valid = false;
             $errors[] = "Please fill the date. It is mandatory field";
-            
         }
         $timeFormat = 'H:i:s';
-        
+
         if ($request->get('time')) {
-           $entity->setTime(DateTime::createFromFormat($timeFormat,$request->get('time')));
-         
-        }
-        else
-        {
+            $entity->setTime(DateTime::createFromFormat($timeFormat, $request->get('time')));
+        } else {
             $valid = false;
             $errors[] = "Please fill the time. It is mandatory field";
-            
         }
-        
-        
-       if ($request->get('endDate')) {
-           $entity->setEndDate(DateTime::createFromFormat($format,$request->get('endDate')));
-         
-       }
-       
-        
-       if ($request->get('endTime')) {
-            $entity->setEndTime(DateTime::createFromFormat($timeFormat,$request->get('endTime')));
-       }
-       
-        
-       if($request->get('autocomplete'))
-       { 
-           //TODO create external function for creating venue
+
+
+        if ($request->get('endDate')) {
+            $entity->setEndDate(DateTime::createFromFormat($format, $request->get('endDate')));
+        }
+
+
+        if ($request->get('endTime')) {
+            $entity->setEndTime(DateTime::createFromFormat($timeFormat, $request->get('endTime')));
+        }
+
+
+        if ($request->get('autocomplete')) {
+            //TODO create external function for creating venue
             $placeId = $request->get('place_id');
             if ($placeId) {
-                
+
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
                 $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
                 if (!$venueEntity) {
-                    
                     //call function to create venue
                     $venueEntity = $this->createVenue($request);
                 }
                 $entity->setVenue($venueEntity);
             }
-       }
-       else
-       {
-           $venue = $em->getRepository('AcmebsceneBundle:Venue')->find($request->get('venueId'));
-           $entity->setVenue($venue);
-       }
-       
-       
-       
-       
-       //upload and save new image
-       
-       
-       
-       $entity->setTitle($request->get('title'));
-       $entity->setCapacity($request->get('capacity'));
-       
-       $categoryName = $request->get('category');
-       $category = $em->getRepository('AcmebsceneBundle:Categories')->findOneBy(array('name'=>$categoryName));
-               
-       $entity->setCategory($category);
-       
-       //update speaker with new ones
-       for ($i = 1; $i <= 5; $i++) {
+        } else {
+            $venue = $em->getRepository('AcmebsceneBundle:Venue')->find($request->get('venueId'));
+            $entity->setVenue($venue);
+        }
+
+
+
+
+        //upload and save new image
+        $image = $request->files->get('imageUpload');
+        $imageEntity = null;
+
+
+        if ($image) {
+            if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                //call upload image
+                $imageEntity = $this->uploadImage($image);
+                $entity->setImage($imageEntity);
+            } else {
+                print_r($image->getError());
+                die();
+            }
+        }
+
+
+
+        $entity->setTitle($request->get('title'));
+        $entity->setCapacity($request->get('capacity'));
+
+        $categoryName = $request->get('category');
+        $category = $em->getRepository('AcmebsceneBundle:Categories')->findOneBy(array('name' => $categoryName));
+
+        $entity->setCategory($category);
+
+        //update speaker with new ones
+        for ($i = 1; $i <= 5; $i++) {
             if ($request->get('nameTextbox' . $i) != "") {
                 //create new speaker
                 $speakerEntity = new Speaker();
@@ -547,36 +518,32 @@ class MeetingController extends Controller {
                 $em->flush();
                 $entity->addSpeaker($speakerEntity);
             }
-       }
-       
-       
-       $entity->setDescription($request->get('description'));
-        
-       
+        }
+
+
+        $entity->setDescription($request->get('description'));
+
+
         //TODO check matching event
-        if($valid)
-        {
+        if ($valid) {
             $em->persist($entity);
             $em->flush();
             return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
-     
         }
-         return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
+        return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
                     'entity' => $entity,
                     'errors' => $errors,
                     'delete_form' => $deleteForm->createView(),
         ));
     }
-    
-    
+
     /**
      * function to create new venue
      * created 01.04.2015, doaa elfayoumi
      * @param Request $request
      * @return Venue
      */
-    private function createVenue(Request $request)
-    {
+    private function createVenue(Request $request) {
         //the format for the lat lng is (43.4433963, -80.52255709999997)
         //split it to get each value
         $em = $this->getDoctrine()->getManager();
@@ -592,12 +559,9 @@ class MeetingController extends Controller {
 
         $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Cities');
         $cityEntity = $repository->findOneBy(array('name' => $cityName));
-        if($cityEntity)
-        {
+        if ($cityEntity) {
             $venueEntity->setCity($cityEntity);
-        }
-        else
-        {
+        } else {
             //TODO the city constraint
         }
 
@@ -606,12 +570,9 @@ class MeetingController extends Controller {
 
         $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Province');
         $provinceEntity = $repository->findOneBy(array('name' => $provinceName));
-        if($provinceEntity)
-        {
+        if ($provinceEntity) {
             $venueEntity->setProvince($provinceEntity);
-        }
-        else
-        {
+        } else {
             //TODO the city constraint
         }
         //TODO put the province constraint
@@ -632,14 +593,12 @@ class MeetingController extends Controller {
         return $venueEntity;
     }
 
-    
     /**
      * function to upload image selected by user
      * created 01.04.2015, doaa elfayoumi
      * @param UploadedFile $image
      */
-    public function uploadImage(UploadedFile $image)
-    {
+    public function uploadImage(UploadedFile $image) {
         $imageEntity = NULL;
         $originalName = $image->getClientOriginalName();
         $name_array = explode('.', $originalName);
@@ -663,7 +622,7 @@ class MeetingController extends Controller {
             die();
         }
     }
-    
+
     /**
      * Deletes a Meeting entity.
      *
@@ -714,9 +673,9 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         //To get the events with the same category and date  
-         $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
-                        . "WHERE e.category = :category OR e.date = :date")
-                ->setParameter('category', $entity->getCategory())->setParameter('date',$entity->getDate());
+        $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
+                                . "WHERE e.category = :category OR e.date = :date")
+                        ->setParameter('category', $entity->getCategory())->setParameter('date', $entity->getDate());
 
         $relatedEventList = $q->getResult();
 
@@ -740,6 +699,7 @@ class MeetingController extends Controller {
 
         return $commentsList;
     }
+
     /**
      * Mahmoud Jallala
      * function to get the Image on the Event Details page 
@@ -757,6 +717,7 @@ class MeetingController extends Controller {
 
         return $imageURL;
     }
+
     /**
      * Mahmoud Jallala
      * function to get the Organization on the Event Details page 
@@ -774,6 +735,7 @@ class MeetingController extends Controller {
 
         return $orglist;
     }
+
     /**
      * Mahmoud Jallala
      * function to get the Organization on the Event Details page 
@@ -791,7 +753,6 @@ class MeetingController extends Controller {
 
         return $venuelist;
     }
-    
 
     /**
      * Mahmoud Jallala
@@ -819,7 +780,7 @@ class MeetingController extends Controller {
      */
     private function searchEvents($keyword) {
         $em = $this->getDoctrine()->getManager();
-        
+
 
         $q = $em->createQuery("SELECT e, o, s "
                 . "FROM \Acme\bsceneBundle\Entity\Meeting e "
@@ -851,7 +812,7 @@ class MeetingController extends Controller {
         $searchResult = $q->getResult();
         return $searchResult;
     }
-    
+
     /**
      * the search by date function given a date
      * @param date $searchDate
@@ -867,20 +828,18 @@ class MeetingController extends Controller {
         $searchResult = $q->getResult();
         return $searchResult;
     }
-    
-    
+
     /**
      * Lists results from category search
      */
     public function dateSearchAction($day) {
         $em = $this->getDoctrine()->getManager();
-        
+
         $resultList = $this->searchByDate($day);
         $resultCount = \Count($resultList);
         $noResults = "";
-        
-        if ($resultCount == 0)
-        {
+
+        if ($resultCount == 0) {
             $noResults = "There are no events on that day. Please peak another day from the calender.";
         }
 
@@ -889,9 +848,6 @@ class MeetingController extends Controller {
                     'resultCount' => $resultCount,
                     'noResults' => $noResults,
         ));
-        
-        
-        
     }
 
 }

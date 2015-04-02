@@ -106,18 +106,24 @@
 
 
             <tr>
-                <td><label>Capacity</label><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity"</td>
+                <td><label>Capacity</label><br><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity"</td>
             </tr>
-             <tr>
-                 <td><label for="imageUplaod">Logo picked</label><br> </td>
-            </tr>
-         
+          
             <tr>
-                <td><label for="imageUplaod">* Event Logo</label>
+                <td colspan="2">
+                    <label for="imageUplaod">Event Logo Uploaded</label>
                     <br>
-                   <input hidden="true" value="{{entity.image.id}}" name="imageId" id="imageId">
-                        
-                    <input type="file" name="imageUpload" id="imageUplaod"></td>
+                    <div class="col-md-4">
+                        <img class="img-responsive" src="{{asset(entity.image.URL)}}" alt="">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="imageUplaod">Change Event Logo</label>
+                    <br>
+                 
+                    <input type="file" name="imageUpload" id="imageUplaod">
+                </td>
             </tr>
          
 
@@ -133,7 +139,7 @@
                             {%endif%}
                         {% endfor %}
                         </select>
-                    </td>
+                </td>
                
             
             </tr>
