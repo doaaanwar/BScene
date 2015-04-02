@@ -68,6 +68,15 @@ class Account implements UserInterface
      */
     protected $email;
     
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $verificationHash;
+    
+    /**
+     * @ORM\Column(type="boolean", options={"default":0}, nullable=true)
+     */
+    protected $isVerified;
     
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -651,5 +660,51 @@ class Account implements UserInterface
     public function __toString()
     {
         return $this->firstName." ".$this->lastName;
+    }
+
+    /**
+     * Set verificationHash
+     *
+     * @param string $verificationHash
+     * @return Account
+     */
+    public function setVerificationHash($verificationHash)
+    {
+        $this->verificationHash = $verificationHash;
+
+        return $this;
+    }
+
+    /**
+     * Get verificationHash
+     *
+     * @return string 
+     */
+    public function getVerificationHash()
+    {
+        return $this->verificationHash;
+    }
+
+    /**
+     * Set isVerified
+     *
+     * @param boolean $isVerified
+     * @return Account
+     */
+    public function setIsVerified($isVerified)
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * Get isVerified
+     *
+     * @return boolean 
+     */
+    public function getIsVerified()
+    {
+        return $this->isVerified;
     }
 }

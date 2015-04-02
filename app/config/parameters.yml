@@ -7,10 +7,8 @@ parameters:
     database_user: root
     database_password: ''
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
+    mailer_host: localhost
+    mailer_username: ~
+    mailer_password: ~
     locale: en
     secret: c19181b530b23b84085631b739dd6def5b358d2e
-    database_path: /Applications/XAMPP/xamppfiles/var/mysql/mysql.sock
-
