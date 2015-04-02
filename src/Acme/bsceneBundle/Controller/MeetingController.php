@@ -124,33 +124,15 @@ class MeetingController extends Controller {
         {
             
             $image = $request->files->get('imageUpload');
-            $imageEntity = NULL;
+            $imageEntity = null;
             
             
             if($image)
             {
                 if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
-                    $originalName = $image->getClientOriginalName();
-                    $name_array = explode('.', $originalName);
-                    $file_type = $name_array[sizeof($name_array) - 1];
-                    $valid_filetypes = array('jpg', 'jpeg', 'png', 'bmp');
-                    if (in_array(strtolower($file_type), $valid_filetypes)) {
-                        //upload and save the path to the image.url
-                        $imageEntity = new Image();
-                        $imageEntity->setFile($image);
-                        //TODO check if name already there
-                        $imageEntity->setName($originalName);
-                        $imageEntity->upload();
-                        //set the URL/path
-                        $imageEntity->setURL($imageEntity->getWebPath());
-                        $em = $this->getDoctrine()->getManager();
-                        $em->persist($imageEntity);
-                        $em->flush();
-                        $entity->setImage($imageEntity);
-                    } else {
-                        print_r("Invalid file type");
-                        die();
-                    }
+                    //call upload image
+                    $imageEntity = $this->uploadImage($image);
+                    $entity->setImage($imageEntity);
                 } else {
                     print_r($image->getError());
                     die();
@@ -511,7 +493,6 @@ class MeetingController extends Controller {
         
        if ($request->get('endTime')) {
             $entity->setEndTime(DateTime::createFromFormat($timeFormat,$request->get('endTime')));
-           //$entity->setEndTime($request->get('endTime'));
        }
        
         
@@ -540,7 +521,9 @@ class MeetingController extends Controller {
        
        
        
-       //TODO upload and save new image
+       //upload and save new image
+       
+       
        
        $entity->setTitle($request->get('title'));
        $entity->setCapacity($request->get('capacity'));
@@ -585,6 +568,13 @@ class MeetingController extends Controller {
         ));
     }
     
+    
+    /**
+     * function to create new venue
+     * created 01.04.2015, doaa elfayoumi
+     * @param Request $request
+     * @return Venue
+     */
     private function createVenue(Request $request)
     {
         //the format for the lat lng is (43.4433963, -80.52255709999997)
@@ -642,6 +632,38 @@ class MeetingController extends Controller {
         return $venueEntity;
     }
 
+    
+    /**
+     * function to upload image selected by user
+     * created 01.04.2015, doaa elfayoumi
+     * @param UploadedFile $image
+     */
+    public function uploadImage(UploadedFile $image)
+    {
+        $imageEntity = NULL;
+        $originalName = $image->getClientOriginalName();
+        $name_array = explode('.', $originalName);
+        $file_type = $name_array[sizeof($name_array) - 1];
+        $valid_filetypes = array('jpg', 'jpeg', 'png', 'bmp');
+        if (in_array(strtolower($file_type), $valid_filetypes)) {
+            //upload and save the path to the image.url
+            $imageEntity = new Image();
+            $imageEntity->setFile($image);
+            //TODO check if name already there
+            $imageEntity->setName($originalName);
+            $imageEntity->upload();
+            //set the URL/path
+            $imageEntity->setURL($imageEntity->getWebPath());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($imageEntity);
+            $em->flush();
+            return $imageEntity;
+        } else {
+            print_r("Invalid file type");
+            die();
+        }
+    }
+    
     /**
      * Deletes a Meeting entity.
      *
