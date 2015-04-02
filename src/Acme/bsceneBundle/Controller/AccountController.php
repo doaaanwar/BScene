@@ -10,6 +10,7 @@ use Acme\bsceneBundle\Entity\Organization;
 use Acme\bsceneBundle\Entity\Categories;
 use Acme\bsceneBundle\Form\CategoriesType;
 
+
 /**
  * Account controller.
  *
@@ -48,12 +49,13 @@ class AccountController extends Controller {
 
 
         $entity = new Account();
-
+        $hash = md5(rand(0, 1000)); // Generate random 32 character hash and assign it to a local variable.
 
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         $entity->setMemberSince(new \DateTime());
+        $entity->setVerificationHash($hash);
 
         //encrypt password 
         $plainPassword = $entity->getPassword();
@@ -73,13 +75,58 @@ class AccountController extends Controller {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('account_show', array('id' => $entity->getId())));
+            $this->sendVerificationAction($entity->getId());
+
+            return $this->render('AcmebsceneBundle:Account:VerificationSent.html.twig');
         }
 
         return $this->render('AcmebsceneBundle:Account:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
+    }
+
+    /*
+     * Send verification e-mails
+     * Created by: Victoria Betts, April 2, 2015
+     */
+
+    private function sendVerificationAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $email = $em->createQuery("SELECT a.email FROM \Acme\bsceneBundle\Entity\Account a WHERE a.id = :id")->setParameter('id', $id);
+        $userEmail = $email->getResult();
+
+        $firstName = $em->createQuery("SELECT a.firstName FROM \Acme\bsceneBundle\Entity\Account a WHERE a.id = :id")->setParameter('id', $id);
+        $userFirstName = $firstName->getResult();
+
+        $hash = $em->createQuery("SELECT a.verificationHash FROM \Acme\bsceneBundle\Entity\Account a WHERE a.id = :id")->setParameter('id', $id);
+        $userHash = $hash->getResult();
+
+        $userEmail = implode($userEmail[0]);
+        $userFirstName = implode($userFirstName[0]);
+        $userId = $id;
+        $userHash = implode($userHash[0]);
+
+        $emailLink = 'http:\/\/localhost\/BScene\/web\/app_dev.php\/account\/validated\/' . $userId . '\/' . $userHash;
+
+        //$mailer = $this->get('mailer');
+
+        $transport = \Swift_SmtpTransport::newInstance('localhost', 25);
+        $mailer = \Swift_Mailer::newInstance($transport);
+
+        $message = \Swift_Message::newInstance()
+                ->setSubject('B-Scene Registration!')
+                ->setFrom('bscenenetwork@gmail.com')
+                ->setTo($userEmail)
+                ->setBody($userFirstName . ', <br> Thank you for signing up for B-Scene! '
+                . 'Please click the below link to verify your registration: <br>'
+                . $emailLink . ' <br>'
+                . 'Regards, <br> B-Scene Team', 'text/html');
+        $result = $mailer->send($message);
+        
+        echo($result);
     }
 
     /**
