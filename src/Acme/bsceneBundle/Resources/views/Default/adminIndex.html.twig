@@ -198,8 +198,9 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Title</th>
-                                                                        <th>Date</th>
-
+                                                                        <th>Category</th>
+                                                                         <th>Date</th>
+                                                                          <th>Time</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -208,8 +209,8 @@
 
                                                                            <tr>
                                                                                <td>{{item.title}}</td>
+                                                                               <td>{{item.category}}</td>
                                                                                <td>{{item.date|date('Y-m-d')}}</td>
-
                                                                            </tr>
 
 
@@ -226,7 +227,7 @@
                                             {% endblock %}
 	                                </div>
 	                                <div class="text-right">
-	                                    <a href="eventList.html">View All Events <i class="fa fa-arrow-circle-right"></i></a>
+	                                    <a href="{{path('meeting_admin_list',{'lastLogin' : app.session.get('lastLogin') |date('Y-m-d\\TH:i:sP')}) }}">View All Events <i class="fa fa-arrow-circle-right"></i></a>
 	                                </div>
 	                            </div>
 	                       
