@@ -187,57 +187,7 @@ class MeetingController extends Controller {
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
                 $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
                 if (!$venueEntity) {
-                    //the format for the lat lng is (43.4433963, -80.52255709999997)
-                    //split it to get each value
-                    $newArray = array();
-                    $venueEntity = new Venue();
-                    $latlng = $request->get('lng');
-                    $latlng = str_replace('(', '', $latlng);
-                    $latlng = str_replace(')', '', $latlng);
-                    $latlngVal = explode(',', $latlng, 2);
-
-                    //get the city
-                    $cityName = $request->get('locality');
-
-                    $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Cities');
-                    $cityEntity = $repository->findOneBy(array('name' => $cityName));
-                    if($cityEntity)
-                    {
-                        $venueEntity->setCity($cityEntity);
-                    }
-                    else
-                    {
-                        //TODO the city constraint
-                    }
-
-                    //get the province
-                    $provinceName = $request->get('administrative_area_level_1');
-
-                    $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Province');
-                    $provinceEntity = $repository->findOneBy(array('name' => $provinceName));
-                    if($provinceEntity)
-                    {
-                        $venueEntity->setProvince($provinceEntity);
-                    }
-                    else
-                    {
-                        //TODO the city constraint
-                    }
-                    //TODO put the province constraint
-
-
-
-                    $venueEntity->setPlaceId($placeId);
-                    $venueEntity->setAddress1($request->get('street_number'));
-                    $venueEntity->setAddress2($request->get('route'));
-                    $venueEntity->setPostalCode($request->get('postal_code'));
-                    $venueEntity->setCountry($request->get('country'));
-                    $venueEntity->setName($request->get('name'));
-                    $venueEntity->setLatitude($latlngVal[0]);
-                    $venueEntity->setLongitude($latlngVal[1]);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($venueEntity);
-                    $em->flush();
+                   $venueEntity = $this->createVenue($request);
                 }
                 $entity->setVenue($venueEntity);
             }
@@ -491,6 +441,7 @@ class MeetingController extends Controller {
      * remove the generated edit function and use a manual one 
      * 
      * updated: 31.03.2015, doaa elfayoumi
+     * updated: 1.04.2015, doaa elfayoumi, save time, venue, speaker
      *
      */
      public function editAction($id){
@@ -530,7 +481,7 @@ class MeetingController extends Controller {
         $format = 'Y-m-d';
         if ($request->get('date')) {
             $entity->setDate(DateTime::createFromFormat($format,$request->get('date')));
-            //$entity->setDate($request->get('date'));
+           
         }
         else
         {
@@ -542,7 +493,7 @@ class MeetingController extends Controller {
         
         if ($request->get('time')) {
            $entity->setTime(DateTime::createFromFormat($timeFormat,$request->get('time')));
-           //$entity->setTime($request->get('time'));
+         
         }
         else
         {
@@ -573,57 +524,9 @@ class MeetingController extends Controller {
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
                 $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
                 if (!$venueEntity) {
-                    //the format for the lat lng is (43.4433963, -80.52255709999997)
-                    //split it to get each value
-                    $newArray = array();
-                    $venueEntity = new Venue();
-                    $latlng = $request->get('lng');
-                    $latlng = str_replace('(', '', $latlng);
-                    $latlng = str_replace(')', '', $latlng);
-                    $latlngVal = explode(',', $latlng, 2);
-
-                    //get the city
-                    $cityName = $request->get('locality');
-
-                    $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Cities');
-                    $cityEntity = $repository->findOneBy(array('name' => $cityName));
-                    if($cityEntity)
-                    {
-                        $venueEntity->setCity($cityEntity);
-                    }
-                    else
-                    {
-                        //TODO the city constraint
-                    }
-
-                    //get the province
-                    $provinceName = $request->get('administrative_area_level_1');
-
-                    $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Province');
-                    $provinceEntity = $repository->findOneBy(array('name' => $provinceName));
-                    if($provinceEntity)
-                    {
-                        $venueEntity->setProvince($provinceEntity);
-                    }
-                    else
-                    {
-                        //TODO the city constraint
-                    }
-                    //TODO put the province constraint
-
-
-
-                    $venueEntity->setPlaceId($placeId);
-                    $venueEntity->setAddress1($request->get('street_number'));
-                    $venueEntity->setAddress2($request->get('route'));
-                    $venueEntity->setPostalCode($request->get('postal_code'));
-                    $venueEntity->setCountry($request->get('country'));
-                    $venueEntity->setName($request->get('name'));
-                    $venueEntity->setLatitude($latlngVal[0]);
-                    $venueEntity->setLongitude($latlngVal[1]);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($venueEntity);
-                    $em->flush();
+                    
+                    //call function to create venue
+                    $venueEntity = $this->createVenue($request);
                 }
                 $entity->setVenue($venueEntity);
             }
@@ -680,6 +583,63 @@ class MeetingController extends Controller {
                     'errors' => $errors,
                     'delete_form' => $deleteForm->createView(),
         ));
+    }
+    
+    private function createVenue(Request $request)
+    {
+        //the format for the lat lng is (43.4433963, -80.52255709999997)
+        //split it to get each value
+        $em = $this->getDoctrine()->getManager();
+        $newArray = array();
+        $venueEntity = new Venue();
+        $latlng = $request->get('lng');
+        $latlng = str_replace('(', '', $latlng);
+        $latlng = str_replace(')', '', $latlng);
+        $latlngVal = explode(',', $latlng, 2);
+
+        //get the city
+        $cityName = $request->get('locality');
+
+        $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Cities');
+        $cityEntity = $repository->findOneBy(array('name' => $cityName));
+        if($cityEntity)
+        {
+            $venueEntity->setCity($cityEntity);
+        }
+        else
+        {
+            //TODO the city constraint
+        }
+
+        //get the province
+        $provinceName = $request->get('administrative_area_level_1');
+
+        $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Province');
+        $provinceEntity = $repository->findOneBy(array('name' => $provinceName));
+        if($provinceEntity)
+        {
+            $venueEntity->setProvince($provinceEntity);
+        }
+        else
+        {
+            //TODO the city constraint
+        }
+        //TODO put the province constraint
+
+
+
+        $venueEntity->setPlaceId($request->get('place_id'));
+        $venueEntity->setAddress1($request->get('street_number'));
+        $venueEntity->setAddress2($request->get('route'));
+        $venueEntity->setPostalCode($request->get('postal_code'));
+        $venueEntity->setCountry($request->get('country'));
+        $venueEntity->setName($request->get('name'));
+        $venueEntity->setLatitude($latlngVal[0]);
+        $venueEntity->setLongitude($latlngVal[1]);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($venueEntity);
+        $em->flush();
+        return $venueEntity;
     }
 
     /**
