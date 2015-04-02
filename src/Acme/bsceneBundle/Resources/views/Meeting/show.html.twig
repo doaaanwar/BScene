@@ -333,12 +333,12 @@
                         <var class="atc_event">
                             <var class="atc_date_start">{{ entity.date|date('Y-m-d') }} {{ entity.time|date('H:i:s') }}</var>
                             <var class="atc_date_end">{{ entity.endDate|date('Y-m-d') }} {{ entity.endTime|date('H:i:s') }}</var>
-                            <var class="atc_timezone">Europe/London</var>
+                            <var class="atc_timezone">America/Toronto</var>
                             <var class="atc_title">{{ entity.title }}</var>
                             <var class="atc_description">{{ entity.description }}</var>
-                            <var class="atc_location">Kitchener</var>
-                            <var class="atc_organizer">Conestoga College</var>
-                            <var class="atc_organizer_email">info@conestogac.on.ca</var>
+                            <var class="atc_location">{{entity.venue.city.name}}</var>
+                            <var class="atc_organizer">{{entity.organization.name}}</var>
+                            
                         </var>
                     </span>
             </div>
