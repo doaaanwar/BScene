@@ -53,8 +53,12 @@
                  
                  <p><b>Starting Date:</b>  {{ entity.date|date('M d, Y') }}</p>
                  <p><b>Starting Time:</b> {{ entity.time|date('g:i a') }}</p>
+                 {% if entity.endDate != null%}
                  <p><b>End Date:</b>  {{ entity.endDate|date('M d, Y') }}</p>
+                 {% endif%}
+                 {% if entity.endTime != null%}
                  <p><b>End Time:</b> {{ entity.endTime|date('g:i a') }}</p>
+                 {% endif%}
             </div>
         <div class="well">
             <h4 class="createOrg">Speakers:</h4> <br>
