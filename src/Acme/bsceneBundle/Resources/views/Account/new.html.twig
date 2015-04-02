@@ -97,16 +97,14 @@
                     {{ form_row(form.status) }}
                     {{ form_row(form._token) }}
 
-                    <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#confirmDetails">
-                        Create Account
-                    </button>
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+
                 </td>
             </tr>  
         </table>
 
     </div>
-
-    <!-- Modal -->
+<!-- Modal
     <div class="modal fade" id="confirmDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -120,12 +118,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Edit Details</button>
-                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
 
                 </div>
             </div>
         </div>
     </div>
+    -->
 </div>
 
 

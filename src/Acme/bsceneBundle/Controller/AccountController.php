@@ -10,7 +10,6 @@ use Acme\bsceneBundle\Entity\Organization;
 use Acme\bsceneBundle\Entity\Categories;
 use Acme\bsceneBundle\Form\CategoriesType;
 
-
 /**
  * Account controller.
  *
@@ -125,7 +124,7 @@ class AccountController extends Controller {
                 . $emailLink . ' <br>'
                 . 'Regards, <br> B-Scene Team', 'text/html');
         $result = $mailer->send($message);
-        
+
         echo($result);
     }
 
@@ -196,7 +195,7 @@ class AccountController extends Controller {
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('AcmebsceneBundle:Account:profile.html.twig', array(
+        return $this->render('AcmebsceneBundle:Account:show.html.twig', array(
                     'entity' => $entity,
                     'delete_form' => $deleteForm->createView(),
                     'upcoming' => $eventList,
@@ -395,10 +394,34 @@ class AccountController extends Controller {
 
     public function newSubscriptionAction(Request $request) {
 
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQuery("SELECT c.id FROM \Acme\bsceneBundle\Entity\Categories c");
+        $categories = $q->getArrayResult();
+
+        $categoryList = array();
+        $subscribeList = array();
+        //Create array from DB results to be used in a for loop
+        for ($i = 0; $i <= count($categories) - 1; $i++) {
+            $category = implode($categories[$i]);
+            array_push($categoryList, $category);
+        }
+
         /*
-          $userId = $request->getSession()->get("memberId");
-          $categories = $this->get('request')->request->get('subscription');
+         * Loop through IDs, check each time if it is checked (not null). If not null, persist to database memberId and value of category
          */
+
+        foreach ($categoryList as $categoryId) {
+            $userSelection = $this->get('request')->request->get($categoryId);
+            if ($userSelection != null) {
+                array_push($subscribeList, $categoryId);
+            }
+        }
+    
+        $userId = $request->getSession()->get("memberId");
+        return $this->render('AcmebsceneBundle:Account:subscribe.html.twig', array(
+                    'categories' => $categories,
+        ));
     }
 
     /*
