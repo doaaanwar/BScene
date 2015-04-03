@@ -93,7 +93,7 @@
                                         <i class="fa fa-users fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">13</div>
+                                        <div class="huge">{{memberCount}}</div>
                                         <div>New Members!</div>
                                     </div>
                                 </div>
@@ -246,7 +246,39 @@
 	                            <div class="panel-body">
 	                                <div class="table-responsive">
 	                                    {% block memberList %}
-              
+                                               <!-- top 10 new comment list  -->
+                                                      <div class="table-responsive">
+                                                            {% if memberList != NULL %}
+                                                            <table class="table table-bordered table-hover table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>First Name</th>
+                                                                        <th>Last Name</th>
+                                                                         <th>Organization</th>
+                                                                        
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                        {% for item in memberList %}
+
+                                                                           <tr>
+                                                                               <td>{{item.firstName}}</td>
+                                                                               <td>{{item.lastName}}</td>
+                                                                               <td>{{item.organization}}</td>
+                                                                           </tr>
+
+
+                                                                        {%endfor%}
+
+
+
+                                                                </tbody>
+                                                            </table>
+                                                            {%else%}
+                                                                        {{newEventMessage}}
+                                                            {%endif%}
+                                                        </div>
                                             {% endblock %}
 	                                </div>
 	                                <div class="text-right">

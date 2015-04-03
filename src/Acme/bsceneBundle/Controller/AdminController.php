@@ -54,8 +54,17 @@ class AdminController extends Controller
         
         //TODO get the number of new members
         
+        $memberList = $this->getNewMemberList($lastLogin);
         
-        
+        if(count($memberList) == 0)
+        {
+             $memberMessage = "no new event found";
+        }
+        else
+        {
+            $memberMessage = Null;
+            
+        }
       
         
         //TODO get the list of new members
@@ -66,7 +75,10 @@ class AdminController extends Controller
                                                                                     'commentCount' => Count($commentList),
                                                                                     'eventList' => $eventList,
                                                                                     'eventCount' => Count($eventList),
-                                                                                    'newEventMessage' => $newEventMessage));
+                                                                                    'newEventMessage' => $newEventMessage,
+                                                                                     'memberList' => $memberList,
+                                                                                    'memberCount' => Count($memberList),
+                                                                                    'memberMessage' => $memberMessage));
     }
     
     
@@ -104,6 +116,16 @@ class AdminController extends Controller
         return $eventList;
     }
     
+    
+    private function getNewMemberList($lastLogin)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Account e where e.memberSince >= '$lastLogin'");
+        $memberList = $q->getResult();
+
+        return $memberList;
+    }
     
     
     
