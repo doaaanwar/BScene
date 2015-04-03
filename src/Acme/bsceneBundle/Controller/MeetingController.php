@@ -223,8 +223,11 @@ class MeetingController extends Controller {
                                 'matchCount' => \count($matchingList),
                                 'matchResults' => $matchingList, 'form' => $form->createView()));
                 } else {
-                    
-                    return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
+                     
+                     return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(), 'entity' => $entity,
+                                'matchCount' => 0,
+                                'matchResults' => null, 'form' => $form->createView()));
+                   // return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
                 }
             }
         } else {
