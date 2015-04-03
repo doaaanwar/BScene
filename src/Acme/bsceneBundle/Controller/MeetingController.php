@@ -32,6 +32,8 @@ class MeetingController extends Controller {
 
         $keyword = $this->get('request')->request->get('searchTerm');
 
+        $resultImages = array();
+
         if (($keyword != "") && ($keyword != " ")) {
 
             $searchResults = $this->searchEvents($request->get("searchTerm"));
@@ -46,6 +48,7 @@ class MeetingController extends Controller {
                     'searchResults' => $searchResults,
                     'resultCount' => $resultCount,
                     'noResults' => $noResults,
+                    'image' => $resultImages,
         ));
     }
 
@@ -153,25 +156,17 @@ class MeetingController extends Controller {
                 $em = $this->getDoctrine()->getEntityManager();
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
                 $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
-               
-                if(!$venueEntity)
-                {
-                    $venueEntity = $this->createVenue($request);
-                    
-                }
-                if($venueEntity == false)
-                {
-                    $form->addError(new FormError("Address entered is not on the range covered by this website"));
 
+                if (!$venueEntity) {
+                    $venueEntity = $this->createVenue($request);
                 }
-                else {
-                     $entity->setVenue($venueEntity);
+                if ($venueEntity == false) {
+                    $form->addError(new FormError("Address entered is not on the range covered by this website"));
+                } else {
+                    $entity->setVenue($venueEntity);
                 }
-               
-            }
-            else
-            {
-                 $form->addError(new FormError("Please enter the event location. It is mandatory"));
+            } else {
+                $form->addError(new FormError("Please enter the event location. It is mandatory"));
             }
 
             //TODO handle if the session expire
@@ -185,36 +180,29 @@ class MeetingController extends Controller {
 
 
             $matchingList = $this->getMatchingEvent($entity);
-            
+
             $format = 'Y-m-d';
             $startDate = DateTime::createFromFormat($format, $entity->getDate());
             //check if the date is on the future
-            if($startDate < new \DateTime())
-            {
+            if ($startDate < new \DateTime()) {
                 $form->addError(new FormError("date can't be in the past."));
-
-            }
-            else
-            {
+            } else {
                 $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
             }
             //check if the endDate is not null and format it
             if ($entity->getEndDate()) {
                 $endDate = DateTime::createFromFormat($format, $entity->getEndDate());
 
-                if($endDate < $startDate)
-                {
+                if ($endDate < $startDate) {
                     $form->addError(new FormError("End Date can not be before the stary date."));
-                }
-                else
-                {
+                } else {
                     $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
                 }
             }
-              
-            
+
+
             if ($form->isValid()) {
-                
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
@@ -234,11 +222,11 @@ class MeetingController extends Controller {
                                 'matchCount' => \count($matchingList),
                                 'matchResults' => $matchingList, 'form' => $form->createView()));
                 } else {
-                     
-                     return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(), 'entity' => $entity,
+
+                    return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(), 'entity' => $entity,
                                 'matchCount' => 0,
                                 'matchResults' => null, 'form' => $form->createView()));
-                   // return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
+                    // return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
                 }
             }
         } else {
@@ -250,36 +238,28 @@ class MeetingController extends Controller {
                     'form' => $form->createView(),
         ));
     }
-    
-    
-    
-    private function sendNotificationEmail(Categories $category, Meeting $newEntity)
-    {
-        
+
+    private function sendNotificationEmail(Categories $category, Meeting $newEntity) {
+
         //TODO get the list of subscriber
-        
-        
         //TODO construct email
-       
-        
-        
         //TODO loop on the list get email send email
-        
-        
-        
-        
-         $options = array(
+
+
+
+
+        $options = array(
             'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true
-        )
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
         );
 
 
-        
+
         //TODO replace values with the account value
-        
+
         $mail = new PHPMailer;
 
         //$mail->SMTPDebug = 3;                               // Enable verbose debug output
@@ -295,9 +275,9 @@ class MeetingController extends Controller {
         $mail->From = 'bscenenetwork@gmail.com';
         $mail->FromName = 'Mailer';
         $mail->addAddress('doaa.anwar@gmail.com', 'Joe User');     // Add a recipient
-       
 
-       
+
+
         $mail->isHTML(true);                                  // Set email format to HTML
 
         $mail->Subject = 'Here is the subject';
@@ -305,14 +285,13 @@ class MeetingController extends Controller {
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         $mail->smtpConnect($options);
-        
+
         if (!$mail->send()) {
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;
         } else {
             echo 'Message has been sent';
         }
-
     }
 
     private function getMatchingEvent(Meeting $entity) {
@@ -408,9 +387,6 @@ class MeetingController extends Controller {
                     'relatedEventsCount' => $relatedEventCount,
         ));
     }
-    
-    
-    
 
     /**
      * remove the generated edit function and use a manual one 
@@ -555,18 +531,14 @@ class MeetingController extends Controller {
 
         if ($request->get('endDate')) {
             $entity->setEndDate(DateTime::createFromFormat($format, $request->get('endDate')));
-        }
-        else
-        {
+        } else {
             $entity->setEndDate(null);
         }
 
 
         if ($request->get('endTime')) {
             $entity->setEndTime(DateTime::createFromFormat($timeFormat, $request->get('endTime')));
-        }
-        else
-        {
+        } else {
             $entity->setEndTime(null);
         }
 
@@ -594,15 +566,15 @@ class MeetingController extends Controller {
 
         //upload and save new image
         $image = $request->files->get('imageUpload2');
-       
+
         $imageEntity = null;
 
 
         if ($image) {
-             if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
-                    //call upload image
-                    $imageEntity = $this->uploadImage($image);
-                    $entity->setImage($imageEntity);
+            if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                //call upload image
+                $imageEntity = $this->uploadImage($image);
+                $entity->setImage($imageEntity);
             } else {
                 print_r($image->getError());
                 die();
@@ -897,10 +869,11 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
 
-        $q = $em->createQuery("SELECT e, o, s "
+        $q = $em->createQuery("SELECT e, o, s, i "
                 . "FROM \Acme\bsceneBundle\Entity\Meeting e "
                 . "LEFT JOIN e.organization o "
                 . "LEFT JOIN e.speakers s "
+                . "LEFT JOIN e.image i "
                 . "WHERE ((e.title LIKE CONCAT('%', :keyword, '%')) OR "
                 . "(e.description LIKE CONCAT('%', :keyword2, '%')) OR "
                 . "(o.name LIKE CONCAT('%', :keyword3, '%')) OR "
