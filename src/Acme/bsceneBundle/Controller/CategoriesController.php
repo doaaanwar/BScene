@@ -225,11 +225,11 @@ class CategoriesController extends Controller
                     $entity->setImage($imageEntity);
                 } else {
                     print_r("Invalid file type");
-                    die();
+                    //die();
                 }
             } else {
                 print_r("image upload error");
-                die();
+                //die();
             }
             $em->flush();
 
@@ -265,7 +265,8 @@ class CategoriesController extends Controller
 
         return $this->redirect($this->generateUrl('category'));
     }
-
+    
+    
     /**
      * Creates a form to delete a Categories entity by id.
      *
@@ -273,13 +274,16 @@ class CategoriesController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+   
+    
+      private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('category_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('category_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array(
+                            'label' => 'Delete Category',
+                            'attr' => array('class' => 'btn btn-danger')))
+                        ->getForm()
         ;
     }
 }

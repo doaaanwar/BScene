@@ -11,10 +11,12 @@
    
     {{ form_start(edit_form) }}
     {{ form_errors(edit_form) }}
+    
+    
      <div align="center">
 
         <table>
-            <tr>
+             <tr>
                 <td>{{ form_row(edit_form.name) }}</td>
                
                 <td><label>Change the category image</label><br><input type="file" name="imageCatUpload" id="imageCatUpload"></td>
@@ -51,13 +53,16 @@
 
         </table>
 
-    </div>
+   
+    <div align="left">
         <ul class="record_actions">
-    <li>
-        <a href="{{ path('category') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+            <li>
+                <a href="{{ path('category') }}">
+                    Back to the list
+                </a>
+            </li>
+            <li>{{ form(delete_form) }}</li>
+         </ul>
+    </div>
+       </div>
 {% endblock %}

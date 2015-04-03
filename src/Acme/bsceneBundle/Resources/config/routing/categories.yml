@@ -23,7 +23,7 @@ category_update:
     path:     /{id}/update
     defaults: { _controller: "AcmebsceneBundle:Categories:update" }
     requirements: { _method: post|put }
-
+   
 category_delete:
     path:     /{id}/delete
     defaults: { _controller: "AcmebsceneBundle:Categories:delete" }
