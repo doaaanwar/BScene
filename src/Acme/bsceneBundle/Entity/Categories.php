@@ -307,4 +307,37 @@ class Categories
     {
         return $this->eventfullCategory;
     }
+
+    /**
+     * Add accounts
+     *
+     * @param \Acme\bsceneBundle\Entity\Account $accounts
+     * @return Categories
+     */
+    public function addAccount(\Acme\bsceneBundle\Entity\Account $accounts)
+    {
+        $this->accounts[] = $accounts;
+
+        return $this;
+    }
+
+    /**
+     * Remove accounts
+     *
+     * @param \Acme\bsceneBundle\Entity\Account $accounts
+     */
+    public function removeAccount(\Acme\bsceneBundle\Entity\Account $accounts)
+    {
+        $this->accounts->removeElement($accounts);
+    }
+
+    /**
+     * Get accounts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAccounts()
+    {
+        return $this->accounts;
+    }
 }

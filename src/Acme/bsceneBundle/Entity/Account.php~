@@ -162,6 +162,12 @@ class Account implements UserInterface
      * @ORM\OneToMany(targetEntity="Meeting", mappedBy="account")
      */
     protected $events;
+    
+        /**
+    * @ORM\ManyToMany(targetEntity="Categories", inversedBy="accounts")
+    * @ORM\JoinTable(name="SubscriberCategories")
+    **/
+    protected $categories;
    
     
     
@@ -660,5 +666,51 @@ class Account implements UserInterface
     public function __toString()
     {
         return $this->firstName." ".$this->lastName;
+    }
+
+    /**
+     * Set verificationHash
+     *
+     * @param string $verificationHash
+     * @return Account
+     */
+    public function setVerificationHash($verificationHash)
+    {
+        $this->verificationHash = $verificationHash;
+
+        return $this;
+    }
+
+    /**
+     * Get verificationHash
+     *
+     * @return string 
+     */
+    public function getVerificationHash()
+    {
+        return $this->verificationHash;
+    }
+
+    /**
+     * Set isVerified
+     *
+     * @param boolean $isVerified
+     * @return Account
+     */
+    public function setIsVerified($isVerified)
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * Get isVerified
+     *
+     * @return boolean 
+     */
+    public function getIsVerified()
+    {
+        return $this->isVerified;
     }
 }

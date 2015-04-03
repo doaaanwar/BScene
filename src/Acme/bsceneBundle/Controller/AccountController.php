@@ -398,7 +398,7 @@ class AccountController extends Controller {
 
         $q = $em->createQuery("SELECT c.id, c.name FROM \Acme\bsceneBundle\Entity\Categories c");
         $categories = $q->getArrayResult();
-        
+
         $categoryIdList = array();
         $categoryNameList = array();
         $subscribeList = array();
@@ -406,10 +406,10 @@ class AccountController extends Controller {
         for ($i = 0; $i <= count($categories) - 1; $i++) {
             $categoryId = $categories[$i]['id'];
             $categoryName = $categories[$i]['name'];
-            $categoryIdList[]= $categoryId;
+            $categoryIdList[] = $categoryId;
             $categoryNameList[] = $categoryName;
         }
-        
+
         /*
          * Loop through checkbox IDs, check each time if it is checked (not null). 
          * If not null, add the corresponding ID to $subscribeList array
@@ -421,17 +421,30 @@ class AccountController extends Controller {
                 array_push($subscribeList, $categoryId);
             }
         }
-        
-        foreach ($subscribeList as $subscriber)
-        {
-            //Add to database here?
-        }
-    
+
         $userId = $request->getSession()->get("memberId");
-        
-        
-        
-        
+
+        $e = $this->getDoctrine()->getEntityManager();
+        $repository = $e->getRepository('\Acme\bsceneBundle\Entity\Account');
+        $userEntity = $repository->findOneBy(array('id' => $userId));
+
+
+        foreach ($subscribeList as $subscribeId) {
+            $e = $this->getDoctrine()->getEntityManager();
+            $repository = $e->getRepository('\Acme\bsceneBundle\Entity\Categories');
+            $categoryEntity = $repository->findOneBy(array('id' => $subscribeId));
+
+            $categoryEntity->addAccount($userEntity);
+            $userEntity->addCategory($categoryEntity);
+            $em->persist($userEntity);
+            $em->persist($categoryEntity);
+            $em->flush();
+        }
+
+
+
+
+
         return $this->render('AcmebsceneBundle:Account:subscribe.html.twig', array(
                     'categories' => $categories,
         ));

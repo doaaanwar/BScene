@@ -713,4 +713,37 @@ class Account implements UserInterface
     {
         return $this->isVerified;
     }
+
+    /**
+     * Add categories
+     *
+     * @param \Acme\bsceneBundle\Entity\Categories $categories
+     * @return Account
+     */
+    public function addCategory(\Acme\bsceneBundle\Entity\Categories $categories)
+    {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \Acme\bsceneBundle\Entity\Categories $categories
+     */
+    public function removeCategory(\Acme\bsceneBundle\Entity\Categories $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
 }
