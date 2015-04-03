@@ -145,7 +145,11 @@ class DefaultController extends Controller
      */
     public function logoutAction(Request $request)
     {
-        $request->getSession()->invalidate();
+        $session = $request->getSession();
+        $session->set('member',null);
+        $session->set('memberId',null);
+        $session->set('admin',null);
+        $session->set('lastLogin',null);
         $categoryList = $this->getCategoryList();
         return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
   
