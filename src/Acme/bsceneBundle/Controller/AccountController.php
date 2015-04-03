@@ -129,7 +129,7 @@ class AccountController extends Controller {
           echo($result); */
 
        
-
+        //options used to turn off the ssl verification
         $options = array(
             'ssl' => array(
             'verify_peer' => false,
@@ -139,6 +139,9 @@ class AccountController extends Controller {
         );
 
 
+        
+        //TODO replace values with the account value
+        
         $mail = new PHPMailer;
 
         //$mail->SMTPDebug = 3;                               // Enable verbose debug output
