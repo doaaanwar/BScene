@@ -59,9 +59,11 @@
                                                    <a href="{{path('account_show',{'id' : app.session.get('memberId')})}}"><i class="fa fa-fw fa-user"></i> Profile</a>
                                                </li>
                                                 {% endif %} 
+                                               {% if app.session.get('admin') == null %}
                                                <li>
                                                    <a href="{{path('meeting_new')}}"><i class="fa fa-fw fa-gear"></i> Post Event</a>
                                                </li>
+                                                {% endif %} 
                                                <li class="divider"></li>
                                                <li>
                                                    <a href="{{path('acmebscene_logout')}}"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
