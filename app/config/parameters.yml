@@ -6,9 +6,9 @@ parameters:
     database_name: Bscene
     database_user: root
     database_password: ''
-    mailer_transport: smtp
-    mailer_host: localhost
-    mailer_username: ~
-    mailer_password: ~
+    mailer_transport: gmail
+    mailer_host: smtp.gmail.com
+    mailer_user: bscenenetwork@gmail.com
+    mailer_password: sustento
     locale: en
     secret: c19181b530b23b84085631b739dd6def5b358d2e
