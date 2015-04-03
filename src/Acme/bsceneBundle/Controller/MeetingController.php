@@ -199,6 +199,7 @@ class MeetingController extends Controller {
                                 'matchCount' => \count($matchingList),
                                 'matchResults' => $matchingList, 'form' => $form->createView()));
                 } else {
+                    
                     return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
                 }
             }
@@ -210,6 +211,70 @@ class MeetingController extends Controller {
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
+    }
+    
+    
+    
+    private function sendNotificationEmail(Categories $category, Meeting $newEntity)
+    {
+        
+        //TODO get the list of subscriber
+        
+        
+        //TODO construct email
+       
+        
+        
+        //TODO loop on the list get email send email
+        
+        
+        
+        
+         $options = array(
+            'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+        );
+
+
+        
+        //TODO replace values with the account value
+        
+        $mail = new PHPMailer;
+
+        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com;';  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = 'bscenenetwork@gmail.com';                 // SMTP username
+        $mail->Password = 'sustento';                           // SMTP password
+        $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 587;                                    // TCP port to connect to
+
+        $mail->From = 'bscenenetwork@gmail.com';
+        $mail->FromName = 'Mailer';
+        $mail->addAddress('doaa.anwar@gmail.com', 'Joe User');     // Add a recipient
+       
+
+       
+        $mail->isHTML(true);                                  // Set email format to HTML
+
+        $mail->Subject = 'Here is the subject';
+        $mail->Body = 'This is the HTML message body <b>in bold!</b>';
+        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        $mail->smtpConnect($options);
+        
+        if (!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent';
+        }
+
     }
 
     private function getMatchingEvent(Meeting $entity) {
@@ -305,6 +370,9 @@ class MeetingController extends Controller {
                     'relatedEventsCount' => $relatedEventCount,
         ));
     }
+    
+    
+    
 
     /**
      * remove the generated edit function and use a manual one 
