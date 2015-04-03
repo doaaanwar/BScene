@@ -153,10 +153,21 @@ class MeetingController extends Controller {
                 $em = $this->getDoctrine()->getEntityManager();
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
                 $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
-                if (!$venueEntity) {
+               
+                if(!$venueEntity)
+                {
                     $venueEntity = $this->createVenue($request);
+                    
                 }
-                $entity->setVenue($venueEntity);
+                if($venueEntity == false)
+                {
+                    $form->addError(new FormError("Address entered is not on the range covered by this website"));
+
+                }
+                else {
+                     $entity->setVenue($venueEntity);
+                }
+               
             }
             else
             {
@@ -665,6 +676,7 @@ class MeetingController extends Controller {
             $venueEntity->setCity($cityEntity);
         } else {
             //TODO the city constraint
+            return false;
         }
 
         //get the province
@@ -676,6 +688,7 @@ class MeetingController extends Controller {
             $venueEntity->setProvince($provinceEntity);
         } else {
             //TODO the city constraint
+            return false;
         }
         //TODO put the province constraint
 
