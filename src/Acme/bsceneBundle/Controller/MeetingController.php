@@ -146,7 +146,7 @@ class MeetingController extends Controller {
                 }
             }
 
-            //TODO venue is manadatory
+            //venue is manadatory
             //Create venue and assign it to the event
             $placeId = $request->get('place_id');
             if ($placeId) {
@@ -157,6 +157,10 @@ class MeetingController extends Controller {
                     $venueEntity = $this->createVenue($request);
                 }
                 $entity->setVenue($venueEntity);
+            }
+            else
+            {
+                 $form->addError(new FormError("Please enter the event location. It is mandatory"));
             }
 
             //TODO handle if the session expire
@@ -170,16 +174,36 @@ class MeetingController extends Controller {
 
 
             $matchingList = $this->getMatchingEvent($entity);
-            if ($form->isValid()) {
-                $format = 'Y-m-d';
+            
+            $format = 'Y-m-d';
+            $startDate = DateTime::createFromFormat($format, $entity->getDate());
+            //check if the date is on the future
+            if($startDate < new \DateTime())
+            {
+                $form->addError(new FormError("date can't be in the past."));
+
+            }
+            else
+            {
                 $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
-                //check if the endDate is not null and format it
-                if ($entity->getEndDate()) {
+            }
+            //check if the endDate is not null and format it
+            if ($entity->getEndDate()) {
+                $endDate = DateTime::createFromFormat($format, $entity->getEndDate());
+
+                if($endDate < $startDate)
+                {
+                    $form->addError(new FormError("End Date can not be before the stary date."));
+                }
+                else
+                {
                     $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
                 }
-                //TODO check if the date is on the future
-
-
+            }
+              
+            
+            if ($form->isValid()) {
+                
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
