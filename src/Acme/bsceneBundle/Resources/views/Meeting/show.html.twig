@@ -71,7 +71,7 @@
                  {% if entity.endTime != null%}
                  <p><b>End Time:</b> {{ entity.endTime|date('g:i a') }}</p>
                  {% endif%}
-                 {%if app.session.get('memberId') == entity.account.id %}
+                 {%if (app.session.get('memberId') == entity.account.id) or (app.session.get('admin') != null) %}
                     <a href="{{ path('meeting_edit', { 'id': entity.id }) }}">
                         Edit
                     </a>
