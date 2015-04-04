@@ -16,6 +16,8 @@ use Acme\bsceneBundle\Entity\Venue;
 use Doctrine\ORM\Query\AST\Functions\SizeFunction;
 use \Symfony\Component\Form\FormError;
 use \Symfony\Component\Validator\Constraints\Time;
+use PHPMailer;
+
 
 /**
  * Meeting controller.
@@ -214,6 +216,15 @@ class MeetingController extends Controller {
                     $em->persist($entity);
                     $em->flush();
                 }
+
+                //notification e-mails
+                $notificationList = $this->emailNotificationList($entity->getCategory());
+
+                foreach ($notificationList as $email) {
+                    $this->sendEmailNotification($email);
+                }
+                
+                //end notification e-mails
                 //check for matching event by date and category
                 if ($matchingList) {
 
@@ -229,69 +240,15 @@ class MeetingController extends Controller {
                     // return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
                 }
             }
-        } else {
+    }
+    else {
             $form->addError(new FormError("Your session Expired. You have to login again."));
         }
-
+        
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
         ));
-    }
-
-    private function sendNotificationEmail(Categories $category, Meeting $newEntity) {
-
-        //TODO get the list of subscriber
-        //TODO construct email
-        //TODO loop on the list get email send email
-
-
-
-
-        $options = array(
-            'ssl' => array(
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            )
-        );
-
-
-
-        //TODO replace values with the account value
-
-        $mail = new PHPMailer;
-
-        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
-
-        $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->Host = 'smtp.gmail.com;';  // Specify main and backup SMTP servers
-        $mail->SMTPAuth = true;                               // Enable SMTP authentication
-        $mail->Username = 'bscenenetwork@gmail.com';                 // SMTP username
-        $mail->Password = 'sustento';                           // SMTP password
-        $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-        $mail->Port = 587;                                    // TCP port to connect to
-
-        $mail->From = 'bscenenetwork@gmail.com';
-        $mail->FromName = 'Mailer';
-        $mail->addAddress('doaa.anwar@gmail.com', 'Joe User');     // Add a recipient
-
-
-
-        $mail->isHTML(true);                                  // Set email format to HTML
-
-        $mail->Subject = 'Here is the subject';
-        $mail->Body = 'This is the HTML message body <b>in bold!</b>';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-        $mail->smtpConnect($options);
-
-        if (!$mail->send()) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
-        } else {
-            echo 'Message has been sent';
-        }
     }
 
     private function getMatchingEvent(Meeting $entity) {
@@ -936,6 +893,90 @@ class MeetingController extends Controller {
                     'resultCount' => $resultCount,
                     'noResults' => $noResults,
         ));
+    }
+
+    /*
+     * Get list of user subscribers for category
+     */
+
+    private function emailNotificationList(\Acme\bsceneBundle\Entity\Categories $entity) {
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $categoryId = $entity -> getId();
+
+        $q = $em->createQuery("SELECT a, c "
+                . "FROM \Acme\bsceneBundle\Entity\Account a "
+                        . "LEFT JOIN a.categories c "
+                        . "WHERE c.id = :categoryId")
+                ->setParameter('categoryId', $categoryId);
+
+        $result = $q->getArrayResult();
+
+        $emailArray = array();
+
+        for ($i = 0; $i <= \Count($result) - 1; $i++) {
+
+            $emailAddress = $result[$i]['email'];
+            $emailArray[] = $emailAddress;
+        }
+
+        return $emailArray;
+    }
+
+    /*
+     * Send e-mail to subscribers
+     */
+
+    private function sendEmailNotification($userEmail) {
+
+        $options = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+
+        //TODO replace values with the account value
+
+        $mail = new PHPMailer;
+
+        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com;';  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = 'bscenenetwork@gmail.com';                 // SMTP username
+        $mail->Password = 'sustento';                           // SMTP password
+        $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 587;                                    // TCP port to connect to
+
+        $mail->From = 'bscenenetwork@gmail.com';
+        $mail->FromName = 'Mailer';
+        $mail->addAddress($userEmail);     // Add a recipient
+
+
+
+        $mail->isHTML(true);                                  // Set email format to HTML
+
+        $mail->Subject = 'New event on B-Scene';
+        $mail->Body = 'There is a new event in a B-Scene category to which you have subscribed! Visit B-Scene to see all event postings. <br>'
+                . 'You may change your subscription preferences from your B-Scene profile.<br><br>'
+                . 'Thanks for your interest!<br>'
+                . 'B-Scene';
+        $mail->AltBody = 'There is a new event in a B-Scene category to which you have subscribed! Visit B-Scene to see all event postings. '
+                . 'You may change your subscription preferences from your B-Scene profile.'
+                . ' Thanks for your interest! - B-Scene';
+
+        $mail->smtpConnect($options);
+
+        if (!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent';
+        }
     }
 
 }
