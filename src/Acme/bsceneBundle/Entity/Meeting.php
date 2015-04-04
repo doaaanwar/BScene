@@ -111,6 +111,10 @@ class Meeting
     * 
     **/
     protected $speakers;
+     /**
+     * @ORM\Column(type="boolean", options={"default":1})
+     */
+    protected $posted;
     
      /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -507,5 +511,28 @@ class Meeting
     public function __toString()
     {
         return $this->title;
+    }
+
+    /**
+     * Set posted
+     *
+     * @param boolean $posted
+     * @return Meeting
+     */
+    public function setPosted($posted)
+    {
+        $this->posted = $posted;
+    
+        return $this;
+    }
+
+    /**
+     * Get posted
+     *
+     * @return boolean 
+     */
+    public function getPosted()
+    {
+        return $this->posted;
     }
 }

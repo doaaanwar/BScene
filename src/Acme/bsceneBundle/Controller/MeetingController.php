@@ -55,7 +55,7 @@ class MeetingController extends Controller {
     }
 
     /**
-     * Lists results from keyword search.
+     * add comment Action.
      *
      */
     public function addCommentAction(Request $request, $id) {
