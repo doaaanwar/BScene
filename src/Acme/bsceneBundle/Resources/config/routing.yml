@@ -131,3 +131,7 @@ acmebscene_deleteComment:
 acmebscene_verificationSent:
     path: /account/VerificationSent/{id}
     defaults: {_controller: AcmebsceneBundle:Account:sendVerification }
+ 
+acmebscene_hide:
+    path: /meeting/hide/{id}
+    defaults: {_controller: AcmebsceneBundle:Meeting:hide }

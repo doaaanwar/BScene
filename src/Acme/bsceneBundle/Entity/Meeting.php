@@ -112,7 +112,7 @@ class Meeting
     **/
     protected $speakers;
      /**
-     * @ORM\Column(type="boolean", options={"default":1})
+     * @ORM\Column(type="boolean")
      */
     protected $posted;
     

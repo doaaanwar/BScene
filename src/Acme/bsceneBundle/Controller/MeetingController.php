@@ -1005,6 +1005,9 @@ class MeetingController extends Controller {
      *
      */
     public function hideAction(Request $request, $id) {
+        $a=1;
+        $b=0;
+        
            $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
@@ -1012,13 +1015,18 @@ class MeetingController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
         }
-
-           if($request->get('posted')=='1'){
-               $entity->setPosted('0');
+        $c=$entity->getPosted();
+           if($c==$b){
+               $entity->setPosted($a);
+               
            }
-            else {
-               $entity->setPosted('1');
-            }
+           if($c==$a){
+               $entity->setPosted($b);
+               
+           }
+            
+            $em->persist($entity);
+            $em->flush();
             return $this->showAction($id);
         }
 
