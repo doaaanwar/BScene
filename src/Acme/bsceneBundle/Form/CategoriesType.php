@@ -36,10 +36,9 @@ class CategoriesType extends AbstractType {
                     ),
                     'label' => 'Homepage Ranking',
                     'required' => true))
-                ->add('image', 'entity', array(
-                    'class' => 'AcmebsceneBundle:Image',
-                    'label' => 'Select Image',
-                    'required' => true))
+                 ->add('image', 'file', array(
+                    'data_class' => 'Acme\bsceneBundle\Entity\Image'
+                    ))
                 ->add('meetupCategory', 'entity', array(
                     'class' => 'AcmebsceneBundle:MeetupCategories',
                     'label' => 'Corresponding Meetup.com Category',
