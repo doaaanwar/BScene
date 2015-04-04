@@ -9,6 +9,7 @@
 //src/bsceneBundle/Entity/EventComments.php
 
 namespace Acme\bsceneBundle\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -30,6 +31,7 @@ class EventComments
     
     /**
      * @ORM\Column(type="string", length=1000)
+     * @Assert\NotBlank()
      */
     protected $comment;
     
@@ -46,7 +48,11 @@ class EventComments
     
     
     /**
-     * @ORM\Column(type="string", length=100)
+     *  @ORM\Column(type="string", length=100)
+     *  @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     protected $email;
     
