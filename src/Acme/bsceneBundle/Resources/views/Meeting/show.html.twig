@@ -142,9 +142,8 @@
                                 <div class="well">
                                     <form action="{{path('acmebscene_deleteComment', { 'id' :entity.id, 'commentId' : item.id } )}}" method="POST">
                                     {% if app.session.get('admin') != null %}
-                                        <!--<a href="{{path('acmebscene_deleteComment', { 'id' :entity.id, 'commentId' : item.id } )}}" class="close"><img src="{{ asset('bundles/acmebscene/images/close_small.png')}}" class="btn_close" title="Close Window" alt="Close" /></a>-->
                                         
-                                        <div align="right"><button type="submit" class="btn_close" ></button></div>
+                                        <button type="submit" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     {%endif%}
 
 
