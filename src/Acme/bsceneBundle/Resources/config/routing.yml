@@ -116,8 +116,9 @@ acmebscene_addComment:
     defaults: {_controller: AcmebsceneBundle:Meeting:addComment }
     
 acmebscene_deleteComment:
-    path: /admin/deleteComment/{id}
-    defaults:  {_controller: AcmebsceneBundle:Admin:deleteComment }
+    path: /meeting/deleteComment/{id}/{commentId}
+    defaults:  {_controller: AcmebsceneBundle:Meeting:deleteComment }
+   
     
 acmebscene_verificationSent:
     path: /account/VerificationSent/{id}

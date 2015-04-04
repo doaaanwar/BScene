@@ -80,6 +80,28 @@ class MeetingController extends Controller {
 
         return $this->showAction($id);
     }
+    
+    /**
+     * function used by the admin only to delete comment
+     * added by doaa elfayoumi, 03.04.2015
+     * 
+     * @param type $id
+     * @return type
+     */
+    public function deleteCommentAction(Request $request,$id,$commentId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AcmebsceneBundle:EventComments')->find($commentId);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Comment entity.');
+        }
+
+        $em->remove($entity);
+        $em->flush();
+        
+        return $this->showAction($id);
+    }
 
     /**
      * Lists results from category search

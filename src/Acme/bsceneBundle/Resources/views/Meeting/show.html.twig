@@ -140,17 +140,19 @@
                             <h3>Reviews and Comments</h3>
                             {% for item in comments %}
                                 <div class="well">
-
+                                    <form action="{{path('acmebscene_deleteComment', { 'id' :entity.id, 'commentId' : item.id } )}}" method="POST">
                                     {% if app.session.get('admin') != null %}
-                                        <a href="{{path('acmebscene_deleteComment', { 'id' :item.id } )}}" class="close"><img src="{{ asset('bundles/acmebscene/images/close_small.png')}}" class="btn_close" title="Close Window" alt="Close" /></a>
-                                        {%endif%}
+                                        <!--<a href="{{path('acmebscene_deleteComment', { 'id' :entity.id, 'commentId' : item.id } )}}" class="close"><img src="{{ asset('bundles/acmebscene/images/close_small.png')}}" class="btn_close" title="Close Window" alt="Close" /></a>-->
+                                        
+                                        <div align="right"><button type="submit" class="btn_close" ></button></div>
+                                    {%endif%}
 
 
                                     <p>{{item.username}}:</p>
                                     <span class="pull-right">{{item.commentTime|date('H:i')}}</span>
                                     <p>{{item.comment}}</p>
-
-
+                                 
+                                       </form>
                                 </div>
                             {% endfor %}
                         {% else %}

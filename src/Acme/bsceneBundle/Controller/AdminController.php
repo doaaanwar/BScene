@@ -140,5 +140,5 @@ class AdminController extends Controller
          return $this->render('AcmebsceneBundle:Meeting:newMeetingList.html.twig', array( 'entities' => $entities,));
     }
     
-    
+      
 }
