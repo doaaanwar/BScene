@@ -1,0 +1,30 @@
+eventful:
+    path:     /
+    defaults: { _controller: "AcmebsceneBundle:Eventful:index" }
+
+eventful_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmebsceneBundle:Eventful:show" }
+
+eventful_new:
+    path:     /new
+    defaults: { _controller: "AcmebsceneBundle:Eventful:new" }
+
+eventful_create:
+    path:     /create
+    defaults: { _controller: "AcmebsceneBundle:Eventful:create" }
+    requirements: { _method: post }
+
+eventful_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmebsceneBundle:Eventful:edit" }
+
+eventful_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmebsceneBundle:Eventful:update" }
+    requirements: { _method: post|put }
+
+eventful_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmebsceneBundle:Eventful:delete" }
+    requirements: { _method: post|delete }

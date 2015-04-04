@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Eventful</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Eventfulorgid</th>
+                <td>{{ entity.eventfulOrgId }}</td>
+            </tr>
+            <tr>
+                <th>Eventfulurl</th>
+                <td>{{ entity.eventfulUrl }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('eventful') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('eventful_edit', { 'id': entity.event }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
