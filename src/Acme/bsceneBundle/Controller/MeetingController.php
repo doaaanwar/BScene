@@ -1000,5 +1000,26 @@ class MeetingController extends Controller {
             echo 'Message has been sent';
         }
     }
+    /**
+     * hide a Meeting.
+     *
+     */
+    public function hideAction(Request $request, $id) {
+           $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Meeting entity.');
+        }
+
+           if($request->get('posted')=='1'){
+               $entity->setPosted('0');
+           }
+            else {
+               $entity->setPosted('1');
+            }
+            return $this->showAction($id);
+        }
 
 }
