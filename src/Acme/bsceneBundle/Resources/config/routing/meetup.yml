@@ -1,0 +1,30 @@
+meetup:
+    path:     /
+    defaults: { _controller: "AcmebsceneBundle:Meetup:index" }
+
+meetup_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmebsceneBundle:Meetup:show" }
+
+meetup_new:
+    path:     /new
+    defaults: { _controller: "AcmebsceneBundle:Meetup:new" }
+
+meetup_create:
+    path:     /create
+    defaults: { _controller: "AcmebsceneBundle:Meetup:create" }
+    requirements: { _method: post }
+
+meetup_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmebsceneBundle:Meetup:edit" }
+
+meetup_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmebsceneBundle:Meetup:update" }
+    requirements: { _method: post|put }
+
+meetup_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmebsceneBundle:Meetup:delete" }
+    requirements: { _method: post|delete }

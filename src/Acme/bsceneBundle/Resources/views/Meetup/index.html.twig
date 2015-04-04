@@ -1,0 +1,41 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Meetup list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Meetupgrpupid</th>
+                <th>Meetupgroupurl</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('meetup_show', { 'id': entity.event }) }}">{{ entity.meetupGrpupId }}</a></td>
+                <td>{{ entity.meetupGroupUrl }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('meetup_show', { 'id': entity.event }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('meetup_edit', { 'id': entity.event }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('meetup_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

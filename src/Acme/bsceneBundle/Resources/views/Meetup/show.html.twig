@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Meetup</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Meetupgrpupid</th>
+                <td>{{ entity.meetupGrpupId }}</td>
+            </tr>
+            <tr>
+                <th>Meetupgroupurl</th>
+                <td>{{ entity.meetupGroupUrl }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('meetup') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('meetup_edit', { 'id': entity.event }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

@@ -15,12 +15,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="Eventful")
+ * @ORM\Table(name="Meetup")
  */
-class Eventful
+class Meetup
 {
     /**
-     * @ORM\OneToOne(targetEntity="meeting", inversedBy="eventful")
+     * @ORM\OneToOne(targetEntity="meeting", inversedBy="meetup")
      * @ORM\JoinColumn(name="eventId", referencedColumnName="id")
      * * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,64 +30,65 @@ class Eventful
     /**
      * @ORM\Column(type="integer", length=100)
      */
-    protected $eventfulOrgId;
+    protected $meetupGrpupId;
     
     /**
      * @ORM\Column(type="string", length=100)
      */
-    protected $eventfulUrl;
+    protected $meetupGroupUrl;
+
 
     /**
-     * Set eventfulOrgId
+     * Set meetupGrpupId
      *
-     * @param integer $eventfulOrgId
-     * @return Eventful
+     * @param integer $meetupGrpupId
+     * @return Meetup
      */
-    public function setEventfulOrgId($eventfulOrgId)
+    public function setMeetupGrpupId($meetupGrpupId)
     {
-        $this->eventfulOrgId = $eventfulOrgId;
+        $this->meetupGrpupId = $meetupGrpupId;
     
         return $this;
     }
 
     /**
-     * Get eventfulOrgId
+     * Get meetupGrpupId
      *
      * @return integer 
      */
-    public function getEventfulOrgId()
+    public function getMeetupGrpupId()
     {
-        return $this->eventfulOrgId;
+        return $this->meetupGrpupId;
     }
 
     /**
-     * Set eventfulUrl
+     * Set meetupGroupUrl
      *
-     * @param string $eventfulUrl
-     * @return Eventful
+     * @param string $meetupGroupUrl
+     * @return Meetup
      */
-    public function setEventfulUrl($eventfulUrl)
+    public function setMeetupGroupUrl($meetupGroupUrl)
     {
-        $this->eventfulUrl = $eventfulUrl;
+        $this->meetupGroupUrl = $meetupGroupUrl;
     
         return $this;
     }
 
     /**
-     * Get eventfulUrl
+     * Get meetupGroupUrl
      *
      * @return string 
      */
-    public function getEventfulUrl()
+    public function getMeetupGroupUrl()
     {
-        return $this->eventfulUrl;
+        return $this->meetupGroupUrl;
     }
 
     /**
      * Set event
      *
      * @param \Acme\bsceneBundle\Entity\event $event
-     * @return Eventful
+     * @return Meetup
      */
     public function setEvent(\Acme\bsceneBundle\Entity\event $event)
     {
