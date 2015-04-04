@@ -3,179 +3,174 @@
 {% block stylesheets %}
     <link href="{{ asset('bundles/acmebscene/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('bundles/acmebscene/css/shop-item.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/acmebscene/css/account.css')}}" rel="stylesheet">
     <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
-      <style>
-                button.link  {
-     background:none!important;
-     border:none; 
-     //padding:0!important;
-     //font: inherit;
-     /*border is optional*/
-     //border-bottom:1px solid #444; 
-     //cursor: pointer;
-     color: #337ab7;
-}
-            </style>  
+    <style>
+        button.link  {
+            background:none!important;
+            border:none; 
+            //padding:0!important;
+            //font: inherit;
+            /*border is optional*/
+            //border-bottom:1px solid #444; 
+            //cursor: pointer;
+            color: #337ab7;
+        }
+    </style>  
 {% endblock %}
 
 {% block body -%}
-
-
     <!--<table class="record_properties">-->
-       
-                <!-- Page Content -->
-        <div class="container">
 
-            <div class="row">
-                
-                <div class="col-md-9">
-              <div class="thumbnail">
-                  <div class="row">
+    <!-- Page Content -->
+    <div class="container">
 
-            <div class="col-md-4">
-                <img class="img-responsive" src="{{asset(uploadedURL)}}" alt="">
-            </div>
+        <div class="row">
 
-            <div class="col-md-4">
-                <h4><a href="#">{{ entity.title }}</a>
+            <div class="col-md-9">
+                <div class="thumbnail">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <img class="img-responsive" src="{{asset(uploadedURL)}}" alt="">
+                        </div>
+
+                        <div class="col-md-4">
+                            <h4><a href="#">{{ entity.title }}</a>
                             </h4>
                             <p>{{ entity.description }} </p>
-                           
-							 
+
+
                             <div id="share-buttons">
-                                
-                              <!-- Facebook -->
-                              <a class="fb-share-button" data-href="<?php the_permalink(); ?>" data-layout="button"></a>
-                              <br>
-                              
-                              <!-- Twitter -->
-                              
-                              <a class="twitter-share-button"  data-count="none" href="<?php the_permalink(); ?>" Tweet> </a>
-                              <br>
-                              <!-- Google+ -->
-                              <link rel="canonical" /> <g:plus action="share" ></g:plus>
+
+                                <!-- Facebook -->
+                                <a class="fb-share-button" data-href="<?php the_permalink(); ?>" data-layout="button"></a>
+                                <br>
+
+                                <!-- Twitter -->
+
+                                <a class="twitter-share-button"  data-count="none" href="<?php the_permalink(); ?>" Tweet> </a>
+                                <br>
+                                <!-- Google+ -->
+                                <link rel="canonical" /> <g:plus action="share" ></g:plus>
                             </div>
-            </div>
+                        </div>
 
-        </div>
-                      
+                    </div>
+
                 </div>
-            <div class="well">
-                 <h3>Event Time Details</h3>
-                 
-                 <p><b>Starting Date:</b>  {{ entity.date|date('M d, Y') }}</p>
-                 <p><b>Starting Time:</b> {{ entity.time|date('g:i a') }}</p>
-                 {% if entity.endDate != null%}
-                 <p><b>End Date:</b>  {{ entity.endDate|date('M d, Y') }}</p>
-                 {% endif%}
-                 {% if entity.endTime != null%}
-                 <p><b>End Time:</b> {{ entity.endTime|date('g:i a') }}</p>
-                 {% endif%}
-                 {%if (app.session.get('memberId') == entity.account.id) or (app.session.get('admin') != null) %}
-                    <a href="{{ path('meeting_edit', { 'id': entity.id }) }}">
-                        Edit
-                    </a>
-                 {%endif%}
-    
-            </div>
-          
-        <div class="well">
-            <h4 class="createOrg">Speakers:</h4> <br>
-	    {% block speaker %}
-                {% if speakerCount != 0 %}
-                    {% for item in speaker %}
-                         <div class="well">
-                                         <div class="row">
-                                        <div class="col-md-12">
-                       
-                         
-                        
-                        <p><b>&nbsp; &nbsp; &nbsp; Name:</b>{{item.name}}</p>
-			<p><b>&nbsp; &nbsp; &nbsp; Title:</b>{{item.title}}</p>
-                         
-                        <h6><b>&nbsp; &nbsp; &nbsp;  &nbsp; Biography:</b> {{item.biography}}</h6>
-                         <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
-                            <div class="form-group">
-                                <input class="form-control" type="hidden" value="{{item.name}}" name="searchTerm" id="searchTerm"/>
-                            </div> 
-                            <button class="link" type="submit" >more of {{item.name}}'s evnts as a speaker</button>
-                        </form>
-                                        </div>
-                                         </div>
-                         </div>
-                    {% endfor %}
-                    {%else%}
-                        <h4 class="createOrg">No Speaker for This Event</h4> <br>
-                {% endif %}
-            {%endblock %}
-	        
-        </div>
-              <div class="well">
-                   <h4>Organization: </h4>
-            {% block org %}
-                {% if orgCount != 0 %}
-                    {% for item in org %}
-                          <div class="well">
-                                         <div class="row">
-                                        <div class="col-md-12">
-                       
-                         
-                         <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
-                            <div class="form-group">
-                                <input class="form-control" type="hidden" value="{{item.name}}" name="searchTerm" id="searchTerm"/>
-                            </div> 
-                            <button class="link" type="submit" >{{item.name}}</button>
-                        </form>
-                                        </div>
-                                         </div>
-                         </div>
-					
-                    {% endfor %}
-                    {%else%}
-                        <h4 class="createOrg"></h4> <br>
-                {% endif %}
-            {%endblock %}
-				
-					
-               </div>
-              <div class="well">
-                        <hr>
-                            {% block Comments %}
-                                {% if commentCount != 0 %}
-                                    <h3>Reviews and Comments</h3>
-                                    {% for item in comments %}
-                                         <div class="well">
-                                        
-                                            {% if app.session.get('admin') != null %}
-                                            <a href="#" class="close"><img src="{{ asset('bundles/acmebscene/images/close_small.png')}}" class="btn_close" title="Close Window" alt="Close" /></a>
-                                            {%endif%}
+                <div class="well">
+                    <h3>Event Time Details</h3>
 
+                    <p><b>Starting Date:</b>  {{ entity.date|date('M d, Y') }}</p>
+                    <p><b>Starting Time:</b> {{ entity.time|date('g:i a') }}</p>
+                    {% if entity.endDate != null%}
+                        <p><b>End Date:</b>  {{ entity.endDate|date('M d, Y') }}</p>
+                    {% endif%}
+                    {% if entity.endTime != null%}
+                        <p><b>End Time:</b> {{ entity.endTime|date('g:i a') }}</p>
+                    {% endif%}
+                    {%if (app.session.get('memberId') == entity.account.id) or (app.session.get('admin') != null) %}
+                        <a href="{{ path('meeting_edit', { 'id': entity.id }) }}">
+                            Edit
+                        </a>
+                    {%endif%}
 
-                                               <p>{{item.username}}:</p>
-                                               <span class="pull-right">{{item.commentTime|date('H:i')}}</span>
-                                               <p>{{item.comment}}</p>
-                                    
-                                       
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
+                </div>
+
+                <div class="well">
+                    <h4 class="createOrg">Speakers:</h4> <br>
+                    {% block speaker %}
+                        {% if speakerCount != 0 %}
+                            {% for item in speaker %}
+                                <div class="well">
                                     <div class="row">
-                                    <p>No Comments</p>
+                                        <div class="col-md-12">
+                                            <p><b>&nbsp; &nbsp; &nbsp; Name:</b>{{item.name}}</p>
+                                            <p><b>&nbsp; &nbsp; &nbsp; Title:</b>{{item.title}}</p>
+
+                                            <h6><b>&nbsp; &nbsp; &nbsp;  &nbsp; Biography:</b> {{item.biography}}</h6>
+                                            <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="hidden" value="{{item.name}}" name="searchTerm" id="searchTerm"/>
+                                                </div> 
+                                                <button class="link" type="submit" >more of {{item.name}}'s evnts as a speaker</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                {% endif %}
-                            {% endblock %}
-        <div class="text-right">
-            <button type="submit" class="btn btn-warning" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Leave a Review</a></button>
-                         
-         
-                    <div  id="createComColumn">
-                        <div class="collapse" id="collapseComment">
-                            <div class="well">
-                                <form class="form-group" id="addComment" name="addComment" method="post" action="{{path('acmebscene_addComment', { 'id' :entity.id } )}}">
-                                
-                                     <table>
+                                </div>
+                            {% endfor %}
+                        {%else%}
+                            <h4 class="createOrg">No Speaker for This Event</h4> <br>
+                        {% endif %}
+                    {%endblock %}
+                </div>
+                <div class="well">
+                    <h4>Organization: </h4>
+                    {% block org %}
+                        {% if orgCount != 0 %}
+                            {% for item in org %}
+                                <div class="well">
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+
+                                            <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="hidden" value="{{item.name}}" name="searchTerm" id="searchTerm"/>
+                                                </div> 
+                                                <button class="link" type="submit" >{{item.name}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                        {%else%}
+                            <h4 class="createOrg"></h4> <br>
+                        {% endif %}
+                    {%endblock %}
+
+
+                </div>
+                <div class="well">
+                    <hr>
+                    {% block Comments %}
+                        {% if commentCount != 0 %}
+                            <h3>Reviews and Comments</h3>
+                            {% for item in comments %}
+                                <div class="well">
+
+                                    {% if app.session.get('admin') != null %}
+                                        <a href="{{path('acmebscene_deleteComment', { 'id' :item.id } )}}" class="close"><img src="{{ asset('bundles/acmebscene/images/close_small.png')}}" class="btn_close" title="Close Window" alt="Close" /></a>
+                                        {%endif%}
+
+
+                                    <p>{{item.username}}:</p>
+                                    <span class="pull-right">{{item.commentTime|date('H:i')}}</span>
+                                    <p>{{item.comment}}</p>
+
+
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="row">
+                                <p>No Comments</p>
+                            </div>
+                        {% endif %}
+                    {% endblock %}
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-warning" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Leave a Review</a></button>
+
+
+                        <div  id="createComColumn">
+                            <div class="collapse" id="collapseComment">
+                                <div class="well">
+                                    <form class="form-group" id="addComment" name="addComment" method="post" action="{{path('acmebscene_addComment', { 'id' :entity.id } )}}">
+
+                                        <table>
                                             <tr>
-                                                <td class="text-right">
+                                                <td>
                                                     <label for="username">Username</label>
                                                 </td>
                                                 <td>
@@ -183,272 +178,293 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-right">
+                                                <td>
                                                     <label for="email">E-Mail Address</label>
                                                 </td>
                                                 <td>
                                                     <input type="email" id="commenterEmail" name="commenterEmail" class="form-control" required>
                                                 </td>
-                                                 
+
                                             </tr>
                                             <tr>
-                                                <td class="text-right">
+                                                <td>
                                                     <label for="comment">Comment</label>
                                                 </td>
                                                 <td>
                                                     <textarea id="commenterComment" name="commenterComment" class="form-control" rows="5" required></textarea>
                                                 </td>
                                             </tr>
-                                             <div class="modal-footer">
-                        <button class="btn btn-default" type="submit" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Close</button>
-                        <button type="submit" class="btn btn-warning">Save changes</button>
-                   
-                     </div>
-                                     </table>
-                                </form>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default" type="submit" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Close</button>
+                                                <button type="submit" class="btn btn-warning">Save changes</button>
+
+                                            </div>
+                                        </table>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-             
-        </div>
 
                     </div>
-        </div>
+
+                </div>
+            </div>
             <div class="col-md-3">
-                 {% block venue %}
-                                {% if venueCont != 0 %}
-                                    {% for item in venue %}
-              
-			
-			<div id="map"  style="width: 260px; height: 310px;" frameborder="0" style="border:0"></div>
-               
-  <script>
-      
-    // Define your locations: HTML content for the info window, latitude, longitude
-    var locations = [
-  
-      ['<h4>{{entity.title}}</h4>', {{item.latitude}}, {{item.longitude}}],
-      
-    ];
-    
-    // Setup the different icons and shadows
-    var iconURLPrefix = 'http://maps.google.com/mapfiles/ms/icons/';
-    
-    var icons = [
-      iconURLPrefix + 'red-dot.png',
-      
-    ]
-    var iconsLength = icons.length;
+                {% block venue %}
+                    {% if venueCont != 0 %}
+                        {% for item in venue %}
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 10,
-      center: new google.maps.LatLng(-28.643387, 153.612224),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: false,
-      streetViewControl: false,
-      panControl: false,
-      zoomControlOptions: {
-        style: google.maps.ZoomControlStyle.LARGE,
-        position: google.maps.ControlPosition.LEFT_CENTER
-      }
-    });
 
-    var infowindow = new google.maps.InfoWindow({
-      maxWidth: 160
-    });
+                            <div id="map"  style="width: 260px; height: 310px;" frameborder="0" style="border:0"></div>
 
-    var markers = new Array();
-    
-    var iconCounter = 0;
-    
-    // Add the markers and infowindows to the map
-    for (var i = 0; i < locations.length; i++) {  
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-        map: map,
-        icon: icons[iconCounter]
-      });
+                            <script>
 
-      markers.push(marker);
+                                // Define your locations: HTML content for the info window, latitude, longitude
+                                var locations = [
+                                    ['<h4>{{entity.title}}</h4>', {{item.latitude}}, {{item.longitude}}],
+                                ];
 
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent(locations[i][0]);
-          infowindow.open(map, marker);
-        }
-      })(marker, i));
-      
-      iconCounter++;
-      // We only have a limited number of possible icon colors, so we may have to restart the counter
-      if(iconCounter >= iconsLength) {
-      	iconCounter = 0;
-      }
-    }
+                                // Setup the different icons and shadows
+                                var iconURLPrefix = 'http://maps.google.com/mapfiles/ms/icons/';
 
-    function autoCenter() {
-      //  Create a new viewpoint bound
-      var bounds = new google.maps.LatLngBounds();
-      //  Go through each...
-      for (var i = 0; i < markers.length; i++) {  
-				bounds.extend(markers[i].position);
-      }
-      //  Fit these bounds to the map
-      map.fitBounds(bounds);
-      var listener = google.maps.event.addListener(map, "idle", function() { 
-  if (map.getZoom() > 14) map.setZoom(14); 
-  google.maps.event.removeListener(listener); 
-});
-    }
-    autoCenter();
-  </script> 
-			
-			<span class="clearfix border" ></span>
-                        <br>
-                 
-                                         <div class="well">
-                                         <div class="row">
-                                        <div class="col-md-12">
-                                            <p>{{item.name}}:</p>
-                                            <p>{{item.city}}, {{item.province}},{{item.postalCode}}</P>
-                                            <p>{{item.country}}</p>
-                                        </div>  
-                                        </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="row">
-                                    <p>No Comments</p>
-                                    </div>
-                                {% endif %}
-                            {% endblock %}
-                          
+                                var icons = [
+                                    iconURLPrefix + 'red-dot.png',
+                                ]
+                                var iconsLength = icons.length;
+
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                    zoom: 10,
+                                    center: new google.maps.LatLng(-28.643387, 153.612224),
+                                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                    mapTypeControl: false,
+                                    streetViewControl: false,
+                                    panControl: false,
+                                    zoomControlOptions: {
+                                        style: google.maps.ZoomControlStyle.LARGE,
+                                        position: google.maps.ControlPosition.LEFT_CENTER
+                                    }
+                                });
+
+                                var infowindow = new google.maps.InfoWindow({
+                                    maxWidth: 160
+                                });
+
+                                var markers = new Array();
+
+                                var iconCounter = 0;
+
+                                // Add the markers and infowindows to the map
+                                for (var i = 0; i < locations.length; i++) {
+                                    var marker = new google.maps.Marker({
+                                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                        map: map,
+                                        icon: icons[iconCounter]
+                                    });
+
+                                    markers.push(marker);
+
+                                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                        return function () {
+                                            infowindow.setContent(locations[i][0]);
+                                            infowindow.open(map, marker);
+                                        }
+                                    })(marker, i));
+
+                                    iconCounter++;
+                                    // We only have a limited number of possible icon colors, so we may have to restart the counter
+                                    if (iconCounter >= iconsLength) {
+                                        iconCounter = 0;
+                                    }
+                                }
+
+                                function autoCenter() {
+                                    //  Create a new viewpoint bound
+                                    var bounds = new google.maps.LatLngBounds();
+                                    //  Go through each...
+                                    for (var i = 0; i < markers.length; i++) {
+                                        bounds.extend(markers[i].position);
+                                    }
+                                    //  Fit these bounds to the map
+                                    map.fitBounds(bounds);
+                                    var listener = google.maps.event.addListener(map, "idle", function () {
+                                        if (map.getZoom() > 14)
+                                            map.setZoom(14);
+                                        google.maps.event.removeListener(listener);
+                                    });
+                                }
+                                autoCenter();
+                            </script> 
+
+                            <span class="clearfix border" ></span>
+                            <br>
+
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>{{item.name}}:</p>
+                                        <p>{{item.city}}, {{item.province}},{{item.postalCode}}</P>
+                                        <p>{{item.country}}</p>
+                                    </div>  
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="row">
+                            <p>No Comments</p>
+                        </div>
+                    {% endif %}
+                {% endblock %}
+
             </div>
-                  <div class="col-md-3">
-                                <p class="lead">Related Events</p>
-                                   <div class="list-group">
-                            {%block relatedEvents%}
-                                 {% if relatedEventsCount != 0 %}
-                                    {%for item in relatedEvents|slice(0, 3)%}
-                                        <a href="{{path('acmebscene_eventDetail', { 'id' :item.id } )}}" class="list-group-item">{{item.title}}</a>
-                                    {%endfor%}
-                                   {%else%}
-                                        <p>you're here</p>
-                                  {%endif%}
-                            {%endblock%}
-                             </div>
-                            </div>             
             <div class="col-md-3">
-                
-			<!-- 3. Place event data -->
-                    <span class="addtocalendar atc-style-blue" >
-                        <var class="atc_event">
-                            <var class="atc_date_start">{{ entity.date|date('Y-m-d') }} {{ entity.time|date('H:i:s') }}</var>
-                            <var class="atc_date_end">{{ entity.endDate|date('Y-m-d') }} {{ entity.endTime|date('H:i:s') }}</var>
-                            <var class="atc_timezone">America/Toronto</var>
-                            <var class="atc_title">{{ entity.title }}</var>
-                            <var class="atc_description">{{ entity.description }}</var>
-                            <var class="atc_location">{{entity.venue.city.name}}</var>
-                            <var class="atc_organizer">{{entity.organization.name}}</var>
-                            
-                        </var>
-                    </span>
+                <p class="lead">Related Events</p>
+                <div class="list-group">
+                    {%block relatedEvents%}
+                        {% if relatedEventsCount != 0 %}
+                            {%for item in relatedEvents|slice(0, 3)%}
+                                <a href="{{path('acmebscene_eventDetail', { 'id' :item.id } )}}" class="list-group-item">{{item.title}}</a>
+                            {%endfor%}
+                        {%else%}
+                            <p>you're here</p>
+                        {%endif%}
+                    {%endblock%}
+                </div>
+            </div>             
+            <div class="col-md-3">
+
+                <!-- 3. Place event data -->
+                <span class="addtocalendar atc-style-blue" >
+                    <var class="atc_event">
+                        <var class="atc_date_start">{{ entity.date|date('Y-m-d') }} {{ entity.time|date('H:i:s') }}</var>
+                        <var class="atc_date_end">{{ entity.endDate|date('Y-m-d') }} {{ entity.endTime|date('H:i:s') }}</var>
+                        <var class="atc_timezone">America/Toronto</var>
+                        <var class="atc_title">{{ entity.title }}</var>
+                        <var class="atc_description">{{ entity.description }}</var>
+                        <var class="atc_location">{{entity.venue.city.name}}</var>
+                        <var class="atc_organizer">{{entity.organization.name}}</var>
+
+                    </var>
+                </span>
             </div>
-                           
+
         </div>
-            </div>
-                            
-   
-          
-        <div class="modal fade" id="addComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                 <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">Comment on this Event</h4>
-                     </div>
-                     <div class="modal-body">
-                        
-                        <table>
-                            <tr>
-                                <td class="text-right">
-                                    <label for="username">Username</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="username"  class="form-control" >
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    <label for="email">E-Mail Address</label>
-                                </td>
-                                <td>
-                                    <input type="email" id="email" class="form-control" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-right">
-                                    <label for="comment">Comment</label>
-                                </td>
-                                <td>
-                                    <textarea id="comment"  class="form-control" rows="5" required></textarea>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-warning">Save changes</button>
-                   
-                     </div>
-                 </div>
+    </div>
+
+
+
+    <div class="modal fade" id="addComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Comment on this Event</h4>
+                </div>
+                <div class="modal-body">
+
+                    <table>
+                        <tr>
+                            <td class="text-right">
+                                <label for="username">Username</label>
+                            </td>
+                            <td>
+                                <input type="text" id="username"  class="form-control" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">
+                                <label for="email">E-Mail Address</label>
+                            </td>
+                            <td>
+                                <input type="email" id="email" class="form-control" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">
+                                <label for="comment">Comment</label>
+                            </td>
+                            <td>
+                                <textarea id="comment"  class="form-control" rows="5" required></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-warning">Save changes</button>
+
+                </div>
             </div>
         </div>
-        
-         
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('meeting') }}">
-            Back to the list
-        </a>
-    </li>
-   
-    <li>{{ form(delete_form) }}</li>
-</ul>
- {% endblock %}
+    </div>
+
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('meeting') }}">
+                Back to the list
+            </a>
+        </li>
+
+        <li>{{ form(delete_form) }}</li>
+    </ul>
+{% endblock %}
 {% block javascripts %}
- <!--Script for Facebook Share button -->
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+    <!--Script for Facebook Share button -->
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id))
+                return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
 
-<!-- Script for Twitter share button -->
-<script>
-window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
-</script>
-<!-- Script for Google+ share -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
- <!-- jQuery -->
+    <!-- Script for Twitter share button -->
+    <script>
+        window.twttr = (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0], t = window.twttr || {};
+            if (d.getElementById(id))
+                return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+            t._e = [];
+            t.ready = function (f) {
+                t._e.push(f);
+            };
+            return t;
+        }(document, "script", "twitter-wjs"));
+    </script>
+    <!-- Script for Google+ share -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    
+
     <!-- Calender  script -->
-<script type="text/javascript">(function () {
-            if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
-            if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+    <script type="text/javascript">(function () {
+            if (window.addtocalendar)
+                if (typeof window.addtocalendar.start == "function")
+                    return;
+            if (window.ifaddtocalendar == undefined) {
+                window.ifaddtocalendar = 1;
                 var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-                s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
-                s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
-                var h = d[g]('body')[0];h.appendChild(s); }})();
+                s.type = 'text/javascript';
+                s.charset = 'UTF-8';
+                s.async = true;
+                s.src = ('https:' == window.location.protocol ? 'https' : 'http') + '://addtocalendar.com/atc/1.5/atc.min.js';
+                var h = d[g]('body')[0];
+                h.appendChild(s);
+            }
+        })();
     </script>
-    
+
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 {% endblock %}
 
