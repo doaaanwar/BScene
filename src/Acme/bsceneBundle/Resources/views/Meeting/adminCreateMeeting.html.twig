@@ -1,0 +1,334 @@
+{% extends 'adminLayout.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/meeting.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.min.css')}}">
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+         .controls {
+        margin-top: 16px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+    </style>
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/googleMapAPI.css')}}">
+    <!---->
+
+
+{% endblock %}
+
+{% block body -%}
+    <div class="text-center">
+        <h1>Create an Event</h1>
+        <p class="lead">All fields marked with * are required</p>
+    </div>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <div align='center'>
+        <table>
+            <tr>
+                <td >{{ form_row(form.title) }}</td>
+                <td>{{ form_row(form.organization) }}</td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+
+
+                    <small class="createOrg">Can't find your organization?
+                        <a data-toggle="collapse" href="#collapseOrganization" aria-expanded="false" aria-controls="collapseOrganization">Create a new one</a>
+                    </small>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                    <div  id="createOrgColumn">
+                        <div class="collapse" id="collapseOrganization">
+                            <div class="well">
+                                <form class="form-group" id="createNew" novalidate>
+                                    <table>
+                                        <tr>
+                                            <td colspan="2" class="text-center">
+                                                <h4>Create Organization</h4>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">
+                                                <label for="orgName">* Organization Name</label>
+                                            </td>
+                                            <td class="text-left">
+                                                <input type="text" id="orgName" name="orgName">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">
+
+                                                <label for="orgUrl">* Organization URL</label>
+                                            </td>
+                                            <td class="text-left">
+
+                                                <input type="url" id="orgUrl" name="orgUrl">
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+           
+            <tr>
+                <td>
+               
+                    <div><label>*Location</label></div>
+                    <div id="locationField">
+
+                        <input id="autocomplete" placeholder="Enter your address"
+                               onFocus="geolocate()" type="text"></input>
+
+                    </div>
+                    <br>
+
+                    <table id="address">
+                        <tr>
+                            <input class="field" hidden="true" id="name" name="name"/>
+                            <input class="field" hidden="true" name="place_id" id="place_id"/>
+                           
+                            <input class="field"  hidden="true" id="lng" name="lng"/>
+                            <td class="label">Street address</td>
+                        
+                            <td class="slimField"><input class="field" id="street_number"
+                                                         disabled="true" name="street_number"></input></td>
+                            <td class="wideField" colspan="2"><input class="field" id="route"
+                                                                     disabled="true" name="route"></input></td>
+                        </tr>
+                        <tr>
+                            <td class="label">City</td>
+                            <td class="wideField" colspan="3"><input class="field" id="locality"
+                                                                     disabled="true" name="locality"></input></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Province</td>
+                            <td class="slimField"><input class="field"
+                                                         id="administrative_area_level_1" name="administrative_area_level_1" disabled="true"></input></td>
+                            <td class="label">Zip code</td>
+                            <td class="wideField"><input class="field" id="postal_code"
+                                                         disabled="true" name="postal_code"></input></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Country</td>
+                            <td class="wideField" colspan="3"><input class="field"
+                                                                     id="country" disabled="true" name="country"></input></td>
+                        </tr>
+                    </table>
+                
+            </td>
+            <td  height="400px" width="100%">
+               
+
+                <div id="map-canvas"></div>
+
+            </td>
+
+            </tr>
+            <tr>
+                <td >{{ form_row(form.date) }}</td>
+           
+                <td>{{ form_row(form.time) }}</td>
+            </tr>
+
+            <tr>
+                <td >{{ form_row(form.endDate) }}</td>
+           
+                <td >{{ form_row(form.endTime) }}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{ form_row(form.capacity) }}</td>
+            </tr>
+            
+            <tr>
+                <td><label for="imageUpload">* Event Logo</label><input type="file" name="imageUpload" id="imageUpload"></td>
+            </tr>
+         
+
+            <tr>
+                <td>{{ form_row(form.category) }}</td>
+            </tr>
+            <tr>
+                <td  >{{ form_row(form.description) }}</td>
+            </tr>
+            <tr>
+                <td >
+                    <div id='TextBoxesGroup'>
+
+                        <div><h4>Event Speakers</h4> **you can add up to 5 speakers</div>
+                        <br>
+                        <div id="TextBoxDiv1">
+
+                            <label>Speaker #1 : </label><br>
+                            <label>Name : </label><br><input type='textbox' id='nameTextbox' name='nameTextbox1' ><br>
+                            <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox1'><br>
+                            <label>Biography :</label><br><textarea  id='bioTextbox' name='bioTextbox1'></textarea>
+                            <br>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td >
+                    <input type='button' value='Add Speaker' id='addButton'>
+
+
+                    <input type='button' value='Remove' id='removeButton'>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td colspan="3" class="text-center">
+                    {{ form_row(form._token) }}
+                    {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('meeting') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+{% block javascripts %}
+
+
+    <script src="{{ asset('bundles/acmebscene/js/jquery-ui.js')}}"></script>
+    <script src="{{ asset('bundles/acmebscene/js/jquery-ui.min.js')}}"></script>
+    <!--script needed for the datetime picker -->
+    <script>
+
+        $(function () {
+            $("#acme_bscenebundle_meeting_date").datepicker({dateFormat: "yy-mm-dd"});
+            $("#acme_bscenebundle_meeting_endDate").datepicker({dateFormat: "yy-mm-dd"});
+        });
+    </script>
+    <!--script used for adding dynamic fields for speakers-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var counter = 2;
+
+            $("#addButton").click(function () {
+
+                if (counter > 5) {
+                    alert("Only 5 textboxes allow");
+                    return false;
+                }
+
+                var newTextBoxDiv = $(document.createElement('div'))
+                        .attr("id", 'TextBoxDiv' + counter);
+
+                newTextBoxDiv.after().html('<label>Speaker #' + counter + ' : </label><br>' +
+                        '<label>Name : </label><br><input type="text" name="nameTextbox' + counter +
+                        '" id="nameTextbox' + counter + '" value="" ><br>' +
+                        '<label>Title : </label><br><input type="text" name="titleTextbox' + counter +
+                        '" id="titleTextbox' + counter + '" value="" ><br>' +
+                        '<label>Biography : </label><br><textarea name="bioTextbox' + counter +
+                        '" id="bioTextbox' + counter + '" value="" ></textarea><br>');
+
+
+
+
+                newTextBoxDiv.appendTo("#TextBoxesGroup");
+
+
+                counter++;
+            });
+
+            $("#removeButton").click(function () {
+                if (counter == 1) {
+                    alert("No more textbox to remove");
+                    return false;
+                }
+
+                counter--;
+
+                $("#TextBoxDiv" + counter).remove();
+
+            });
+
+            $("#getButtonValue").click(function () {
+
+                var msg = '';
+                for (i = 1; i < counter; i++) {
+                    msg += "\n Textbox #" + i + " : " + $('#textbox' + i).val();
+                }
+                alert(msg);
+            });
+        });
+    </script>
+    <!-- js needed for the google map API -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+
+    <script  src="{{ asset('bundles/acmebscene/js/googleMapAPI.js')}}"></script>
+    <!---->
+
+    <script>
+        
+       // google.maps.event.addDomListener(window, 'load', initializeMap);
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script> 
+    
+{%endblock%}
