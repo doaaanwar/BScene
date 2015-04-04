@@ -18,7 +18,6 @@ use \Symfony\Component\Form\FormError;
 use \Symfony\Component\Validator\Constraints\Time;
 use PHPMailer;
 
-
 /**
  * Meeting controller.
  *
@@ -80,7 +79,7 @@ class MeetingController extends Controller {
 
         return $this->showAction($id);
     }
-    
+
     /**
      * function used by the admin only to delete comment
      * added by doaa elfayoumi, 03.04.2015
@@ -88,8 +87,7 @@ class MeetingController extends Controller {
      * @param type $id
      * @return type
      */
-    public function deleteCommentAction(Request $request,$id,$commentId)
-    {
+    public function deleteCommentAction(Request $request, $id, $commentId) {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AcmebsceneBundle:EventComments')->find($commentId);
 
@@ -99,7 +97,7 @@ class MeetingController extends Controller {
 
         $em->remove($entity);
         $em->flush();
-        
+
         return $this->showAction($id);
     }
 
@@ -193,6 +191,7 @@ class MeetingController extends Controller {
                 $form->addError(new FormError("Please enter the event location. It is mandatory"));
             }
 
+            $entity->setPosted(true);
             //TODO handle if the session expire
             //set the account to the logged one
             $em = $this->getDoctrine()->getManager();
@@ -200,8 +199,18 @@ class MeetingController extends Controller {
             $account = $em->getRepository('AcmebsceneBundle:Account')->findOneBy(array('id' => $accountId));
             $entity->setAccount($account);
             //set the organization to the account organization
-            $entity->setOrganization($account->getOrganization());
-
+            if ($request->getSession()->get("admin")) {
+                if ($request->get("orgName") != "") {
+                    $orgEntity = new Organization();
+                    $orgEntity->setName($request->get("orgName"));
+                    $orgEntity->setWebsite($request->get("orgUrl"));
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($orgEntity);
+                    $em->flush();
+                }
+            } else {
+                $entity->setOrganization($account->getOrganization());
+            }
 
             $matchingList = $this->getMatchingEvent($entity);
 
@@ -245,7 +254,7 @@ class MeetingController extends Controller {
                 foreach ($notificationList as $email) {
                     $this->sendEmailNotification($email);
                 }
-                
+
                 //end notification e-mails
                 //check for matching event by date and category
                 if ($matchingList) {
@@ -262,15 +271,24 @@ class MeetingController extends Controller {
                     // return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
                 }
             }
-    }
-    else {
+        } else {
             $form->addError(new FormError("Your session Expired. You have to login again."));
         }
         
-        return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
+        if($request->getSession()->get("admin"))
+        {
+            return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
                     'entity' => $entity,
                     'form' => $form->createView(),
-        ));
+            ));
+        }
+        else
+        {
+            return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+            ));
+        }
     }
 
     private function getMatchingEvent(Meeting $entity) {
@@ -314,16 +332,13 @@ class MeetingController extends Controller {
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         //$relatedEventList = $this->relatedEventAction($id);
-        if($request->getSession()->get("admin"))
-        {
+        if ($request->getSession()->get("admin")) {
             return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
                         'entity' => $entity,
                         'form' => $form->createView(),
                             //'relatedEvents'   => $relatedEventList,
             ));
-        }
-        else
-        {
+        } else {
             return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                         'entity' => $entity,
                         'form' => $form->createView(),
@@ -933,13 +948,13 @@ class MeetingController extends Controller {
      */
 
     private function emailNotificationList(\Acme\bsceneBundle\Entity\Categories $entity) {
-        
+
         $em = $this->getDoctrine()->getManager();
-        
-        $categoryId = $entity -> getId();
+
+        $categoryId = $entity->getId();
 
         $q = $em->createQuery("SELECT a, c "
-                . "FROM \Acme\bsceneBundle\Entity\Account a "
+                        . "FROM \Acme\bsceneBundle\Entity\Account a "
                         . "LEFT JOIN a.categories c "
                         . "WHERE c.id = :categoryId")
                 ->setParameter('categoryId', $categoryId);
@@ -1011,34 +1026,33 @@ class MeetingController extends Controller {
             echo 'Message has been sent';
         }
     }
+
     /**
      * hide a Meeting.
      *
      */
     public function hideAction(Request $request, $id) {
-        $a=1;
-        $b=0;
-        
-           $em = $this->getDoctrine()->getManager();
+        $a = 1;
+        $b = 0;
+
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Meeting entity.');
         }
-        $c=$entity->getPosted();
-           if($c==$b){
-               $entity->setPosted($a);
-               
-           }
-           if($c==$a){
-               $entity->setPosted($b);
-               
-           }
-            
-            $em->persist($entity);
-            $em->flush();
-            return $this->showAction($id);
+        $c = $entity->getPosted();
+        if ($c == $b) {
+            $entity->setPosted($a);
         }
+        if ($c == $a) {
+            $entity->setPosted($b);
+        }
+
+        $em->persist($entity);
+        $em->flush();
+        return $this->showAction($id);
+    }
 
 }
