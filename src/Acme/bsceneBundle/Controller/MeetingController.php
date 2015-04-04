@@ -314,11 +314,22 @@ class MeetingController extends Controller {
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         //$relatedEventList = $this->relatedEventAction($id);
-        return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
-                    'entity' => $entity,
-                    'form' => $form->createView(),
-                        //'relatedEvents'   => $relatedEventList,
-        ));
+        if($request->getSession()->get("admin"))
+        {
+            return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
+                        'entity' => $entity,
+                        'form' => $form->createView(),
+                            //'relatedEvents'   => $relatedEventList,
+            ));
+        }
+        else
+        {
+            return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
+                        'entity' => $entity,
+                        'form' => $form->createView(),
+                            //'relatedEvents'   => $relatedEventList,
+            ));
+        }
     }
 
     /**
