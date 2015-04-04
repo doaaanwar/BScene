@@ -142,15 +142,20 @@
                         <hr>
                             {% block Comments %}
                                 {% if commentCount != 0 %}
+                                    <h3>Reviews and Comments</h3>
                                     {% for item in comments %}
                                          <div class="well">
-                                         <div class="row">
-                                        <div class="col-md-12">
-                                            <p>{{item.username}}:</p>
-                                            <span class="pull-right">{{item.commentTime|date('H:i')}}</span>
-                                            <p>{{item.comment}}</p>
-                                        </div>  
-                                        </div>
+                                        
+                                            {% if app.session.get('admin') != null %}
+                                            <a href="#" class="close"><img src="{{ asset('bundles/acmebscene/images/close_small.png')}}" class="btn_close" title="Close Window" alt="Close" /></a>
+                                            {%endif%}
+
+
+                                               <p>{{item.username}}:</p>
+                                               <span class="pull-right">{{item.commentTime|date('H:i')}}</span>
+                                               <p>{{item.comment}}</p>
+                                    
+                                       
                                         </div>
                                     {% endfor %}
                                 {% else %}
