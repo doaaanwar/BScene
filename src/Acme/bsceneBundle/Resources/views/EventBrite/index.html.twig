@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>EventBrite list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Eventbriteid</th>
+                <th>Eburl</th>
+                <th>Shereable</th>
+                <th>Token</th>
+                <th>Invitedonly</th>
+                <th>Eventcategory</th>
+                <th>Listedpublic</th>
+                <th>Showremaining</th>
+                <th>Onlineonly</th>
+                <th>Timezone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('eventBrite_show', { 'id': entity.event }) }}">{{ entity.eventBriteId }}</a></td>
+                <td>{{ entity.ebUrl }}</td>
+                <td>{{ entity.shereable }}</td>
+                <td>{{ entity.token }}</td>
+                <td>{{ entity.invitedOnly }}</td>
+                <td>{{ entity.eventCategory }}</td>
+                <td>{{ entity.listedPublic }}</td>
+                <td>{{ entity.showRemaining }}</td>
+                <td>{{ entity.onlineOnly }}</td>
+                <td>{{ entity.timeZone }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('eventBrite_show', { 'id': entity.event }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('eventBrite_edit', { 'id': entity.event }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('eventBrite_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

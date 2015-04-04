@@ -1,0 +1,30 @@
+eventBrite:
+    path:     /
+    defaults: { _controller: "AcmebsceneBundle:EventBrite:index" }
+
+eventBrite_show:
+    path:     /{id}/show
+    defaults: { _controller: "AcmebsceneBundle:EventBrite:show" }
+
+eventBrite_new:
+    path:     /new
+    defaults: { _controller: "AcmebsceneBundle:EventBrite:new" }
+
+eventBrite_create:
+    path:     /create
+    defaults: { _controller: "AcmebsceneBundle:EventBrite:create" }
+    requirements: { _method: post }
+
+eventBrite_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AcmebsceneBundle:EventBrite:edit" }
+
+eventBrite_update:
+    path:     /{id}/update
+    defaults: { _controller: "AcmebsceneBundle:EventBrite:update" }
+    requirements: { _method: post|put }
+
+eventBrite_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AcmebsceneBundle:EventBrite:delete" }
+    requirements: { _method: post|delete }

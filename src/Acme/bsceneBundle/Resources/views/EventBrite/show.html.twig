@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>EventBrite</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Eventbriteid</th>
+                <td>{{ entity.eventBriteId }}</td>
+            </tr>
+            <tr>
+                <th>Eburl</th>
+                <td>{{ entity.ebUrl }}</td>
+            </tr>
+            <tr>
+                <th>Shereable</th>
+                <td>{{ entity.shereable }}</td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td>{{ entity.token }}</td>
+            </tr>
+            <tr>
+                <th>Invitedonly</th>
+                <td>{{ entity.invitedOnly }}</td>
+            </tr>
+            <tr>
+                <th>Eventcategory</th>
+                <td>{{ entity.eventCategory }}</td>
+            </tr>
+            <tr>
+                <th>Listedpublic</th>
+                <td>{{ entity.listedPublic }}</td>
+            </tr>
+            <tr>
+                <th>Showremaining</th>
+                <td>{{ entity.showRemaining }}</td>
+            </tr>
+            <tr>
+                <th>Onlineonly</th>
+                <td>{{ entity.onlineOnly }}</td>
+            </tr>
+            <tr>
+                <th>Timezone</th>
+                <td>{{ entity.timeZone }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('eventBrite') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('eventBrite_edit', { 'id': entity.event }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
