@@ -8,7 +8,8 @@
  *      19.03.2015: created, doaa elfayoumi
  *      21.03.2015: adding function to get the list of controller , doaa elfayoumi
  *      22.03.2015: adding function to get the list of new comments, doaa elfayoumi
- * 
+ *      03.04.2015: adding new member list
+ *      04.04.2015: adding the upcoming events
  */
 
 namespace Acme\bsceneBundle\Controller;
@@ -117,6 +118,33 @@ class AdminController extends Controller
     }
     
     
+    
+    /**
+    * doaa elfayoumi
+    * function that get the list of upcoming events
+    * @param type $lastLogin
+    * @return type
+    */
+    private function getUpcomingMeetingList()
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $todayDate = new \DateTime();
+        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.date >= '$todayDate'");
+        $eventList = $q->getResult();
+
+        return $eventList;
+    }
+    
+    
+    
+    
+    /**
+    * doaa elfayoumi
+    * function that get the new member list given the last login of the admin
+    * @param type $lastLogin
+    * @return type
+    */
     private function getNewMemberList($lastLogin)
     {
         $em = $this->getDoctrine()->getManager();
