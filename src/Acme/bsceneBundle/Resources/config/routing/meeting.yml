@@ -18,7 +18,7 @@ meeting_create:
     path:     /create
     defaults: { _controller: "AcmebsceneBundle:Meeting:create" }
     requirements: { _method: post }
-
+    
 meeting_edit:
     path:     /{id}/edit
     defaults: { _controller: "AcmebsceneBundle:Meeting:edit" }
