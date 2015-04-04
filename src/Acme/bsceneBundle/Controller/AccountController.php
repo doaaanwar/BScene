@@ -89,6 +89,7 @@ class AccountController extends Controller {
     /*
      * Send verification e-mails
      * Created by: Victoria Betts, April 2, 2015
+     * updated by: doaa elfayoumi, 03042015, sending mail using phpmailer
      */
 
     private function sendVerificationAction($id) {

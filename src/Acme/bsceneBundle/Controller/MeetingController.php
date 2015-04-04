@@ -129,6 +129,7 @@ class MeetingController extends Controller {
      * updated add map api, doaa elfayoumi 25.03.2015
      * updated add upload, doaa elfayoumi 26.03.2015 
      * updated add more validation and error message, 29.03.2015
+     * updated to cover the case of an admin creating an event, 04042015
      */
     public function createAction(Request $request) {
         $entity = new Meeting();
@@ -325,7 +326,7 @@ class MeetingController extends Controller {
 
     /**
      * Displays a form to create a new Meeting entity.
-     *
+     * updated to cover the case of an admin creating an event, doaa elfayoumi 04042015
      */
     public function newAction(Request $request) {
 
