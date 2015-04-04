@@ -13,12 +13,14 @@
 namespace Acme\bsceneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Categories
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(fields="name", message="Category name alreday exist")
  */
 class Categories
 {
