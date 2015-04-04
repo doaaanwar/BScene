@@ -54,7 +54,11 @@ acmebscene_adminComment:
 
 meeting_admin_list:
     path:    /admin/newEvents/{lastLogin}
-    defaults: { _controller: "AcmebsceneBundle:Admin:newMeetingList" }    
+    defaults: { _controller: "AcmebsceneBundle:Admin:newMeetingList" }   
+    
+meeting_upComming_admin_list:
+    path:    /admin/upcommingEvents
+    defaults: { _controller: "AcmebsceneBundle:Admin:upCommingMeetingList" }
  
 acmebscene_homepageCalender:
     path:     /calender

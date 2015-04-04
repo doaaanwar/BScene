@@ -17,6 +17,7 @@ namespace Acme\bsceneBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use DateTime;
 
 
 
@@ -51,9 +52,21 @@ class AdminController extends Controller
          
        
         
-        //TODO get the number of upccomming events
+        //get the number of upccomming events
+        $upcomingList = $this->getAdminUpcomingMeetingList();
         
-        //TODO get the number of new members
+        if(count($upcomingList) == 0)
+        {
+             $upcomingMessage = "no upcoming event found";
+        }
+        else
+        {
+            $upcomingMessage = Null;
+            
+        }
+        
+        
+        //get the number of new members
         
         $memberList = $this->getNewMemberList($lastLogin);
         
@@ -79,7 +92,10 @@ class AdminController extends Controller
                                                                                     'newEventMessage' => $newEventMessage,
                                                                                      'memberList' => $memberList,
                                                                                     'memberCount' => Count($memberList),
-                                                                                    'memberMessage' => $memberMessage));
+                                                                                    'memberMessage' => $memberMessage,
+                                                                                    'upcomingList' => $upcomingList,
+                                                                                    'upcomingMessage' => $upcomingMessage,
+                                                                                    'upcomingCount' => Count($upcomingList),));
     }
     
     
@@ -125,12 +141,17 @@ class AdminController extends Controller
     * @param type $lastLogin
     * @return type
     */
-    private function getUpcomingMeetingList()
+    private function getAdminUpcomingMeetingList()
     {
         $em = $this->getDoctrine()->getManager();
         
         $todayDate = new \DateTime();
-        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.date >= '$todayDate'");
+        //$format = 'Y-m-d';
+        //$todayDate = DateTime::createFromFormat($format, str$todayDate);
+        $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
+                        . "WHERE e.date >= :searchDate ORDER BY e.date DESC")
+                ->setParameter('searchDate', $todayDate);
+       // $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.date >= '$todayDate'");
         $eventList = $q->getResult();
 
         return $eventList;
@@ -168,5 +189,14 @@ class AdminController extends Controller
          return $this->render('AcmebsceneBundle:Meeting:newMeetingList.html.twig', array( 'entities' => $entities,));
     }
     
+    /**
+     * 
+     * @return type
+     */
+    public function upCommingMeetingListAction()
+    {
+         $entities = $this->getAdminUpcomingMeetingList();
+         return $this->render('AcmebsceneBundle:Meeting:commingMeetingList.html.twig', array( 'entities' => $entities,));
+    }
       
 }
