@@ -8,8 +8,52 @@
 
 {% block body -%}
     <h1>Categories edit</h1>
+    {{ form_start(edit_form) }}
+    {{ form_errors(edit_form) }}
+    
+    <div align="center">
 
-    {{ form(edit_form) }}
+        <table>
+            <tr>
+                <td>{{ form_row(edit_form.name) }}</td>
+               
+                <td><label for="imageCatUpload">* Category Image</label><br><input type="file" name="imageCatUpload" id="imageCatUpload"></td>
+                <tr>
+       
+            </tr>
+         
+            </tr>
+            <tr>
+                <td colspan="2">{{ form_row(edit_form.description) }}</td>
+            </tr>
+            <tr>
+            <div class="radio-inline">
+                <td>{{ form_row(edit_form.ranking) }}</td>
+               
+            </div>
+            <td>{{ form_row(edit_form.meetupCategory) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                      <p class="text-danger">***Selecting 0 for the rank will hide the category from the Homepage</p> 
+                </td>
+             
+            </tr>
+            <tr>
+                <td>{{ form_row(edit_form.eventBriteCategory) }}</td>
+                <td>{{ form_row(edit_form.eventfullCategory) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-center">
+                    {{ form_row(edit_form._token) }}
+                    {{ form_widget(edit_form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
 
         <ul class="record_actions">
     <li>
