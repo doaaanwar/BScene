@@ -166,7 +166,7 @@ class AccountController extends Controller {
         $mail->isHTML(true);                                  // Set email format to HTML
 
         $mail->Subject = 'B-Scene E-mail confirmation';
-        $mail->Body = $userFirstName . ', <br> Thank you for signing up for B-Scene! '
+        $mail->Body = $userFirstName . ',Thank you for signing up for B-Scene! '
                 . 'Please click the below link to verify your registration: <br>'
                 . $emailLink . ' <br>'
                 . 'Regards, <br> B-Scene Team';

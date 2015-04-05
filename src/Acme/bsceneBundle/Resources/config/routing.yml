@@ -139,3 +139,13 @@ acmebscene_verificationSent:
 acmebscene_hide:
     path: /meeting/hide/{id}
     defaults: {_controller: AcmebsceneBundle:Meeting:hide }
+    
+acmebscene_pwReminder:
+    path: /account/passwordreminder
+    defaults: {_controller: AcmebsceneBundle:Default:passwordReminder }
+    
+acmebscene_pwReminderShow:
+    path: /account/passwordrequest
+    defaults: {_controller: AcmebsceneBundle:Default:showPasswordReminder }
+    
+  
