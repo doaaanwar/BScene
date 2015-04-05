@@ -55,7 +55,7 @@ class MeetingController extends Controller {
 
     /**
      * add comment Action.
-     *
+     * updated to handle the case that the logged user wrote a comment, doaa elfayoumi, 05042015 
      */
     public function addCommentAction(Request $request, $id) {
 
@@ -172,7 +172,7 @@ class MeetingController extends Controller {
 
             //create speakers, maximum 5 speakers
             //initialize an array to save created speaker
-            $speakerList = array();
+            $speakerList = array();     
             for ($i = 1; $i <= 5; $i++) {
                 if ($request->get('nameTextbox' . $i) != "") {
                     //create new speaker
