@@ -307,8 +307,14 @@ class MeetingController extends Controller {
                         'form' => $form->createView(),
             ));
         } else {
+            $em = $this->getDoctrine()->getManager();
+
+            $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
             return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
+                        
                         'entity' => $entity,
+                        'speakers' => $speakers,
+                        'speakerCount' => count($speakers),
                         'form' => $form->createView(),
             ));
         }
@@ -370,7 +376,8 @@ class MeetingController extends Controller {
         } else {
             return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                         'entity' => $entity,
-                        'speakers' => $speakers,
+                         'speakers' => $speakers,
+                        'speakerCount' => count($speakers),
                         'form' => $form->createView(),
                             //'relatedEvents'   => $relatedEventList,
             ));
