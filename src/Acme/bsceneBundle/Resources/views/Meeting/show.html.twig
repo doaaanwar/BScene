@@ -172,6 +172,7 @@
                                     <form class="form-group" id="addComment" name="addComment" method="post" action="{{path('acmebscene_addComment', { 'id' :entity.id } )}}">
 
                                         <table>
+                                            {% if app.session.get('member') == null %}
                                             <tr>
                                                 <td>
                                                     <label for="username">Username</label>
@@ -189,6 +190,7 @@
                                                 </td>
 
                                             </tr>
+                                           {%endif%}
                                             <tr>
                                                 <td>
                                                     <label for="comment">Comment</label>
