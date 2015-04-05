@@ -2,6 +2,8 @@
 
 namespace Acme\bsceneBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Acme\bsceneBundle\Entity\Account;
@@ -110,7 +112,7 @@ class AccountController extends Controller {
         $userId = $id;
         $userHash = implode($userHash[0]);
 
-        $emailLink = 'http:\/\/localhost\/BScene\/web\/app_dev.php\/account\/validated\/' . $userId . '\/' . $userHash;
+        $emailLink = 'http://localhost/BScene/web/app_dev.php/account/validated/' . $userId . '/' . $userHash;
 
         //$mailer = $this->get('mailer');
 
@@ -156,14 +158,14 @@ class AccountController extends Controller {
         $mail->Port = 587;                                    // TCP port to connect to
 
         $mail->From = 'bscenenetwork@gmail.com';
-        $mail->FromName = 'Mailer';
-        $mail->addAddress('doaa.anwar@gmail.com', 'Joe User');     // Add a recipient
+        $mail->FromName = 'B-Scene';
+        $mail->addAddress($userEmail);     // Add a recipient
 
 
 
         $mail->isHTML(true);                                  // Set email format to HTML
 
-        $mail->Subject = 'Here is the subject';
+        $mail->Subject = 'B-Scene E-mail confirmation';
         $mail->Body = $userFirstName . ', <br> Thank you for signing up for B-Scene! '
                 . 'Please click the below link to verify your registration: <br>'
                 . $emailLink . ' <br>'
@@ -509,9 +511,35 @@ class AccountController extends Controller {
      * Show 'e-mail validated' page with links to subscription and profile
      */
 
-    public function emailValidatedAction() {
-        //$id = 1;
-        return $this->render('AcmebsceneBundle:Account:emailValidated.html.twig', array('id' => $id,));
+    public function emailValidatedAction($id, $hash) {
+        $entity = '\Acme\bsceneBundle\Entity\Account';
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQuery("SELECT a FROM \Acme\bsceneBundle\Entity\Account a WHERE a.id = :id")->setParameter('id', $id);
+        $user = $q->getArrayResult();
+
+        $userId = $user[0]['id'];
+        $userName = $user[0]['username'];
+
+
+        if ($user[0]['verificationHash'] == $hash) {
+            
+            $e = $this->getDoctrine()->getEntityManager();
+            $userVal = $e->find($entity, $userId);
+            $userVal->setIsVerified(1);
+            $e->persist($userVal);
+            $e->flush();
+            
+            $session = new Session();
+            $session->start();
+            $session->set('member', $userName);
+            $session->set('memberId', $userId);
+            return $this->render('AcmebsceneBundle:Account:emailValidated.html.twig', array('id' => $userId,));
+        }
+        else{
+            return $this->render('AcmebsceneBundle:Account:validationFail.html.twig');
+        }
     }
 
 }
