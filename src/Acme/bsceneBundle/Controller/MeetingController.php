@@ -170,16 +170,20 @@ class MeetingController extends Controller {
 
             //for the already existing speakers
             $speakers = array();
-            $speakers['multiselect'] = $request->get('multiselect');
-            foreach($peakers as $speaker)
-            {
-                
-            }
-          
+            $speakers = $request->get('multiselect');
+            
             //initialize an array to save created speaker
             $speakerList = array(); 
-            
-       
+           
+            for($c=0;$c<count($speakers);$c++)
+            {
+                
+                $em = $this->getDoctrine()->getEntityManager();
+                $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Speaker');
+                $speakerEntity = $repository->findOneBy(array('name' => $speakers[$c]));
+                $speakerList[] = $speakerEntity;
+            }
+     
 
             $i =1 ;
             while($request->get('nameTextbox' . $i))
@@ -427,89 +431,7 @@ class MeetingController extends Controller {
         ));
     }
 
-    /**
-     * remove the generated edit function and use a manual one 
-     * 
-     * updated: 31.03.2015, doaa elfayoumi
-     */
-    /**
-     * Displays a form to edit an existing Account entity.
-     *
-     */
-    /* public function editAction($id) {
-      $em = $this->getDoctrine()->getManager();
-
-      $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
-
-      if (!$entity) {
-      throw $this->createNotFoundException('Unable to find Meeting entity.');
-      }
-
-      $entity->setDate($entity->getDate()->format('y-m-d'));
-      //$entity->setEndDate($entity->getEndDate()->format('yy-mm-dd'));
-      $editForm = $this->createEditForm($entity);
-      $deleteForm = $this->createDeleteForm($id);
-
-      return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
-      'entity' => $entity,
-      'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-      ));
-      } */
-
-    /**
-     * Creates a form to edit a Meeting entity.
-     *
-     * @param Meeting $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    /* private function createEditForm(Meeting $entity) {
-      $form = $this->createForm(new MeetingType(), $entity, array(
-      'action' => $this->generateUrl('meeting_update', array('id' => $entity->getId())),
-      'method' => 'PUT',
-      ));
-      $form->add('submit', 'submit', array('label' => 'Update'));
-
-      return $form;
-      } */
-
-    /**
-     * Edits an existing Meeting entity.
-     *
-     */
-    /* public function updateAction(Request $request, $id) {
-      $em = $this->getDoctrine()->getManager();
-
-      $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
-
-      if (!$entity) {
-      throw $this->createNotFoundException('Unable to find Meeting entity.');
-      }
-      $entity->setDate($entity->getDate()->format('y-m-d'));
-      $deleteForm = $this->createDeleteForm($id);
-      $editForm = $this->createEditForm($entity);
-      $editForm->handleRequest($request);
-
-      if ($editForm->isValid()) {
-      $format = 'Y-m-d';
-      $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
-      //check if the endDate is not null and format it
-      if ($entity->getEndDate()) {
-      $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
-      }
-      $em->flush();
-
-      return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId(),'form' => $form->createView(),)));
-
-      }
-
-      return $this->render('AcmebsceneBundle:Meeting:edit.html.twig', array(
-      'entity' => $entity,
-      'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-      ));
-      } */
+   
 
     /**
      * remove the generated edit function and use a manual one 
