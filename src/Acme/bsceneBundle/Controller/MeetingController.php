@@ -1041,7 +1041,7 @@ class MeetingController extends Controller {
 
         $em->persist($entity);
         $em->flush();
-        return $this->showAction($id);
+        return $this->redirectToRoute('acmebscene_homepage');
     }
 
 }
