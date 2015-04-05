@@ -5,6 +5,7 @@
     <link href="{{ asset('bundles/acmebscene/css/meeting.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jbootstrap-multiselect.css')}}">
     <style>
         html, body, #map-canvas {
             height: 100%;
@@ -159,14 +160,25 @@
                 <td  >{{ form_row(form.description) }}</td>
             </tr>
             <tr>
-                <td >
-                    <div id='TextBoxesGroup'>
+                <td colspan="2">
+                    <div><h4>Event Speakers</h4></div>
+                    <div><h6>Please select from existing list or add a new one</h6></div>
 
-                        <div><h4>Event Speakers</h4> **you can add up to 5 speakers</div>
+                    <select id="example-getting-started"  name="example-getting-started" multiple="multiple">
+                        {% for item in speakers %}
+                            <option value="{{item}}">{{item}}</option>
+                        {%endfor%}
+
+                   </select>
+                        
+                        <br>
+                     <div id='TextBoxesGroup'>
+
+                        <div><h4>Add a new one</h4> **you can add up to 5 speakers</div>
                         <br>
                         <div id="TextBoxDiv1">
 
-                            <label>Speaker #1 : </label><br>
+                           
                             <label>Name : </label><br><input type='text' id='nameTextbox' list="speakers" name='nameTextbox1' ><br>
                             <datalist id="speakers">
                             </datalist>
@@ -175,6 +187,12 @@
                             <br>
                         </div>
                     </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td >
+                   
                 </td>
 
             </tr>
@@ -186,8 +204,7 @@
                     <input type='button' value='Remove' id='removeButton'>
                 </td>
             </tr>
-
-
+            
 
             <tr>
                 <td colspan="3" class="text-center">
@@ -207,11 +224,23 @@
 {% endblock %}
 {% block javascripts %}
 
-
+ <!--ref for multiselect: http://davidstutz.github.io/bootstrap-multiselect/ -->
+     <script src="{{ asset('bundles/acmebscene/js/bootstrap-multiselect.js')}}"></script>
     <script src="{{ asset('bundles/acmebscene/js/jquery-ui.js')}}"></script>
     <script src="{{ asset('bundles/acmebscene/js/jquery-ui.min.js')}}"></script>
+   
     <!--script needed for the datetime picker -->
+    <!--script needed for multi select -->
     <script>
+        
+        $(document).ready(function() {
+               $('#example-getting-started').multiselect({
+                  //maxHeight: 10
+                  example-getting-started: 'multiselect[]'
+                });
+        });
+     </script>
+     <script>
 
         $(function () {
             $("#acme_bscenebundle_meeting_date").datepicker({dateFormat: "yy-mm-dd"});
@@ -228,15 +257,15 @@
             });
         });*/
         $(document).ready(function () {
-
+            
             var counter = 2;
 
             $("#addButton").click(function () {
 
-                if (counter > 5) {
-                    alert("Only 5 textboxes allow");
-                    return false;
-                }
+                //if (counter > 5) {
+                  //  alert("Only 5 textboxes allow");
+                 //   return false;
+                //}
 
                 var newTextBoxDiv = $(document.createElement('div'))
                         .attr("id", 'TextBoxDiv' + counter);

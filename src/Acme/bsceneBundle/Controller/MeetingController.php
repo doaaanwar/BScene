@@ -76,10 +76,7 @@ class MeetingController extends Controller {
            $commentEntity->setUsername($request->get('commenterUsername'));
            $commentEntity->setEmail($request->get('commenterEmail'));
         }
-       
-      
-      
-
+   
         $em = $this->getDoctrine()->getManager();
         $em->persist($commentEntity);
 
@@ -143,8 +140,9 @@ class MeetingController extends Controller {
      * updated, doaa elfayoumi 24.03.2015
      * updated add map api, doaa elfayoumi 25.03.2015
      * updated add upload, doaa elfayoumi 26.03.2015 
-     * updated add more validation and error message, 29.03.2015
-     * updated to cover the case of an admin creating an event, 04042015
+     * updated add more validation and error message,doaa elfayoumi 29.03.2015
+     * updated to cover the case of an admin creating an event,doaa elfayoumi 04042015
+     * updated to cover existing speaker, doaa elfayoumi 05042015
      */
     public function createAction(Request $request) {
         $entity = new Meeting();
@@ -170,10 +168,22 @@ class MeetingController extends Controller {
                 $form->addError(new FormError("Uploading a logo is mandatory."));
             }
 
-            //create speakers, maximum 5 speakers
+            //for the already existing speakers
+            $speakers = array();
+            $speakers['multiselect'] = $request->get('multiselect');
+            foreach($peakers as $speaker)
+            {
+                
+            }
+          
             //initialize an array to save created speaker
-            $speakerList = array();     
-            for ($i = 1; $i <= 5; $i++) {
+            $speakerList = array(); 
+            
+       
+
+            $i =1 ;
+            while($request->get('nameTextbox' . $i))
+            {
                 if ($request->get('nameTextbox' . $i) != "") {
                     //create new speaker
                     $speakerEntity = new Speaker();
@@ -185,6 +195,7 @@ class MeetingController extends Controller {
                     $em->flush();
                     $speakerList[] = $speakerEntity;
                 }
+                $i++;
             }
 
             //venue is manadatory
@@ -342,21 +353,28 @@ class MeetingController extends Controller {
     /**
      * Displays a form to create a new Meeting entity.
      * updated to cover the case of an admin creating an event, doaa elfayoumi 04042015
+     * updated returned the list of spekaers, doaa elfayoumi 05042015
      */
     public function newAction(Request $request) {
 
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
+        $em = $this->getDoctrine()->getManager();
+        
+        $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
+      
         //$relatedEventList = $this->relatedEventAction($id);
         if ($request->getSession()->get("admin")) {
             return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
                         'entity' => $entity,
-                        'form' => $form->createView(),
+                        'speakers' => $speakers,
+                        'form' => $form->createView(),                 
                             //'relatedEvents'   => $relatedEventList,
             ));
         } else {
             return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                         'entity' => $entity,
+                        'speakers' => $speakers,
                         'form' => $form->createView(),
                             //'relatedEvents'   => $relatedEventList,
             ));
