@@ -167,7 +167,9 @@
                         <div id="TextBoxDiv1">
 
                             <label>Speaker #1 : </label><br>
-                            <label>Name : </label><br><input type='textbox' id='nameTextbox' name='nameTextbox1' ><br>
+                            <label>Name : </label><br><input type='text' id='nameTextbox' list="speakers" name='nameTextbox1' ><br>
+                            <datalist id="speakers">
+                            </datalist>
                             <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox1'><br>
                             <label>Biography :</label><br><textarea  id='bioTextbox' name='bioTextbox1'></textarea>
                             <br>
@@ -219,6 +221,12 @@
     <!--script used for adding dynamic fields for speakers-->
     <script type="text/javascript">
 
+
+       /* $("#nameTextbox").keyup(function(){
+            $.get("suggest.php",{},function(data){
+                
+            });
+        });*/
         $(document).ready(function () {
 
             var counter = 2;

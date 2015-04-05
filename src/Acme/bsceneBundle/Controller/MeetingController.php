@@ -60,10 +60,25 @@ class MeetingController extends Controller {
     public function addCommentAction(Request $request, $id) {
 
         $commentEntity = new eventComments();
-        $commentEntity->setUsername($request->get('commenterUsername'));
-        $commentEntity->setEmail($request->get('commenterEmail'));
         $commentEntity->setComment($request->get('commenterComment'));
         $commentEntity->setCommentTime(new \DateTime());
+         
+        if($request->getSession()->get('memberId'))
+        {
+             $em = $this->getDoctrine()->getEntityManager();
+             $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Account');
+             $accountEntity = $repository->find(($request->getSession()->get('memberId')));
+             $commentEntity->setUsername($accountEntity->getUsername());
+             $commentEntity->setEmail($accountEntity->getEmail());
+        }
+        else
+        {
+           $commentEntity->setUsername($request->get('commenterUsername'));
+           $commentEntity->setEmail($request->get('commenterEmail'));
+        }
+       
+      
+      
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($commentEntity);
