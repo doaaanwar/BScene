@@ -129,20 +129,20 @@ class AccountController extends Controller {
 
           echo($result); */
 
-       
+
         //options used to turn off the ssl verification
         $options = array(
             'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true
-        )
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
         );
 
 
-        
+
         //TODO replace values with the account value
-        
+
         $mail = new PHPMailer;
 
         //$mail->SMTPDebug = 3;                               // Enable verbose debug output
@@ -158,27 +158,29 @@ class AccountController extends Controller {
         $mail->From = 'bscenenetwork@gmail.com';
         $mail->FromName = 'Mailer';
         $mail->addAddress('doaa.anwar@gmail.com', 'Joe User');     // Add a recipient
-       
 
-       
+
+
         $mail->isHTML(true);                                  // Set email format to HTML
 
         $mail->Subject = 'Here is the subject';
-        $mail->Body = 'This is the HTML message body <b>in bold!</b>';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        $mail->Body = $userFirstName . ', <br> Thank you for signing up for B-Scene! '
+                . 'Please click the below link to verify your registration: <br>'
+                . $emailLink . ' <br>'
+                . 'Regards, <br> B-Scene Team';
+        $mail->AltBody = 'Thank you for signing up for B-Scene! '
+                . 'Please copy and paste the below link to verify your registration: '
+                . $emailLink . ' <br>'
+                . 'Regards, <br> B-Scene Team';
 
         $mail->smtpConnect($options);
-        
+
         if (!$mail->send()) {
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;
         } else {
             echo 'Message has been sent';
         }
-
-
-
-       
     }
 
     /**
