@@ -62,21 +62,18 @@ class MeetingController extends Controller {
         $commentEntity = new eventComments();
         $commentEntity->setComment($request->get('commenterComment'));
         $commentEntity->setCommentTime(new \DateTime());
-         
-        if($request->getSession()->get('memberId'))
-        {
-             $em = $this->getDoctrine()->getEntityManager();
-             $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Account');
-             $accountEntity = $repository->find(($request->getSession()->get('memberId')));
-             $commentEntity->setUsername($accountEntity->getUsername());
-             $commentEntity->setEmail($accountEntity->getEmail());
+
+        if ($request->getSession()->get('memberId')) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Account');
+            $accountEntity = $repository->find(($request->getSession()->get('memberId')));
+            $commentEntity->setUsername($accountEntity->getUsername());
+            $commentEntity->setEmail($accountEntity->getEmail());
+        } else {
+            $commentEntity->setUsername($request->get('commenterUsername'));
+            $commentEntity->setEmail($request->get('commenterEmail'));
         }
-        else
-        {
-           $commentEntity->setUsername($request->get('commenterUsername'));
-           $commentEntity->setEmail($request->get('commenterEmail'));
-        }
-   
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($commentEntity);
 
@@ -171,23 +168,21 @@ class MeetingController extends Controller {
             //for the already existing speakers
             $speakers = array();
             $speakers = $request->get('multiselect');
-            
+
             //initialize an array to save created speaker
-            $speakerList = array(); 
-           
-            for($c=0;$c<count($speakers);$c++)
-            {
-                
+            $speakerList = array();
+
+            for ($c = 0; $c < count($speakers); $c++) {
+
                 $em = $this->getDoctrine()->getEntityManager();
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Speaker');
                 $speakerEntity = $repository->findOneBy(array('name' => $speakers[$c]));
                 $speakerList[] = $speakerEntity;
             }
-     
 
-            $i =1 ;
-            while($request->get('nameTextbox' . $i))
-            {
+
+            $i = 1;
+            while ($request->get('nameTextbox' . $i)) {
                 if ($request->get('nameTextbox' . $i) != "") {
                     //create new speaker
                     $speakerEntity = new Speaker();
@@ -305,19 +300,16 @@ class MeetingController extends Controller {
         } else {
             $form->addError(new FormError("Your session Expired. You have to login again."));
         }
-        
-        if($request->getSession()->get("admin"))
-        {
+
+        if ($request->getSession()->get("admin")) {
             return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
-                    'entity' => $entity,
-                    'form' => $form->createView(),
+                        'entity' => $entity,
+                        'form' => $form->createView(),
             ));
-        }
-        else
-        {
+        } else {
             return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
-                    'entity' => $entity,
-                    'form' => $form->createView(),
+                        'entity' => $entity,
+                        'form' => $form->createView(),
             ));
         }
     }
@@ -364,16 +356,16 @@ class MeetingController extends Controller {
         $entity = new Meeting();
         $form = $this->createCreateForm($entity);
         $em = $this->getDoctrine()->getManager();
-        
+
         $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
-      
+
         //$relatedEventList = $this->relatedEventAction($id);
         if ($request->getSession()->get("admin")) {
             return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
                         'entity' => $entity,
                         'speakers' => $speakers,
-                        'form' => $form->createView(),                 
-                            //'relatedEvents'   => $relatedEventList,
+                        'speakerCount' => count($speakers),
+                        'form' => $form->createView(),
             ));
         } else {
             return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
@@ -431,14 +423,12 @@ class MeetingController extends Controller {
         ));
     }
 
-   
-
     /**
      * remove the generated edit function and use a manual one 
      * 
      * updated: 31.03.2015, doaa elfayoumi
      * updated: 1.04.2015, doaa elfayoumi, save time, venue, speaker
-     *
+     * updated to cover existing speaker, doaa elfayoumi 05042015
      */
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
@@ -453,6 +443,11 @@ class MeetingController extends Controller {
         $categories = $em->getRepository('AcmebsceneBundle:Categories')->findAll();
         $speakers = $entity->getSpeakers();
 
+
+
+        $speakersList = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
+        //TODO remove the already added one from the speakersList
+
         $deleteForm = $this->createDeleteForm($id);
         return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
                     'entity' => $entity,
@@ -460,10 +455,21 @@ class MeetingController extends Controller {
                     'categories' => $categories,
                     'speakers' => $speakers,
                     'speakercount' => count($speakers),
+                    'speakersList' => $speakersList,
+                    'speakersListCount' => count($speakersList),
                     'delete_form' => $deleteForm->createView(),
         ));
     }
 
+    
+    
+    /**
+     * remove the generated edit function and use a manual one 
+     * 
+     * updated: 31.03.2015, doaa elfayoumi
+     * updated: 1.04.2015, doaa elfayoumi, save time, venue, speaker
+     * updated to cover existing speaker, doaa elfayoumi 05042015
+     */
     public function updateAction(Request $request, $id) {
         $valid = true;
         $errors = array();
@@ -522,9 +528,6 @@ class MeetingController extends Controller {
             $entity->setVenue($venue);
         }
 
-
-
-
         //upload and save new image
         $image = $request->files->get('imageUpload2');
 
@@ -550,8 +553,30 @@ class MeetingController extends Controller {
 
         $entity->setCategory($category);
 
-        //update speaker with new ones
-        for ($i = 1; $i <= 5; $i++) {
+      
+
+        //for the already existing speakers
+        $speakers = array();
+        $speakers = $request->get('multiselect');
+
+
+
+        for ($c = 0; $c < count($speakers); $c++) {
+
+            $em = $this->getDoctrine()->getEntityManager();
+            $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Speaker');
+            $speakerEntity = $repository->findOneBy(array('name' => $speakers[$c]));
+            $speakerEntity->addEvent($entity);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($speakerEntity);
+            $em->flush();
+            $entity->addSpeaker($speakerEntity);
+        }
+
+        //update speakers with new one
+
+        $i = 1;
+        while ($request->get('nameTextbox' . $i)) {
             if ($request->get('nameTextbox' . $i) != "") {
                 //create new speaker
                 $speakerEntity = new Speaker();
@@ -564,6 +589,7 @@ class MeetingController extends Controller {
                 $em->flush();
                 $entity->addSpeaker($speakerEntity);
             }
+            $i++;
         }
 
 
@@ -1008,7 +1034,7 @@ class MeetingController extends Controller {
 
         $em->persist($entity);
         $em->flush();
-        return $this->showAction($id);
+        return $this->redirectToRoute('acmebscene_homepage');
     }
 
 }
