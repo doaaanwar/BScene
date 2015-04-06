@@ -90,32 +90,33 @@ class DefaultController extends Controller {
 
             //username found
             if ($user) {
-                $verified = password_verify($password, $user->getPassword());
-                if ($verified) {
-                    //$session = new Session();
-                    //$session->start();
-                    $session->invalidate(5000);
-                    $session->set('member', $user->getUsername());
-                    $session->set('memberId', $user->getId());
-                    if ($user->getIsAdmin() == 1) {
+                if ($user->getIsVerified() == 1) {
+                    $verified = password_verify($password, $user->getPassword());
+                    if ($verified) {
+                        //$session = new Session();
+                        //$session->start();
+                        $session->invalidate(5000);
+                        $session->set('member', $user->getUsername());
+                        $session->set('memberId', $user->getId());
+                        if ($user->getIsAdmin() == 1) {
 
-                        $session->set('admin', 'admin');
-                        $session->set('lastLogin', $user->getLastLogin());
+                            $session->set('admin', 'admin');
+                            $session->set('lastLogin', $user->getLastLogin());
 
-                        //TODO save the current time for the last login of the admin or do it on the logout
+                            //TODO save the current time for the last login of the admin or do it on the logout
+                        } //end if user is admin
+                        return $this->render('AcmebsceneBundle:Default:index.html.twig', array('name' => $user->getUsername(), 'categoryList' => $categoryList));
+                    } else {   //password doesn't match
+                        return $this->render('AcmebsceneBundle:Default:login.html.twig', array('errormessage' => 'incorrect password', 'categoryList' => $categoryList));
                     }
-
-
-                    return $this->render('AcmebsceneBundle:Default:index.html.twig', array('name' => $user->getUsername(), 'categoryList' => $categoryList));
-                } else {
-                    //password doesn't match
-                    return $this->render('AcmebsceneBundle:Default:login.html.twig', array('errormessage' => 'uncorrect password', 'categoryList' => $categoryList));
+                } else { //user e-mail not validated
+                    return $this->render('AcmebsceneBundle:Default:login.html.twig', array('errormessage' => 'You have not yet validated your e-mail address. '
+                        . 'Please click the link in the e-mail you received when you registered', 'categoryList' => $categoryList));
                 }
-            } else {
-
+            } else { //User not found
                 return $this->render('AcmebsceneBundle:Default:login.html.twig', array('errormessage' => 'login failed', 'categoryList' => $categoryList));
             }
-        } else {
+        } else { //Post method
             return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
         }
     }
@@ -141,7 +142,7 @@ class DefaultController extends Controller {
     }
 
     private function setTempPassword($id) {
-                $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
         $tempPassword = \uniqid();
@@ -162,15 +163,15 @@ class DefaultController extends Controller {
                         . "FROM \Acme\bsceneBundle\Entity\Account a "
                         . "WHERE a.email = :email")->setParameter('email', $email);
         $user = $q->getArrayResult();
-        
+
 
         if ($user != null) {
             $emailReminder = $user[0]['email'];
             $id = $user[0]['id'];
-            
+
             $tempPassword = $this->setTempPassword($id);
             $username = $user[0]['username'];
-            
+
             $options = array(
                 'ssl' => array(
                     'verify_peer' => false,
