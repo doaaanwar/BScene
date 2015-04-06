@@ -21,7 +21,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "swiftmailer/swiftmailer": "~5.4",
         "phpmailer/phpmailer": "dev-master",
-        "phpunit/phpunit": "4.8.*@dev"
+        "phpunit/phpunit": "4.8.*@dev",
+        "phpunit/phpunit-skeleton-generator": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

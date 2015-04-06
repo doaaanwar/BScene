@@ -41,7 +41,7 @@ class MeetingController extends Controller {
             $resultCount = \Count($searchResults);
             $noResults = "Sorry, there are no results. Try a different search.";
         } else {
-            $searchResults = [];
+            $searchResults = null;
             $resultCount = 0;
             $noResults = "That is not a valid search! Please try again.";
         }
