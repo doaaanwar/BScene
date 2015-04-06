@@ -96,18 +96,4 @@
                     {{ form_row(edit_form._token) }}
                     {{ form_widget(edit_form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
         </table>
-        <div align="left">
-            <ul class="record_actions">
-                <li>
-                    <a href="{{ path('account') }}">
-                        Back to the list
-                    </a>
-                </li>
-                <li>
-                    
-                    {{ form(delete_form) }}</li>
-                
-                <p class="text-danger">Careful- This cannot be undone!</p>
-            </ul>
-        </div>
     {% endblock %}

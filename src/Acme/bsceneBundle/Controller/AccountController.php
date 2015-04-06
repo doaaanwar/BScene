@@ -3,7 +3,6 @@
 namespace Acme\bsceneBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Session\Session;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Acme\bsceneBundle\Entity\Account;
@@ -324,7 +323,13 @@ class AccountController extends Controller {
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $plainPassword = $entity->getPassword();
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($entity, $plainPassword);
+            $entity->setPassword($encoded);
             $em->flush();
+
+            $em->persist($entity);
 
             return $this->redirect($this->generateUrl('account_edit', array('id' => $id)));
         }
@@ -513,7 +518,7 @@ class AccountController extends Controller {
 
     public function emailValidatedAction($id, $hash) {
         $entity = '\Acme\bsceneBundle\Entity\Account';
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT a FROM \Acme\bsceneBundle\Entity\Account a WHERE a.id = :id")->setParameter('id', $id);
@@ -524,20 +529,19 @@ class AccountController extends Controller {
 
 
         if ($user[0]['verificationHash'] == $hash) {
-            
+
             $e = $this->getDoctrine()->getEntityManager();
             $userVal = $e->find($entity, $userId);
             $userVal->setIsVerified(1);
             $e->persist($userVal);
             $e->flush();
-            
+
             $session = new Session();
             $session->start();
             $session->set('member', $userName);
             $session->set('memberId', $userId);
             return $this->render('AcmebsceneBundle:Account:emailValidated.html.twig', array('id' => $userId,));
-        }
-        else{
+        } else {
             return $this->render('AcmebsceneBundle:Account:validationFail.html.twig');
         }
     }
