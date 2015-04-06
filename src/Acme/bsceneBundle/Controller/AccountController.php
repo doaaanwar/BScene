@@ -331,7 +331,7 @@ class AccountController extends Controller {
 
             $em->persist($entity);
 
-            return $this->redirect($this->generateUrl('account_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('account_show', array('id' => $id)));
         }
 
         return $this->render('AcmebsceneBundle:Account:edit.html.twig', array(
