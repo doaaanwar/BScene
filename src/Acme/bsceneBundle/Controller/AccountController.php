@@ -507,9 +507,7 @@ class AccountController extends Controller {
 
 
 
-        return $this->render('AcmebsceneBundle:Account:subscribe.html.twig', array(
-                    'categories' => $categories,
-        ));
+return $this->redirect($this->generateUrl('account_show', array('id' => $userId)));
     }
 
     /*
