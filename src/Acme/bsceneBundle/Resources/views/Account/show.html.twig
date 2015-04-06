@@ -153,20 +153,19 @@
     </div>
 
     <!-- /.container -->
-
-
-    <ul class="record_actions">
-        <li>
+    <table>
+        <tr>
+            <td>
             <a class="btn btn-warning" href="{{ path('account_edit', { 'id': entity.id }) }}">
                 Edit Account
             </a>
-
-        </li>
-        <li>
-                            
+            </td>
+            <td>
             <a class="btn btn-warning" href="{{ path('acmebscene_subscribe') }}">
                 Subscribe to event notifications
             </a>
-        </li>
-    </ul>
+            </td>
+        </tr>
+    </table>
+
 {% endblock %}
