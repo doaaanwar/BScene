@@ -87,7 +87,6 @@ class Account implements UserInterface
     
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
-     * @Assert\NotBlank()
      * 
      */
     protected $businessPhone;

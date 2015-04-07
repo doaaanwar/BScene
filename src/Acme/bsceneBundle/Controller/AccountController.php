@@ -272,13 +272,12 @@ class AccountController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
-        
-                $isAdmin = $entity->getIsAdmin();
-        
-        if ($isAdmin == 1){
+
+        $isAdmin = $entity->getIsAdmin();
+
+        if ($isAdmin == 1) {
             $adminTemplate = true;
-        }
-        else{
+        } else {
             $adminTemplate = false;
         }
 
@@ -293,7 +292,7 @@ class AccountController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
-            'adminTemplate' => $adminTemplate,
+                    'adminTemplate' => $adminTemplate,
         ));
     }
 
@@ -327,27 +326,40 @@ class AccountController extends Controller {
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Account entity.');
         }
+        $isAdmin = $entity->getIsAdmin();
+        if ($isAdmin) {
+            $organization = $em->getRepository('AcmebsceneBundle:Organization')->findOneBy(array('name' => 'BScene'));
+            $adminTemplate = true;
+            $entity->setOrganization($organization);
+            $entity->setBusinessPhone('NA');
+        } else {
+            $adminTemplate = false;
+        }
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
+        
         if ($editForm->isValid()) {
             $plainPassword = $entity->getPassword();
             $encoder = $this->container->get('security.password_encoder');
             $encoded = $encoder->encodePassword($entity, $plainPassword);
             $entity->setPassword($encoded);
+            $em->persist($entity);
             $em->flush();
 
-            $em->persist($entity);
-
-            return $this->redirect($this->generateUrl('account_show', array('id' => $id)));
+            if ($isAdmin) {
+                return $this->redirect($this->generateUrl('acmebscene_adminProfile', array('id' => $id)));
+            } else {
+                return $this->redirect($this->generateUrl('account_show', array('id' => $id)));
+            }
         }
 
         return $this->render('AcmebsceneBundle:Account:edit.html.twig', array(
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
+                    'adminTemplate' => $adminTemplate,
         ));
     }
 
@@ -517,7 +529,7 @@ class AccountController extends Controller {
 
 
 
-return $this->redirect($this->generateUrl('account_show', array('id' => $userId)));
+        return $this->redirect($this->generateUrl('account_show', array('id' => $userId)));
     }
 
     /*
