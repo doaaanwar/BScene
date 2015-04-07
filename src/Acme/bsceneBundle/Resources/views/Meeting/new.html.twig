@@ -73,9 +73,59 @@
         <table>
             <tr>
                 <td >{{ form_row(form.title) }}</td>
-
+                {% if app.session.get('admin') != null %}
+                <td>{{ form_row(form.organization) }}</td>
+                {% endif%}
             </tr>
+            {% if app.session.get('admin') != null %}
+            <tr>
+                <td colspan="2">
 
+
+                    <small class="createOrg">Can't find your organization?
+                        <a data-toggle="collapse" href="#collapseOrganization" aria-expanded="false" aria-controls="collapseOrganization">Create a new one</a>
+                    </small>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                    <div  id="createOrgColumn">
+                        <div class="collapse" id="collapseOrganization">
+                            <div class="well">
+                                <form class="form-group" id="createNew" novalidate>
+                                    <table>
+                                        <tr>
+                                            <td colspan="2" class="text-center">
+                                                <h4>Create Organization</h4>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">
+                                                <label for="orgName">* Organization Name</label>
+                                            </td>
+                                            <td class="text-left">
+                                                <input type="text" id="orgName" name="orgName">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">
+
+                                                <label for="orgUrl">* Organization URL</label>
+                                            </td>
+                                            <td class="text-left">
+
+                                                <input type="url" id="orgUrl" name="orgUrl">
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+           {% endif%}
 
             <tr>
                 <td>
