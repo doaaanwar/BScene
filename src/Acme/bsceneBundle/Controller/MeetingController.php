@@ -868,7 +868,7 @@ class MeetingController extends Controller {
                 . "LEFT JOIN e.organization o "
                 . "LEFT JOIN e.speakers s "
                 . "LEFT JOIN e.image i "
-                . "WHERE ((e.title LIKE CONCAT('%', :keyword, '%')) OR "
+                . "WHERE e.posted = 1 AND ((e.title LIKE CONCAT('%', :keyword, '%')) OR "
                 . "(e.description LIKE CONCAT('%', :keyword2, '%')) OR "
                 . "(o.name LIKE CONCAT('%', :keyword3, '%')) OR "
                 . "(s.name LIKE CONCAT('%', :keyword4, '%')))"
