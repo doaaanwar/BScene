@@ -301,12 +301,14 @@ class MeetingController extends Controller {
             $form->addError(new FormError("Your session Expired. You have to login again."));
         }
 
-        if ($request->getSession()->get("admin")) {
+        /*if ($request->getSession()->get("admin")) {
             return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
                         'entity' => $entity,
+                        'speakers' => $speakers,
+                        'speakerCount' => count($speakers),
                         'form' => $form->createView(),
             ));
-        } else {
+        } else {*/
             $em = $this->getDoctrine()->getManager();
 
             $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
@@ -317,7 +319,7 @@ class MeetingController extends Controller {
                         'speakerCount' => count($speakers),
                         'form' => $form->createView(),
             ));
-        }
+        //}
     }
 
     private function getMatchingEvent(Meeting $entity) {
@@ -366,14 +368,14 @@ class MeetingController extends Controller {
         $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
 
         //$relatedEventList = $this->relatedEventAction($id);
-        if ($request->getSession()->get("admin")) {
+        /*if ($request->getSession()->get("admin")) {
             return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
                         'entity' => $entity,
                         'speakers' => $speakers,
                         'speakerCount' => count($speakers),
                         'form' => $form->createView(),
             ));
-        } else {
+        } else {*/
             return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                         'entity' => $entity,
                          'speakers' => $speakers,
@@ -381,7 +383,7 @@ class MeetingController extends Controller {
                         'form' => $form->createView(),
                             //'relatedEvents'   => $relatedEventList,
             ));
-        }
+        //}
     }
 
     /**
@@ -459,6 +461,7 @@ class MeetingController extends Controller {
         return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
                     'entity' => $entity,
                     'errors' => $errors,
+                    'errorCount' => 0,
                     'categories' => $categories,
                     'speakers' => $speakers,
                     'speakercount' => count($speakers),
@@ -527,8 +530,17 @@ class MeetingController extends Controller {
                 if (!$venueEntity) {
                     //call function to create venue
                     $venueEntity = $this->createVenue($request);
+                    if($venueEntity)
+                    {
+                        $entity->setVenue($venueEntity);
+                    }
+                    else
+                    {
+                        $valid = false;
+                        $errors[] = "Address entered is not on the range covered by this website";
+                    }
+                    
                 }
-                $entity->setVenue($venueEntity);
             }
         } else {
             $venue = $em->getRepository('AcmebsceneBundle:Venue')->find($request->get('venueId'));
@@ -609,9 +621,22 @@ class MeetingController extends Controller {
             $em->flush();
             return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
         }
+        $categories = $em->getRepository('AcmebsceneBundle:Categories')->findAll();
+        $speakers = $entity->getSpeakers();
+
+
+
+        $speakersList = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
+        $deleteForm = $this->createDeleteForm($id);
         return $this->render('AcmebsceneBundle:Meeting:editNew.html.twig', array(
                     'entity' => $entity,
                     'errors' => $errors,
+                    'errorCount' => count($errors),
+                    'categories' => $categories,
+                    'speakers' => $speakers,
+                    'speakercount' => count($speakers),
+                    'speakersList' => $speakersList,
+                    'speakersListCount' => count($speakersList),
                     'delete_form' => $deleteForm->createView(),
         ));
     }
