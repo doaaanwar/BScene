@@ -53,6 +53,19 @@
                                 <br>
                                 <!-- Google+ -->
                                 <link rel="canonical" /> <g:plus action="share" ></g:plus>
+                                <br><br><br>
+                                <div >
+                                {%if (app.session.get('memberId') == entity.account.id) or (app.session.get('admin') != null) %}
+                                     <a href="{{ path('meeting_edit', { 'id': entity.id }) }}">
+                                        Edit
+                                     </a>
+                                        <br>
+                                        <a href="{{path('acmebscene_hide', { 'id' :entity.id } )}}">
+                                        Hide Event
+                                     </a> 
+                                  
+                                {%endif%}
+                                </div>
                             </div>
                         </div>
 
@@ -70,11 +83,7 @@
                     {% if entity.endTime != null%}
                         <p><b>End Time:</b> {{ entity.endTime|date('g:i a') }}</p>
                     {% endif%}
-                    {%if (app.session.get('memberId') == entity.account.id) or (app.session.get('admin') != null) %}
-                        <a href="{{ path('meeting_edit', { 'id': entity.id }) }}">
-                            Edit
-                        </a>
-                    {%endif%}
+                    
 
                 </div>
 
@@ -405,12 +414,7 @@
 
 
     <ul class="record_actions">
-        <form class="navbar-form navbar-left" id="hide" name="hide" method="post" action="{{path('acmebscene_hide', { 'id' :entity.id } )}}">
-            <div class="form-group">
-                <input class="form-control" type="hidden" value="{{entity.id}}" name="hide" id="hide"/>
-            </div> 
-            <button class="btn btn-default" type="submit" > Hide Event</button>
-        </form>
+        
         <!-- <li>
             <a href="{{ path('meeting') }}">
                 Back to the list
