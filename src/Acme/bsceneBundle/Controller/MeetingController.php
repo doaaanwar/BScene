@@ -233,7 +233,9 @@ class MeetingController extends Controller {
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($orgEntity);
                     $em->flush();
+                    $entity->setOrganization($orgEntity);
                 }
+               
             } else {
                 $entity->setOrganization($account->getOrganization());
             }
