@@ -45,7 +45,7 @@ class AccountType extends AbstractType
                 'required' => true,
                 'attr' => array ('id' => 'email')))
                 
-            ->add('backupEmail', 'hidden', array (
+            ->add('backupEmail', 'email', array (
                 'label' => 'Secondary E-mail Address',
                 'required' => false,
                 'attr' => array('id' => 'backupEmail')))

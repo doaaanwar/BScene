@@ -1,0 +1,138 @@
+{% extends '::adminLayout.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/profile.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body -%}
+
+    <div class="container">
+
+        <!-- Portfolio Item Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">User Profile
+                    <small>{{entity.username}} - B-Scene Admin</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Portfolio Item Row -->
+        <div class="row">
+            <div class="col-md-6">
+                <table class="record_properties">
+                    <tbody>
+                        <tr>
+                            <th class="text-right" class="text-right">Username</th>
+                            <td class="text-left" class="text-left">{{ entity.username }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right" class="text-right">Name</th>
+                            <td class="text-left">{{ entity.firstName }} {{entity.lastName}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right" class="text-right">Email Address</th>
+                            <td class="text-left"><a href="mailto:{{entity.email}}">{{ entity.email }}</a></td>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Backup E-mail Address</th>
+                            <td class="text-left"><a href="mailto:{{entity.backupEmail}}">{{ entity.backupEmail }}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-6">
+                <table class="record_properties">
+                    <tbody>
+                        <tr>
+                            <th class="text-right">Last Login</th>
+                            <td class="text-left">{{ entity.lastLogin|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- /.row -->
+
+        <!-- Upcoming Events Row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">Upcoming Events</h3>
+            </div>
+
+            {% block upcomingEvents %}
+                {% if eventCount != 0 %}
+                    {% for item in upcoming %}
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-fw fa-gift"></i>{{item.title}}</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <h5>Date</h5>
+                                    <p>{{item.date|date('M d, Y')}}</p>
+                                    <h5>Time</h5>
+
+                                    <p>{{item.time|date('g:i a')}}</p>
+                                    <h5>Description</h5>
+
+                                    <p>{{item.description}}</p>
+                                    <a href="{{path('acmebscene_eventDetail', { 'id' : item.id } )}}" class="btn btn-warning" {{ item.id }}>Event Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h4>{{noEventsMsg}}</h4>
+                    <!-- /.row -->
+                {% endif %}
+            </div>
+        {% endblock %}
+        <!-- Past Events Row -->
+        <div class="row">
+            <!--First Event box -->
+            <div class="col-lg-12">
+                <h3 class="page-header">Past Events</h3>
+            </div>
+
+            {% block pastEvents %}
+                {% if pastEventCount != 0 %}
+                    {% for item in past %}
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-fw fa-gift"></i> {{item.title}}</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <h5>Date</h5>
+                                    <p>{{item.date|date('M d, Y')}}</p>
+                                    <h5>Time</h5>
+                                    <p>{{item.time|date('g:i a')}}</p>
+                                    <h5>Description</h5>
+                                    <p>{{item.description}}</p>
+                                    <a href="#" class="btn btn-warning">Event Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div id="pastEvents">
+                        <h4>{{noPastEventsMsg}}</h4>
+                    </div>
+                {% endif %}
+
+                <a class="btn btn-warning" href="{{ path('account_edit', { 'id': entity.id }) }}">
+                    Edit Account
+                </a>
+            {% endblock %}
+
+            <!-- /.row -->
+        </div>
+    </div>
+{% endblock %}

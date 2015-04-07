@@ -272,6 +272,15 @@ class AccountController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Account')->find($id);
+        
+                $isAdmin = $entity->getIsAdmin();
+        
+        if ($isAdmin == 1){
+            $adminTemplate = true;
+        }
+        else{
+            $adminTemplate = false;
+        }
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Account entity.');
@@ -284,6 +293,7 @@ class AccountController extends Controller {
                     'entity' => $entity,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
+            'adminTemplate' => $adminTemplate,
         ));
     }
 

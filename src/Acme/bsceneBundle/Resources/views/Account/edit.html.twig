@@ -1,4 +1,6 @@
-{% extends '::base.html.twig' %}
+
+{% extends adminTemplate ? '::adminLayout.html.twig' : '::base.html.twig' %}
+
 {% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
 
 {% block stylesheets %}
@@ -24,6 +26,7 @@
             </tr>
             <tr>
                 <td>{{ form_row(edit_form.email) }}</td>
+                {% if adminTemplate != true%}
                 <td>{{ form_row(edit_form.organization) }}</td>
             </tr>
 
@@ -87,13 +90,20 @@
                 <td>{{ form_row(edit_form.province) }}</td>
             </tr>
             <tr>
+                {% endif %}
 
                 <td colspan="2" class="text-center">
+                    {% if adminTemplate == true%}
                     {{ form_row(edit_form.backupEmail) }}
+                    {% endif %}
                     {{ form_row(edit_form.paymentAmount) }}
                     {{ form_row(edit_form.isAdmin) }}
                     {{ form_row(edit_form.status) }}
                     {{ form_row(edit_form._token) }}
-                    {{ form_widget(edit_form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
+                    </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-center">{{ form_widget(edit_form.submit, { 'attr': {'class': 'btn btn-warning'} }) }}</td>
+            </tr>
         </table>
     {% endblock %}

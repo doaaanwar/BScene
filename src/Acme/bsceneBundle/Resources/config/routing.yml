@@ -148,4 +148,8 @@ acmebscene_pwReminderShow:
     path: /account/passwordrequest
     defaults: {_controller: AcmebsceneBundle:Default:showPasswordReminder }
     
+acmebscene_adminProfile:
+    path: /admin/profile/{id}
+    defaults: {_controller: AcmebsceneBundle:Admin:showProfile }
+    
   
