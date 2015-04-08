@@ -102,8 +102,13 @@ class DefaultController extends Controller {
 
                             $session->set('admin', 'admin');
                             $session->set('lastLogin', $user->getLastLogin());
-
-                            //TODO save the current time for the last login of the admin or do it on the logout
+                            
+                          
+                            //upadate the last login of the admin with the current time
+                            $user->setLastLogin(new \DateTime());
+                            $em->persist($user);
+                            $em->flush();
+                            
                         } //end if user is admin
                         return $this->render('AcmebsceneBundle:Default:index.html.twig', array('name' => $user->getUsername(), 'categoryList' => $categoryList));
                     } else {   //password doesn't match
