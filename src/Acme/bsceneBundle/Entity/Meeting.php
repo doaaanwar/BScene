@@ -122,8 +122,8 @@ class Meeting
     protected $createdOn;
     
     /**
-     * @ORM\Column(type="decimal", length=10)
-     * @Assert\Currency
+     * @ORM\Column(type="decimal", length=10, options={"default":0})
+     * 
      */
     protected $price;
 
