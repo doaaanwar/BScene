@@ -73,10 +73,13 @@
                     </div>
 
                 </div>
+                
                 <div class="well">
+                    {% if entity.price != 0 %}
                     <h4 class="pull-right">Price: ${{ entity.price }}</h4>
-                    <h3>Event Time Details</h3>
-
+                    {% endif %}
+                 <h3>Event Time Details</h3>
+                 
                     <p><b>Starting Date:</b>  {{ entity.date|date('M d, Y') }}</p>
                     <p><b>Starting Time:</b> {{ entity.time|date('g:i a') }}</p>
                     {% if entity.endDate != null%}
