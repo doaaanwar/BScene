@@ -120,6 +120,11 @@ class Meeting
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $createdOn;
+    /**
+     *
+     * @ORM\Column(type="integer", length=10, options={"default":0})
+     */
+    protected $price;
 
     /**
      * Constructor
@@ -534,5 +539,28 @@ class Meeting
     public function getPosted()
     {
         return $this->posted;
+    }
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     * @return Meeting
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer 
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 }
