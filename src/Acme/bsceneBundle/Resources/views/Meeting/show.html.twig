@@ -39,7 +39,7 @@
                             <h4><a href="#">{{ entity.title }}</a>
                             </h4>
                             <p>{{ entity.description }} </p>
-
+                            
 
                             <div id="share-buttons">
 
@@ -67,12 +67,14 @@
                                 {%endif%}
                                 </div>
                             </div>
+                                
                         </div>
 
                     </div>
 
                 </div>
                 <div class="well">
+                    <h4 class="pull-right">Price: ${{ entity.price }}</h4>
                     <h3>Event Time Details</h3>
 
                     <p><b>Starting Date:</b>  {{ entity.date|date('M d, Y') }}</p>

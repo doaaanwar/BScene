@@ -120,9 +120,10 @@ class Meeting
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $createdOn;
+    
     /**
-     *
-     * @ORM\Column(type="integer", length=10, options={"default":0})
+     * @ORM\Column(type="decimal", length=10)
+     * @Assert\Currency
      */
     protected $price;
 
