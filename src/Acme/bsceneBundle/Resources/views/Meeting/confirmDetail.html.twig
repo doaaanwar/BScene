@@ -1,13 +1,14 @@
 {% extends '::base.html.twig' %}
-{%block stylesheets%}
-
+{% block stylesheets %}
+    <link href="{{ asset('bundles/acmebscene/css/confirmEventDetails.css')}}" rel="stylesheet">
 {% endblock %}
+
 {% block body -%}
 
     <div>
         {% if matchCount > 1 %}
             <p class="text-danger">Warning!<p/>
-            <h3 class="text-danger">There is another similar {{matchCount}} events will happen on the same day </h3>
+            <h3 class="text-danger">There  are {{matchCount}} similar events scheduled on the same day </h3>
 
 
 
@@ -46,7 +47,7 @@
 
     </div>
     <div>
-        <h1>Confirm Event Detail</h1>
+        <h1>Confirm Event Details</h1>
         <table class="table table-bordered table-hover table-striped">
             <tbody>
                 <tr>
@@ -95,54 +96,67 @@
                     <th>Price</th>
                     <td>{{ entity.price }}</td>
                 </tr>
-                 <tr>
+                <tr>
                     <th>Logo</th>
                     <td> 
-                            <img class="img-responsive" src="{{asset(entity.image.URL)}}" alt=""  width="200" height="200">
+                        <img class="img-responsive" src="{{asset(entity.image.URL)}}" alt=""  width="200" height="200">
                     </td>
                 </tr>
                 <tr>
+            <div id="location">
+                <td colspan="2">
+                    <h4>Location</h4></td>
+                </tr>
+                <tr>
                     <td colspan="2">
-                        <div><h5>Location</h5></div>
+
                         <table id="address" >
                             <tr>
+                                <td>
+                                    <input class="field" hidden="true" id="name" name="name" />
+                                    <input class="field" hidden="true" name="place_id" id="place_id"/>
 
-                            <input class="field" hidden="true" id="name" name="name" />
-                            <input class="field" hidden="true" name="place_id" id="place_id"/>
+                                    <input class="field"  hidden="true" id="lng" name="lng"/>
+                                    <label>Street address</label></td>
 
-                            <input class="field"  hidden="true" id="lng" name="lng"/>
-                            <td class="label">Street address</td>
-
-                            <td class="slimField"><input class="field" id="street_number"
-                                                         disabled="true" name="street_number" value="{{entity.venue.address1}}"></input></td>
-                            <td class="wideField" colspan="2"><input class="field" id="route"
-                                                                     disabled="true" name="route" value="{{entity.venue.address2}}"></input></td>
-                </tr>
-                <tr>
-                    <td class="label">City</td>
-                    <td class="wideField" colspan="3"><input class="field" id="locality"
-                                                             disabled="true" name="locality" value="{{entity.venue.city}} "></input></td>
-                </tr>
-                <tr>
-                    <td class="label">Province</td>
-                    <td class="slimField"><input class="field"
-                                                 id="administrative_area_level_1" name="administrative_area_level_1" disabled="true" value="{{entity.venue.province}}"></input></td>
-                    <td class="label">Zip code</td>
-                    <td class="wideField"><input class="field" id="postal_code"
-                                                 disabled="true" name="postal_code" value="{{entity.venue.postalcode}}"></input></td>
-                </tr>
-                <tr>
-                    <td class="label">Country</td>
-                    <td class="wideField" colspan="3"><input class="field"
-                                                             id="country" disabled="true" name="country" value="{{entity.venue.country}}"></input></td>
+                                <td class="slimField"><input class="field" id="street_number"
+                                                             disabled="true" name="street_number" value="{{entity.venue.address1}}"></input></td>
+                                <td class="wideField" colspan="2"><input class="field" id="route"
+                                                                         disabled="true" name="route" value="{{entity.venue.address2}}"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label>City</label></td>
+                                <td class="wideField" colspan="3"><input class="field" id="locality"
+                                                                         disabled="true" name="locality" value="{{entity.venue.city}} "></input></td>
+                            </tr>
+                            <tr>
+                                <td><label>Province</label></td>
+                                <td class="slimField"><input class="field"
+                                                             id="administrative_area_level_1" name="administrative_area_level_1" disabled="true" value="{{entity.venue.province}}"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label>Postal code</label></td>
+                                <td class="wideField"><input class="field" id="postal_code"
+                                                             disabled="true" name="postal_code" value="{{entity.venue.postalcode}}"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label>Country</label></td>
+                                <td class="wideField" colspan="3"><input class="field"
+                                                                         id="country" disabled="true" name="country" value="{{entity.venue.country}}"></input></td>
+                            </tr>
+                    </td>
                 </tr>
         </table>
-    </td>
+    </div>
 </tr>
 
 <tr>
     <td colspan="2">
         <div><h4>Event Speakers</h4></div>
+    </td>
+</tr>
+<tr>
+    <td colspan="2">
 
         <div>
             {% if speakerCount > 0 %}
@@ -167,7 +181,7 @@
                             </tr>
                         {% endfor %}
 
-                        `                                        </tbody>
+                    </tbody>
                 </table>
             {% endif %}
 
@@ -176,7 +190,7 @@
 
     </td>
 </tr>
-</tbofy>     
+</tbody>     
 </table>
 </div>
 <div align="center">
