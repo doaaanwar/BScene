@@ -308,14 +308,6 @@ class MeetingController extends Controller {
             $form->addError(new FormError("Your session Expired. You have to login again."));
         }
 
-        /* if ($request->getSession()->get("admin")) {
-          return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
-          'entity' => $entity,
-          'speakers' => $speakers,
-          'speakerCount' => count($speakers),
-          'form' => $form->createView(),
-          ));
-          } else { */
         $em = $this->getDoctrine()->getManager();
 
         $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
@@ -325,7 +317,7 @@ class MeetingController extends Controller {
                     'speakerCount' => count($speakers),
                     'form' => $form->createView(),
         ));
-        //}
+       
     }
 
     private function getMatchingEvent(Meeting $entity) {
@@ -372,24 +364,14 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
-
-        //$relatedEventList = $this->relatedEventAction($id);
-        /* if ($request->getSession()->get("admin")) {
-          return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
-          'entity' => $entity,
-          'speakers' => $speakers,
-          'speakerCount' => count($speakers),
-          'form' => $form->createView(),
-          ));
-          } else { */
+        
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                     'entity' => $entity,
                     'speakers' => $speakers,
                     'speakerCount' => count($speakers),
-                    'form' => $form->createView(),
-                        //'relatedEvents'   => $relatedEventList,
+                    'form' => $form->createView(),           
         ));
-        //}
+       
     }
 
     /**
