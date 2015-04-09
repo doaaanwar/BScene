@@ -175,6 +175,13 @@ class AccountController extends Controller {
                 . 'Regards, <br> B-Scene Team';
 
         $mail->smtpConnect($options);
+
+        if (!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            $message = '';
+        }
     }
 
     /**
@@ -332,7 +339,7 @@ class AccountController extends Controller {
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-        
+
         if ($editForm->isValid()) {
             $plainPassword = $entity->getPassword();
             $encoder = $this->container->get('security.password_encoder');
