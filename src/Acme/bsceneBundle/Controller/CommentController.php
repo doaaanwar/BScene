@@ -25,7 +25,7 @@ class CommentController extends Controller
     * @param type $lastLogin
     * @return type
     */
-    public function adminIndexAction($lastLogin)
+    public function adminIndexAction(Request $request,$lastLogin)
     {   
         //check if the admin is logged in
         if($request->getSession()->get('admin') == null)
