@@ -235,7 +235,6 @@ class MeetingController extends Controller {
                     $em->flush();
                     $entity->setOrganization($orgEntity);
                 }
-               
             } else {
                 $entity->setOrganization($account->getOrganization());
             }
@@ -309,24 +308,23 @@ class MeetingController extends Controller {
             $form->addError(new FormError("Your session Expired. You have to login again."));
         }
 
-        /*if ($request->getSession()->get("admin")) {
-            return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
-                        'entity' => $entity,
-                        'speakers' => $speakers,
-                        'speakerCount' => count($speakers),
-                        'form' => $form->createView(),
-            ));
-        } else {*/
-            $em = $this->getDoctrine()->getManager();
+        /* if ($request->getSession()->get("admin")) {
+          return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
+          'entity' => $entity,
+          'speakers' => $speakers,
+          'speakerCount' => count($speakers),
+          'form' => $form->createView(),
+          ));
+          } else { */
+        $em = $this->getDoctrine()->getManager();
 
-            $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
-            return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
-                        
-                        'entity' => $entity,
-                        'speakers' => $speakers,
-                        'speakerCount' => count($speakers),
-                        'form' => $form->createView(),
-            ));
+        $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
+        return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
+                    'entity' => $entity,
+                    'speakers' => $speakers,
+                    'speakerCount' => count($speakers),
+                    'form' => $form->createView(),
+        ));
         //}
     }
 
@@ -376,21 +374,21 @@ class MeetingController extends Controller {
         $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
 
         //$relatedEventList = $this->relatedEventAction($id);
-        /*if ($request->getSession()->get("admin")) {
-            return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
-                        'entity' => $entity,
-                        'speakers' => $speakers,
-                        'speakerCount' => count($speakers),
-                        'form' => $form->createView(),
-            ));
-        } else {*/
-            return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
-                        'entity' => $entity,
-                         'speakers' => $speakers,
-                        'speakerCount' => count($speakers),
-                        'form' => $form->createView(),
-                            //'relatedEvents'   => $relatedEventList,
-            ));
+        /* if ($request->getSession()->get("admin")) {
+          return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
+          'entity' => $entity,
+          'speakers' => $speakers,
+          'speakerCount' => count($speakers),
+          'form' => $form->createView(),
+          ));
+          } else { */
+        return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
+                    'entity' => $entity,
+                    'speakers' => $speakers,
+                    'speakerCount' => count($speakers),
+                    'form' => $form->createView(),
+                        //'relatedEvents'   => $relatedEventList,
+        ));
         //}
     }
 
@@ -479,8 +477,6 @@ class MeetingController extends Controller {
         ));
     }
 
-    
-    
     /**
      * remove the generated edit function and use a manual one 
      * 
@@ -538,16 +534,12 @@ class MeetingController extends Controller {
                 if (!$venueEntity) {
                     //call function to create venue
                     $venueEntity = $this->createVenue($request);
-                    if($venueEntity)
-                    {
+                    if ($venueEntity) {
                         $entity->setVenue($venueEntity);
-                    }
-                    else
-                    {
+                    } else {
                         $valid = false;
                         $errors[] = "Address entered is not on the range covered by this website";
                     }
-                    
                 }
             }
         } else {
@@ -580,7 +572,7 @@ class MeetingController extends Controller {
 
         $entity->setCategory($category);
 
-      
+
 
         //for the already existing speakers
         $speakers = array();
@@ -1040,13 +1032,14 @@ class MeetingController extends Controller {
                 . ' Thanks for your interest! - B-Scene';
 
         $mail->smtpConnect($options);
-                    if (!$mail->send()) {
-                echo 'Message could not be sent.';
-                echo 'Mailer Error: ' . $mail->ErrorInfo;
-            } else {
-                $message = '';
-            }
-
+        if (!$mail->send()) {
+            //TODO send an email to the admin for failure future work
+            //echo 'Message could not be sent.';
+            //echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            //TODO send an email for admin future work
+            //$message = '';
+        }
     }
 
     /**
