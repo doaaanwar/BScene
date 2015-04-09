@@ -36,7 +36,9 @@
                         </div>
 
                         <div class="col-md-4">
-                            <h4><a href="#">{{ entity.title }}</a>
+                            <h2>{{ entity.title }}
+                            </h2>
+                            <h4>{{ entity.category }}
                             </h4>
                             <p>{{ entity.description }} </p>
                             
@@ -78,12 +80,12 @@
                     {% if entity.price != 0 %}
                          <h4 class="pull-right">Price: ${{ entity.price }}</h4>
                     {%else%}
-                        <h4 class="pull-right">Price: Free</h4>
+                        <h4 class="pull-right">Free</h4>
                     {% endif %}
                  <h3>Event Time Details</h3>
                  
-                    <p><b>Starting Date:</b>  {{ entity.date|date('M d, Y') }}</p>
-                    <p><b>Starting Time:</b> {{ entity.time|date('g:i a') }}</p>
+                    <p><b>Date:</b>  {{ entity.date|date('M d, Y') }}</p>
+                    <p><b>Time:</b> {{ entity.time|date('g:i a') }}</p>
                     {% if entity.endDate != null%}
                         <p><b>End Date:</b>  {{ entity.endDate|date('M d, Y') }}</p>
                     {% endif%}
