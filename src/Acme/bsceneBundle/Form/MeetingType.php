@@ -52,7 +52,12 @@ class MeetingType extends AbstractType {
             ->add('account', 'hidden', array(
             'data_class' => 'Acme\bsceneBundle\Entity\Account'
             ))
-            ->add('category')
+            ->add('category','entity',array(
+                'class' => 'AcmebsceneBundle:Categories',
+                'label' => '* Category',
+                'required' => true,
+                'attr' => array('id' => 'category')
+            ))
 
         ;
     }
