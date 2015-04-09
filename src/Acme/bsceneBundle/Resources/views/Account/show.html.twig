@@ -150,6 +150,7 @@
     </div>
 
     <!-- /.container -->
+    {% if (app.session.get('memberId') == entity.id) %}
     <table>
         <tr>
             <td>
@@ -164,5 +165,6 @@
             </td>
         </tr>
     </table>
+                {% endif %}
 
 {% endblock %}
