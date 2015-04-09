@@ -122,7 +122,7 @@ class DefaultController extends Controller {
                 return $this->render('AcmebsceneBundle:Default:login.html.twig', array('errormessage' => 'login failed', 'categoryList' => $categoryList));
             }
         } else { //Post method
-            return $this->render('AcmebsceneBundle:Default:index.html.twig', array('categoryList' => $categoryList));
+            return $this->render('AcmebsceneBundle:Default:login.html.twig');
         }
     }
 
