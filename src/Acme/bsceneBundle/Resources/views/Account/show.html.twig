@@ -36,7 +36,7 @@
                         </tr>
 
                         <tr>
-                            <th class="text-right">Business Phone #</th>
+                            <th class="text-right"><p>Business Phone</p></th>
                             <td class="text-left">{{ entity.businessPhone }}</td>
                         </tr>
                         <tr>
@@ -52,19 +52,19 @@
                     <tbody>
                         <tr>
                             <th class="text-right">Address</th>
-                            <td class="text-left">{{ entity.address1 }}, {{entity.address2}}, {{entity.city}}</td>
+                            <td class="text-left" id="addressCell">{{ entity.address1 }}, {{entity.address2}}, {{entity.city}}</td>
                         </tr>
                         <tr>
                             <th class="text-right">Province</th>
-                            <td class="text-left">{{ entity.province }}</td>
+                            <td class="text-left" id="addressCell">{{ entity.province }}</td>
                         </tr>
                         <tr>
                             <th class="text-right">Organization</th>
-                            <td class="text-left"><a href="{{organization}}">{{ entity.organization }}</a></td>
+                            <td class="text-left" id="addressCell"><a href="{{organization}}">{{ entity.organization }}</a></td>
                         </tr>
                         <tr>
                             <th class="text-right">Member Since</th>
-                            <td class="text-left">{{ entity.memberSince|date('Y-m-d') }}</td>
+                            <td class="text-left" id="addressCell">{{ entity.memberSince|date('Y-m-d') }}</td>
                         </tr>
 
                        
@@ -157,7 +157,7 @@
                 Edit Account
             </a>
             </td>
-            <td>
+            <td id="subscribeButton">
             <a class="btn btn-warning" href="{{ path('acmebscene_subscribe') }}">
                 Subscribe to event notifications
             </a>

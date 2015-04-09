@@ -15,6 +15,10 @@ footer {
 
 .userInfo {padding-left: 10px;}
 
-td, th {padding: 2%;}
+th {padding: 2%;}
+
+td {padding: 2%;}
+
+#subscribeButton {padding-left: 12%;}
 
 #pastEvents { padding-bottom: 10%;}
