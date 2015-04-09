@@ -9,6 +9,7 @@ use Acme\bsceneBundle\Entity\Categories;
 use Acme\bsceneBundle\Form\CategoriesType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Acme\bsceneBundle\Entity\Image;
+use Symfony\Component\Form\FormError;
 
 /**
  * Categories controller.
@@ -53,24 +54,25 @@ class CategoriesController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
         $image = $request->files->get('imageCatUpload');
-        if ($form->isValid()) {
-            
-            $imageEntity = NULL;
-            //commented till finish implementation
-           
-            if ($image) {
-                if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
-                    //call upload image
-                    $imageEntity = $this->uploadImage($image);
-                    $entity->setImage($imageEntity);
-                } else {
-                    print_r($image->getError());
-                    die();
-                }
+        
+        $imageEntity = NULL;
+        //commented till finish implementation
+
+        if ($image) {
+            if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                //call upload image
+                $imageEntity = $this->uploadImage($image);
+                $entity->setImage($imageEntity);
             } else {
-                //add mantatory error
-                $form->addError(new FormError("Uploading an image is mandatory."));
+                print_r($image->getError());
+                die();
             }
+        } else {
+            //add mantatory error
+            $form->addError(new FormError("Uploading an image is mandatory."));
+        }
+            
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
