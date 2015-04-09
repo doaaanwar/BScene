@@ -1008,7 +1008,7 @@ class MeetingController extends Controller {
             )
         );
 
-      
+        //TODO replace values with the account value
 
         $mail = new PHPMailer;
 
@@ -1042,13 +1042,10 @@ class MeetingController extends Controller {
         $mail->smtpConnect($options);
 
         if (!$mail->send()) {
-           
-            //TODO send notification to admin in future work
-            // echo 'Message could not be sent.';
-            //echo 'Mailer Error: ' . $mail->ErrorInfo;
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
         } else {
-            //TODO send mail failure to admin in future work
-            //echo 'Message has been sent';
+            echo 'Message has been sent';
         }
     }
 
