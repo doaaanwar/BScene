@@ -21,7 +21,13 @@ use DateTime;
 
 class AdminController extends Controller {
 
-    public function indexAction($lastLogin) {
+    public function indexAction(Request $request,$lastLogin) {
+        
+        //check if the admin is logged in
+        if($request->getSession()->get('admin') == null)
+        {
+           return $this->redirect($this->generateUrl('acmebscene_login'));
+        }
         //get the number and list of new comments
         $commentList = $this->getCommentList($lastLogin);
         if (count($commentList) == 0) {

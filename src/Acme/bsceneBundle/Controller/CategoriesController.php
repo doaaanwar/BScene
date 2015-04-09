@@ -21,8 +21,13 @@ class CategoriesController extends Controller
      * Lists all Categories entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        //check if the admin is logged in , only member can access this page
+        if($request->getSession()->get('admin') == null)
+        {
+           return $this->redirect($this->generateUrl('acmebscene_login'));
+        }
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AcmebsceneBundle:Categories')->findAll();
@@ -37,6 +42,12 @@ class CategoriesController extends Controller
      */
     public function createAction(Request $request)
     {
+        //check if the admin is logged in, only member can create a new category
+        if($request->getSession()->get('admin') == null)
+        {
+           return $this->redirect($this->generateUrl('acmebscene_login'));
+        }
+        
         $entity = new Categories();
         
         $form = $this->createCreateForm($entity);
@@ -177,6 +188,12 @@ class CategoriesController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        //check if the admin is logged in, only member can create a new category
+        if($request->getSession()->get('admin') == null)
+        {
+           return $this->redirect($this->generateUrl('acmebscene_login'));
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Categories')->find($id);
@@ -250,7 +267,7 @@ class CategoriesController extends Controller
     
     /**
      * Deletes a Categories entity.
-     *
+     * not used no one can delete a  category
      */
     public function deleteAction(Request $request, $id)
     {
@@ -275,7 +292,7 @@ class CategoriesController extends Controller
     
     /**
      * Creates a form to delete a Categories entity by id.
-     *
+     * not used no one can delete a category
      * @param mixed $id The entity id
      *
      * @return \Symfony\Component\Form\Form The form

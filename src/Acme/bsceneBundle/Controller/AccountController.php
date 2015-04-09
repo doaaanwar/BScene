@@ -113,24 +113,7 @@ class AccountController extends Controller {
 
         $emailLink = 'http://localhost/BScene/web/app_dev.php/account/validated/' . $userId . '/' . $userHash;
 
-        //$mailer = $this->get('mailer');
-
-        /* $transport = \Swift_SmtpTransport::newInstance('localhost', 25);
-          $mailer = \Swift_Mailer::newInstance($transport);
-
-          $message = \Swift_Message::newInstance()
-          ->setSubject('B-Scene Registration!')
-          ->setFrom('bscenenetwork@gmail.com')
-          ->setTo($userEmail)
-          ->setBody($userFirstName . ', <br> Thank you for signing up for B-Scene! '
-          . 'Please click the below link to verify your registration: <br>'
-          . $emailLink . ' <br>'
-          . 'Regards, <br> B-Scene Team', 'text/html');
-          $result = $mailer->send($message);
-
-          echo($result); */
-
-
+    
         //options used to turn off the ssl verification
         $options = array(
             'ssl' => array(
