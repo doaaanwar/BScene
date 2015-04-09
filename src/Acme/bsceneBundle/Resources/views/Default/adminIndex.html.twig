@@ -147,9 +147,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
+                                            <!-- show only 10 on home page -->
+                                            {% set c1 =0 %}
                                             {% for item in commentList %}
-
+                                            {% if c1 < 10 %}
                                                 <tr>
                                                     <td>{{item.comment}}</td>
                                                     <td>{{item.commentTime|date('Y-m-d\\TH:i:sP')}}</td>
@@ -157,6 +158,8 @@
                                                 </tr>
 
 
+                                            {% set c1 = c1 + 1 %}
+                                            {% endif %}
                                             {%endfor%}
 
 
@@ -204,9 +207,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
+                                            <!-- show only 10 on home page -->
+                                            {% set c =0 %}
                                             {% for item in eventList %}
-
+                                            {% if c < 10 %}
                                                 <tr>
                                                     <td>{{item.title}}</td>
                                                     <td>{{item.category}}</td>
@@ -214,6 +218,8 @@
                                                 </tr>
 
 
+                                            {% set c = c + 1 %}
+                                            {% endif %}
                                             {%endfor%}
 
 
@@ -259,19 +265,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
+                                            {% set count =0 %}
                                             {% for item in memberList %}
-
+                                            {% if count < 10 %}
                                                 <tr>
                                                     <td>{{item.firstName}}</td>
                                                     <td>{{item.lastName}}</td>
                                                     <td>{{item.organization}}</td>
                                                 </tr>
-
-
+                                            {% set count = count + 1 %}
+                                            {% endif %}
                                             {%endfor%}
-
-
 
                                         </tbody>
                                     </table>
