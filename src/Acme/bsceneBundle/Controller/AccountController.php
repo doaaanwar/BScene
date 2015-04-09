@@ -180,7 +180,7 @@ class AccountController extends Controller {
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;
         } else {
-            echo 'Message has been sent';
+            $message = '';
         }
     }
 
@@ -339,7 +339,7 @@ class AccountController extends Controller {
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-        
+
         if ($editForm->isValid()) {
             $plainPassword = $entity->getPassword();
             $encoder = $this->container->get('security.password_encoder');

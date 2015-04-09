@@ -142,7 +142,7 @@ class DefaultController extends Controller {
     }
 
     public function showPasswordReminderAction() {
-        $message = "Enter your e-mail address and we'll send it to you:";
+        $message = "Enter your e-mail address to reset your password. We will e-mail you a new one:";
         return $this->render('AcmebsceneBundle:Default:passwordReminder.html.twig', array('message' => $message));
     }
 
@@ -222,7 +222,7 @@ class DefaultController extends Controller {
                 echo 'Message could not be sent.';
                 echo 'Mailer Error: ' . $mail->ErrorInfo;
             } else {
-                $message = 'Message has been sent';
+                $message = '';
             }
             return $this->render('AcmebsceneBundle:Default:passwordReminder.html.twig', array('message' => $message,));
         } else {

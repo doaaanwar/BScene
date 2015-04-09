@@ -1040,13 +1040,13 @@ class MeetingController extends Controller {
                 . ' Thanks for your interest! - B-Scene';
 
         $mail->smtpConnect($options);
+                    if (!$mail->send()) {
+                echo 'Message could not be sent.';
+                echo 'Mailer Error: ' . $mail->ErrorInfo;
+            } else {
+                $message = '';
+            }
 
-        if (!$mail->send()) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
-        } else {
-            echo 'Message has been sent';
-        }
     }
 
     /**
