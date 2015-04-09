@@ -88,7 +88,7 @@ class AdminController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         //TODO get only the top 10
-        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\EventComments e where e.commentTime >= '$lastLogin'");
+        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\EventComments e where e.commentTime >= '$lastLogin' ORDER BY e.commentTime ASC");
         $commentList = $q->getResult();
 
         return $commentList;
@@ -103,7 +103,7 @@ class AdminController extends Controller {
     private function getNewMeetingList($lastLogin) {
         $em = $this->getDoctrine()->getManager();
 
-        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.createdOn >= '$lastLogin'");
+        $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.createdOn >= '$lastLogin' ORDER BY e.createdOn ASC");
         $eventList = $q->getResult();
 
         return $eventList;
@@ -122,7 +122,7 @@ class AdminController extends Controller {
         //$format = 'Y-m-d';
         //$todayDate = DateTime::createFromFormat($format, str$todayDate);
         $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
-                        . "WHERE e.date >= :searchDate ORDER BY e.date DESC")
+                        . "WHERE e.date >= :searchDate ORDER BY e.date ASC")
                 ->setParameter('searchDate', $todayDate);
         // $q = $em->createQuery("select e from \Acme\bsceneBundle\Entity\Meeting e where e.date >= '$todayDate'");
         $eventList = $q->getResult();
