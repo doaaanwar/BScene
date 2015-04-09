@@ -235,7 +235,6 @@ class MeetingController extends Controller {
                     $em->flush();
                     $entity->setOrganization($orgEntity);
                 }
-               
             } else {
                 $entity->setOrganization($account->getOrganization());
             }
@@ -309,25 +308,16 @@ class MeetingController extends Controller {
             $form->addError(new FormError("Your session Expired. You have to login again."));
         }
 
-        /*if ($request->getSession()->get("admin")) {
-            return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
-                        'entity' => $entity,
-                        'speakers' => $speakers,
-                        'speakerCount' => count($speakers),
-                        'form' => $form->createView(),
-            ));
-        } else {*/
-            $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-            $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
-            return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
-                        
-                        'entity' => $entity,
-                        'speakers' => $speakers,
-                        'speakerCount' => count($speakers),
-                        'form' => $form->createView(),
-            ));
-        //}
+        $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
+        return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
+                    'entity' => $entity,
+                    'speakers' => $speakers,
+                    'speakerCount' => count($speakers),
+                    'form' => $form->createView(),
+        ));
+       
     }
 
     private function getMatchingEvent(Meeting $entity) {
@@ -374,24 +364,14 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
-
-        //$relatedEventList = $this->relatedEventAction($id);
-        /*if ($request->getSession()->get("admin")) {
-            return $this->render('AcmebsceneBundle:Meeting:adminCreateMeeting.html.twig', array(
-                        'entity' => $entity,
-                        'speakers' => $speakers,
-                        'speakerCount' => count($speakers),
-                        'form' => $form->createView(),
-            ));
-        } else {*/
-            return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
-                        'entity' => $entity,
-                         'speakers' => $speakers,
-                        'speakerCount' => count($speakers),
-                        'form' => $form->createView(),
-                            //'relatedEvents'   => $relatedEventList,
-            ));
-        //}
+        
+        return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
+                    'entity' => $entity,
+                    'speakers' => $speakers,
+                    'speakerCount' => count($speakers),
+                    'form' => $form->createView(),           
+        ));
+       
     }
 
     /**
@@ -479,8 +459,6 @@ class MeetingController extends Controller {
         ));
     }
 
-    
-    
     /**
      * remove the generated edit function and use a manual one 
      * 
@@ -538,16 +516,12 @@ class MeetingController extends Controller {
                 if (!$venueEntity) {
                     //call function to create venue
                     $venueEntity = $this->createVenue($request);
-                    if($venueEntity)
-                    {
+                    if ($venueEntity) {
                         $entity->setVenue($venueEntity);
-                    }
-                    else
-                    {
+                    } else {
                         $valid = false;
                         $errors[] = "Address entered is not on the range covered by this website";
                     }
-                    
                 }
             }
         } else {
@@ -574,13 +548,14 @@ class MeetingController extends Controller {
 
         $entity->setTitle($request->get('title'));
         $entity->setCapacity($request->get('capacity'));
+        $entity->setPrice($request->get('price'));
 
         $categoryName = $request->get('category');
         $category = $em->getRepository('AcmebsceneBundle:Categories')->findOneBy(array('name' => $categoryName));
 
         $entity->setCategory($category);
 
-      
+
 
         //for the already existing speakers
         $speakers = array();
@@ -674,7 +649,7 @@ class MeetingController extends Controller {
         if ($cityEntity) {
             $venueEntity->setCity($cityEntity);
         } else {
-            //TODO the city constraint
+            //city constraint
             return false;
         }
 
@@ -686,12 +661,10 @@ class MeetingController extends Controller {
         if ($provinceEntity) {
             $venueEntity->setProvince($provinceEntity);
         } else {
-            //TODO the city constraint
+            //city constraint
             return false;
         }
-        //TODO put the province constraint
-
-
+     
 
         $venueEntity->setPlaceId($request->get('place_id'));
         $venueEntity->setAddress1($request->get('street_number'));
@@ -1008,11 +981,7 @@ class MeetingController extends Controller {
             )
         );
 
-        //TODO replace values with the account value
-
-        $mail = new PHPMailer;
-
-        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+        $mail = new PHPMailer;                            
 
         $mail->isSMTP();                                      // Set mailer to use SMTP
         $mail->Host = 'smtp.gmail.com;';  // Specify main and backup SMTP servers
@@ -1040,13 +1009,13 @@ class MeetingController extends Controller {
                 . ' Thanks for your interest! - B-Scene';
 
         $mail->smtpConnect($options);
-                    if (!$mail->send()) {
-                echo 'Message could not be sent.';
-                echo 'Mailer Error: ' . $mail->ErrorInfo;
-            } else {
-                $message = '';
-            }
-
+        if (!$mail->send()) {
+            //TODO send an email to the admin for failure future work
+           
+        } else {
+            //TODO send an email for admin future work
+        
+        }
     }
 
     /**
