@@ -30,15 +30,19 @@ function initialize() {
             
     //added by doaa elfayoumi for the map, 2.04.2015       
     var markers = [];
-    var map = new google.maps.Map(document.getElementById('map-canvas'), {
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+    
+    
+    //added by doaa elfayoumi, 09042015 to initialize the map with the center of the area covered by the website
+    var mapOptions = {
+        center: new google.maps.LatLng(43.436205, -80.456445),
+        zoom: 8
+      };
+    
+    
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions
+    );
 
-    var defaultBounds = new google.maps.LatLngBounds(
-            new google.maps.LatLng(-33.8902, 151.1759),
-            new google.maps.LatLng(-33.8474, 151.2631));
-    map.fitBounds(defaultBounds);
-    ///
+    
 
     // When the user selects an address from the dropdown,
     // populate the address fields in the form.
@@ -69,10 +73,14 @@ function initialize() {
         markers.push(marker);
 
         bounds.extend(place.geometry.location);
-
+        
 
         map.fitBounds(bounds);
-        ////
+        
+        
+        //added by doaa elfayoumi, 09042015 to make the map not to much zoomed
+        map.setZoom(14);
+       
 
 
     });

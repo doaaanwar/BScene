@@ -362,9 +362,13 @@
     <!---->
 
     <script>
+        
 
         // google.maps.event.addDomListener(window, 'load', initializeMap);
         google.maps.event.addDomListener(window, 'load', initialize);
+        if (map.getZoom() > 14)
+
+                                            map.setZoom(14);
     </script> 
 
 {%endblock%}
