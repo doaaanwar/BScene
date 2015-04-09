@@ -290,12 +290,18 @@ class MeetingController extends Controller {
                     //matchResults
                     return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(), 'entity' => $entity,
                                 'matchCount' => \count($matchingList),
-                                'matchResults' => $matchingList, 'form' => $form->createView()));
+                                'matchResults' => $matchingList,
+                                'speakers' => $speakerList,
+                                'speakerCount' => count($speakerList),
+                                'form' => $form->createView()));
                 } else {
 
                     return $this->render('AcmebsceneBundle:Meeting:confirmDetail.html.twig', array('id' => $entity->getId(), 'entity' => $entity,
                                 'matchCount' => 0,
-                                'matchResults' => null, 'form' => $form->createView()));
+                                'matchResults' => null,
+                                'speakers' => $speakerList,
+                                'speakerCount' => count($speakerList),
+                                'form' => $form->createView()));
                     // return $this->redirect($this->generateUrl('meeting_show', array('id' => $entity->getId())));
                 }
             }
@@ -466,7 +472,7 @@ class MeetingController extends Controller {
                     'errorCount' => 0,
                     'categories' => $categories,
                     'speakers' => $speakers,
-                    'speakercount' => count($speakers),
+                    'speakerCount' => count($speakers),
                     'speakersList' => $speakersList,
                     'speakersListCount' => count($speakersList),
                     'delete_form' => $deleteForm->createView(),
@@ -636,7 +642,7 @@ class MeetingController extends Controller {
                     'errorCount' => count($errors),
                     'categories' => $categories,
                     'speakers' => $speakers,
-                    'speakercount' => count($speakers),
+                    'speakerCount' => count($speakers),
                     'speakersList' => $speakersList,
                     'speakersListCount' => count($speakersList),
                     'delete_form' => $deleteForm->createView(),

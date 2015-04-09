@@ -73,11 +73,15 @@
         <table>
             <tr>
                 <td >{{ form_row(form.title) }}</td>
-                {% if app.session.get('admin') != null %}
-                <td>{{ form_row(form.organization) }}</td>
-                {% endif%}
+                
             </tr>
-            {% if app.session.get('admin') != null %}
+             {% if app.session.get('admin') != null %}
+            <tr>
+           
+                 <td>{{ form_row(form.organization) }}</td>
+               
+            </tr>
+           
             <tr>
                 <td colspan="2">
 
@@ -229,11 +233,11 @@
         <br>
         <div id='TextBoxesGroup'>
 
-            <h5>Add a new one</h5>
+           
 
             <div id="TextBoxDiv1">
 
-                <label>Speaker</label>
+                <label>Add Another Speaker</label>
                 <br>
                 <label>Name : </label><br><input type='text' id='nameTextbox' list="speakers" name='nameTextbox1' ><br>
                 <datalist id="speakers">
@@ -316,7 +320,7 @@
                 var newTextBoxDiv = $(document.createElement('div'))
                         .attr("id", 'TextBoxDiv' + counter);
 
-                newTextBoxDiv.after().html('<label>Speaker : </label><br>' +
+                newTextBoxDiv.after().html('<label>Add Another Speaker : </label><br>' +
                         '<label>Name : </label><br><input type="text" name="nameTextbox' + counter +
                         '" id="nameTextbox' + counter + '" value="" ><br>' +
                         '<label>Title : </label><br><input type="text" name="titleTextbox' + counter +

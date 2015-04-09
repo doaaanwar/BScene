@@ -138,7 +138,7 @@
                
 
                 <div id="map-canvas"></div>
-
+               
             </td>
 
             </tr>
@@ -157,9 +157,15 @@
 
 
             <tr>
-                <td><label>Capacity</label><br><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity"</td>
+                <td><label>Capacity</label><br><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity"></td>
             </tr>
-          
+           
+            <tr>
+               <td><label>Price</label><br><input type="money" value="{{entity.price}}" name="price" id="price"></td>
+
+               
+            </tr>
+
             <tr>
                 <td colspan="2">
                     <label for="imageUplaod">Event Logo Uploaded</label>
@@ -196,10 +202,10 @@
            
             <tr>
                 <td colspan="2">
-                     <div><h4>Event Speakers</h4> **you can add up to 5 speakers</div>
+                     <div><h4>Event Speakers</h4></div>
                         <br>
                                <div>
-                                {% if speakercount > 0 %}
+                                {% if speakerCount > 0 %}
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
                                             <tr>
