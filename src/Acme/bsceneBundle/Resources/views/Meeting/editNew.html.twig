@@ -5,56 +5,56 @@
     <link href="{{ asset('bundles/acmebscene/css/meeting.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.min.css')}}">
-     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery.timepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery.timepicker.css')}}">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jbootstrap-multiselect.css')}}">
     <style>
- 
+
         html, body, #map-canvas {
             height: 100%;
             margin: 0px;
             padding: 0px
         }
-         .controls {
-        margin-top: 16px;
-        border: 1px solid transparent;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: 32px;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      }
+        .controls {
+            margin-top: 16px;
+            border: 1px solid transparent;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            height: 32px;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
 
-      #pac-input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 400px;
-      }
+        #pac-input {
+            background-color: #FF8C00;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 0 11px 0 13px;
+            text-overflow: ellipsis;
+            width: 400px;
+        }
 
-      #pac-input:focus {
-        border-color: #4d90fe;
-      }
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
 
-      .pac-container {
-        font-family: Roboto;
-      }
+        .pac-container {
+            font-family: Roboto;
+        }
 
-      #type-selector {
-        color: #fff;
-        background-color: #4d90fe;
-        padding: 5px 11px 0px 11px;
-      }
+        #type-selector {
+            color: #fff;
+            background-color: #4d90fe;
+            padding: 5px 11px 0px 11px;
+        }
 
-      #type-selector label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
+        #type-selector label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
     </style>
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/googleMapAPI.css')}}">
@@ -68,102 +68,102 @@
         <h1>Edit {{entity.title}} Event</h1>
         <p class="lead">All fields marked with * are required</p>
     </div>
- <form  enctype="multipart/form-data" class="signin" method="POST" action="{{path('meeting_update',{'id' : entity.id }) }}">
-     <div>
-         {%if errorCount > 0 %}
-            
-             {% for error in errors%}
-              <p style="color: red; font-size: 14px"> {{error}}  </p>
-            {% endfor%}
-          
-         {%endif%}
-     </div>
-    
-    <div align='center'>
-        <table>
-            <tr>
-             <td><label>* Title</label><br><input type="text" value="{{entity.title}}" name="title" id="title"</td>
+    <form  enctype="multipart/form-data" class="signin" method="POST" action="{{path('meeting_update',{'id' : entity.id }) }}">
+        <div>
+            {%if errorCount > 0 %}
 
-            </tr>
-          
-           
-            <tr>
-                <td>
-               
-                    <div><label>Location</label></div>
-                    <div id="locationField">
-                       <input hidden="true" value="{{entity.venue.id}}" name="venueId" id="venueId">
-                        <input id="autocomplete" placeholder="Enter your address"
-                               onFocus="geolocate()" type="text" name="autocomplete"></input>
+                {% for error in errors%}
+                    <p style="color: red; font-size: 14px"> {{error}}  </p>
+                {% endfor%}
 
-                    </div>
-                    <br>
+            {%endif%}
+        </div>
 
-                    <table id="address">
-                        <tr>
-                            
+        <div align='center'>
+            <table>
+                <tr>
+                    <td><label>* Title</label><br><input type="text" value="{{entity.title}}" name="title" id="title"</td>
+
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        <div><label>Location</label></div>
+                        <div id="locationField">
+                            <input hidden="true" value="{{entity.venue.id}}" name="venueId" id="venueId">
+                            <input id="autocomplete" placeholder="Enter your address"
+                                   onFocus="geolocate()" type="text" name="autocomplete"></input>
+
+                        </div>
+                        <br>
+
+                        <table id="address">
+                            <tr>
+
                             <input class="field" hidden="true" id="name" name="name"/>
                             <input class="field" hidden="true" name="place_id" id="place_id"/>
-                           
+
                             <input class="field"  hidden="true" id="lng" name="lng"/>
                             <td class="label">Street address</td>
-                        
+
                             <td class="slimField"><input class="field" id="street_number"
                                                          disabled="true" name="street_number" value="{{entity.venue.address1}}"></input></td>
                             <td class="wideField" colspan="2"><input class="field" id="route"
                                                                      disabled="true" name="route" value="{{entity.venue.address2}}"></input></td>
-                        </tr>
-                        <tr>
-                            <td class="label">City</td>
-                            <td class="wideField" colspan="3"><input class="field" id="locality"
-                                                                     disabled="true" name="locality" value="{{entity.venue.city}} "></input></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Province</td>
-                            <td class="slimField"><input class="field"
-                                                         id="administrative_area_level_1" name="administrative_area_level_1" disabled="true" value="{{entity.venue.province}}"></input></td>
-                            <td class="label">Zip code</td>
-                            <td class="wideField"><input class="field" id="postal_code"
-                                                         disabled="true" name="postal_code" value="{{entity.venue.postalcode}}"></input></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Country</td>
-                            <td class="wideField" colspan="3"><input class="field"
-                                                                     id="country" disabled="true" name="country" value="{{entity.venue.country}}"></input></td>
-                        </tr>
-                    </table>
-                
+                </tr>
+                <tr>
+                    <td class="label">City</td>
+                    <td class="wideField" colspan="3"><input class="field" id="locality"
+                                                             disabled="true" name="locality" value="{{entity.venue.city}} "></input></td>
+                </tr>
+                <tr>
+                    <td class="label">Province</td>
+                    <td class="slimField"><input class="field"
+                                                 id="administrative_area_level_1" name="administrative_area_level_1" disabled="true" value="{{entity.venue.province}}"></input></td>
+                    <td class="label">Zip code</td>
+                    <td class="wideField"><input class="field" id="postal_code"
+                                                 disabled="true" name="postal_code" value="{{entity.venue.postalcode}}"></input></td>
+                </tr>
+                <tr>
+                    <td class="label">Country</td>
+                    <td class="wideField" colspan="3"><input class="field"
+                                                             id="country" disabled="true" name="country" value="{{entity.venue.country}}"></input></td>
+                </tr>
+            </table>
+
             </td>
-             <td  height="400px" width="100%">
-               
+            <td  height="400px" width="100%">
+
 
                 <div id="map-canvas"></div>
-               
+
             </td>
 
             </tr>
             <tr>
-               
+
                 <td><label>* Date</label><br><input type="text" name="date" id="date" value="{{ entity.date |date('Y-m-d')}}"></td>
                 <td><label>* Time</label><br><input type="time"  name="time" id="time" value="{{entity.time| date('H:i:s')}}"<</td>
             </tr>
 
             <tr>
                 <td ><label>End Date</label><br>{%if entity.endDate != null%}<input type="text" name="endDate" id="endDate" value="{{ entity.endDate |date('Y-m-d')}}">{%else%} <input type="text" name="endDate" id="endDate" value="{{ entity.endDate}}">{%endif%}</td>
-                
-           
-                  <td><label>End Time</label><br>{%if entity.endTime != null%}<input type="time"  name="endTime" id="endTime" value="{{entity.endTime|date('H:i:s')}}">{%else%}<input type="time"  name="endTime" id="endTime" value="{{entity.endTime}}">{%endif%}</td>
+
+
+                <td><label>End Time</label><br>{%if entity.endTime != null%}<input type="time"  name="endTime" id="endTime" value="{{entity.endTime|date('H:i:s')}}">{%else%}<input type="time"  name="endTime" id="endTime" value="{{entity.endTime}}">{%endif%}</td>
             </tr>
 
 
             <tr>
                 <td><label>Capacity</label><br><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity"></td>
             </tr>
-           
-            <tr>
-               <td><label>Price</label><br><input type="money" value="{{entity.price}}" name="price" id="price"></td>
 
-               
+            <tr>
+                <td><label>Price</label><br><input type="money" value="{{entity.price}}" name="price" id="price"></td>
+
+
             </tr>
 
             <tr>
@@ -175,82 +175,84 @@
                     </div>
                 </td>
             </tr>
-            
-             <tr>
-                 <td><label for="imageUpload2">Change Event Logo</label><input type="file" name="imageUpload2" id="imageUpload2"></td>
+
+            <tr>
+                <td><label for="imageUpload2">Change Event Logo</label><input type="file" name="imageUpload2" id="imageUpload2"></td>
             </tr>
 
             <tr>
                 <td><label>* Category</label><br>
-                
+
                     <select name="category" >
                         {% for c in categories %}
                             {%if entity.category == c%}
-                             <option value="{{ c.name }}" selected="true">{{ c.name }}</option>   
+                                <option value="{{ c.name }}" selected="true">{{ c.name }}</option>   
                             {%else%}
-                            <option value="{{ c.name }}">{{ c.name }}</option>
+                                <option value="{{ c.name }}">{{ c.name }}</option>
                             {%endif%}
                         {% endfor %}
-                        </select>
+                    </select>
                 </td>
-               
-            
+
+
             </tr>
             <tr>
                 <td><label>* Description</label><br><textarea  value="{{entity.description}}" name="description" id="description"></textarea></td>
             </tr>
-           
+
             <tr>
                 <td colspan="2">
-                     <div><h4>Event Speakers</h4></div>
-                        <br>
-                               <div>
-                                {% if speakerCount > 0 %}
-                                    <table class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
+                    <div><h4>Event Speakers</h4></div>
+                    <br>
+                    <div>
+                        {% if speakerCount > 0 %}
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr>
 
-                                                <th>Title</th>
-                                                <th>Speaker Name</th>
-                                                <th>Speaker Biography</th>
+                                        <th>Title</th>
+                                        <th>Speaker Name</th>
+                                        <th>Speaker Biography</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                       {% for speaker in speakers %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for speaker in speakers %}
 
-                                            <tr>
-                                                <td>{{ speaker.title}}</td>
-                                                <td>{{ speaker.name }}</td>
-                                                <td>{{ speaker.biography }}</td>
+                                        <tr>
+                                            <td>{{ speaker.title}}</td>
+                                            <td>{{ speaker.name }}</td>
+                                            <td>{{ speaker.biography }}</td>
 
-                                             </tr>
-                                      {% endfor %}
+                                        </tr>
+                                    {% endfor %}
 
-`                                        </tbody>
-                                    </table>
-                                {% endif %}
-                                
+                                    `                                        </tbody>
+                            </table>
+                        {% endif %}
 
-                            </div>
-                        <br>
-                    
-               
+
+                    </div>
+                    <br>
+
+
                     <div><h4>To add more speakers</h4></div>
+
                     <div><h6>Please select from existing list or add a new one</h6></div>
+                    {% if allSpeakerListCount > 0 %}
+                        <select id="example-getting-started"  name="multiselect[]" multiple="multiple">
+                            {% for item in allSpeakerList %}
+                                <option value="{{item}}">{{item}}</option>
+                            {%endfor%}
 
-                    <select id="example-getting-started"  name="multiselect[]" multiple="multiple">
-                        {% for item in speakersList %}
-                            <option value="{{item}}">{{item}}</option>
-                        {%endfor%}
+                        </select>
 
-                   </select>
-                        
                         <br>
-                     <div id='TextBoxesGroup'>
+                    {%endif%}
+                    <div id='TextBoxesGroup'>
 
                         <h5>Add a new one</h5>
-                       
+
                         <div id="TextBoxDiv1">
 
                             <label>Speaker</label>
@@ -263,7 +265,7 @@
                             <br>
                         </div>
                     </div>
-                     
+
                 </td>
 
             </tr>
@@ -280,12 +282,12 @@
 
             <tr>
                 <td colspan="3" class="text-center">
-                   <button class="btn btn-warning" type="submit">Update</button>
+                    <button class="btn btn-warning" type="submit">Update</button>
                 </td>
             </tr>
-        </table>
-    </div>
- </form>
+            </table>
+        </div>
+    </form>
     <ul class="record_actions">
         <li>
             <a href="{{ path('meeting') }}">
@@ -297,30 +299,30 @@
 {% block javascripts %}
 
     <!--ref for multiselect: http://davidstutz.github.io/bootstrap-multiselect/ -->
-     <script src="{{ asset('bundles/acmebscene/js/bootstrap-multiselect.js')}}"></script>
+    <script src="{{ asset('bundles/acmebscene/js/bootstrap-multiselect.js')}}"></script>
     <script src="{{ asset('bundles/acmebscene/js/jquery-ui.js')}}"></script>
     <script src="{{ asset('bundles/acmebscene/js/jquery-ui.min.js')}}"></script>
     <!-- use timepicker for time -->
     <script src="{{ asset('bundles/acmebscene/js/jquery.timepicker.js')}}"></script>
-     <!--script needed for multi select -->
+    <!--script needed for multi select -->
     <script>
-        
-        $(document).ready(function() {
-               $('#example-getting-started').multiselect({
-                  //maxHeight: 10
-                  example-getting-started: 'multiselect[]'
-                });
-        });
-     </script>
+
+                                   $(document).ready(function () {
+                                       $('#example-getting-started').multiselect({
+                                           //maxHeight: 10
+                                           example - getting - started: 'multiselect[]'
+                                       });
+                                   });
+    </script>
     <!--script needed for the datetime picker -->
     <script>
 
         $(function () {
             $("#date").datepicker({dateFormat: "yy-mm-dd"});
             $("#endDate").datepicker({dateFormat: "yy-mm-dd"});
-            $('#time').timepicker({ 'timeFormat': 'H:i:s' });
-            $('#endTime').timepicker({ 'timeFormat': 'H:i:s' });
-            
+            $('#time').timepicker({'timeFormat': 'H:i:s'});
+            $('#endTime').timepicker({'timeFormat': 'H:i:s'});
+
         });
     </script>
     <!--script used for adding dynamic fields for speakers-->
@@ -333,7 +335,7 @@
             $("#addButton").click(function () {
 
                 var newTextBoxDiv = $(document.createElement('div'))
-                        .attr("id", 'TextBoxDiv' + counter );
+                        .attr("id", 'TextBoxDiv' + counter);
 
                 newTextBoxDiv.after().html('<label>Speaker #' + counter + ' : </label><br>' +
                         '<label>Name : </label><br><input type="text" name="nameTextbox' + counter +
@@ -381,10 +383,10 @@
     <!---->
 
     <script>
-        
-       
+
+
         google.maps.event.addDomListener(window, 'load', initialize);
 
     </script> 
-    
+
 {%endblock%}

@@ -473,8 +473,8 @@ class MeetingController extends Controller {
                     'categories' => $categories,
                     'speakers' => $speakers,
                     'speakerCount' => count($speakers),
-                    'speakersList' => $speakersList,
-                    'speakersListCount' => count($speakersList),
+                    'allSpeakerList' => $speakersList,
+                    'allSpeakerListCount' => count($speakersList),
                     'delete_form' => $deleteForm->createView(),
         ));
     }
