@@ -548,6 +548,7 @@ class MeetingController extends Controller {
 
         $entity->setTitle($request->get('title'));
         $entity->setCapacity($request->get('capacity'));
+        $entity->setPrice($request->get('price'));
 
         $categoryName = $request->get('category');
         $category = $em->getRepository('AcmebsceneBundle:Categories')->findOneBy(array('name' => $categoryName));
@@ -648,7 +649,7 @@ class MeetingController extends Controller {
         if ($cityEntity) {
             $venueEntity->setCity($cityEntity);
         } else {
-            //TODO the city constraint
+            //city constraint
             return false;
         }
 
@@ -660,12 +661,10 @@ class MeetingController extends Controller {
         if ($provinceEntity) {
             $venueEntity->setProvince($provinceEntity);
         } else {
-            //TODO the city constraint
+            //city constraint
             return false;
         }
-        //TODO put the province constraint
-
-
+     
 
         $venueEntity->setPlaceId($request->get('place_id'));
         $venueEntity->setAddress1($request->get('street_number'));
