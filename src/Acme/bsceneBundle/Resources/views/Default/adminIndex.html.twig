@@ -142,7 +142,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Comment</th>
-                                                <th>Event</th>
+                                                <th>Time</th>
 
                                             </tr>
                                         </thead>
@@ -153,7 +153,7 @@
                                             {% if c1 < 10 %}
                                                 <tr>
                                                     <td>{{item.comment}}</td>
-                                                    <td>{{item.commentTime|date('Y-m-d\\TH:i:sP')}}</td>
+                                                    <td>{{item.commentTime|date('Y-m-d  g:ia')}}</td>
 
                                                 </tr>
 
