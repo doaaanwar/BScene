@@ -99,6 +99,10 @@ class MeetingController extends Controller {
     public function deleteCommentAction(Request $request, $id, $commentId) {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AcmebsceneBundle:EventComments')->find($commentId);
+        $comment = $entity->getComment();
+        $meeting = $entity->getEvent();
+        $email = $entity->getEmail();
+        $name = $entity->getUsername();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Comment entity.');
@@ -106,6 +110,9 @@ class MeetingController extends Controller {
 
         $em->remove($entity);
         $em->flush();
+        
+        //send email to the commenter informing him that his comment was deleted
+        $this->sendCommentDeleteNotification($comment,$meeting,$email,$name);
 
         return $this->showAction($id);
     }
@@ -282,6 +289,7 @@ class MeetingController extends Controller {
                     $this->sendEmailNotification($email);
                 }
 
+               
                 //end notification e-mails
                 //check for matching event by date and category
                 if ($matchingList) {
@@ -966,13 +974,19 @@ class MeetingController extends Controller {
 
         return $emailArray;
     }
-
-    /*
-     * Send e-mail to subscribers
+    
+    
+    /**
+     * function used to send emails 
+     * 
+     * Done by doaa elfayoumi
+     * @param type $userEmail
+     * @param type $subject
+     * @param type $emailContent
+     * @param type $contentWithoutHTML
      */
-
-    private function sendEmailNotification($userEmail) {
-
+    private function sendEmail($userEmail,$subject,$emailContent,$contentWithoutHTML)
+    {
         $options = array(
             'ssl' => array(
                 'verify_peer' => false,
@@ -980,7 +994,8 @@ class MeetingController extends Controller {
                 'allow_self_signed' => true
             )
         );
-
+        
+        
         $mail = new PHPMailer;                            
 
         $mail->isSMTP();                                      // Set mailer to use SMTP
@@ -997,16 +1012,12 @@ class MeetingController extends Controller {
 
 
 
-        $mail->isHTML(true);                                  // Set email format to HTML
-
-        $mail->Subject = 'New event on B-Scene';
-        $mail->Body = 'There is a new event in a B-Scene category to which you have subscribed! Visit B-Scene to see all event postings. <br>'
-                . 'You may change your subscription preferences from your B-Scene profile.<br><br>'
-                . 'Thanks for your interest!<br>'
-                . 'B-Scene';
-        $mail->AltBody = 'There is a new event in a B-Scene category to which you have subscribed! Visit B-Scene to see all event postings. '
-                . 'You may change your subscription preferences from your B-Scene profile.'
-                . ' Thanks for your interest! - B-Scene';
+        $mail->isHTML(true); 
+        
+        
+        $mail->Subject = $subject;
+        $mail->Body = $emailContent;
+        $mail->AltBody = $contentWithoutHTML;
 
         $mail->smtpConnect($options);
         if (!$mail->send()) {
@@ -1016,6 +1027,39 @@ class MeetingController extends Controller {
             //TODO send an email for admin future work
         
         }
+    }
+            
+    private function sendCommentDeleteNotification($comment,$meeting,$email,$name){
+        //http://localhost/BScene/web/app_dev.php/meeting/detail/1
+        
+        $subject = 'Bscene Deleted Your Comment';
+        $emailContent = 'Dear '.$name.',<br> Your comment "'.$comment.'" on this event http://localhost/BScene/web/app_dev.php/meeting/detail/'.$meeting->getId().'<br>'
+                . 'has been deleted by an adminstrator.<br><br>'
+                . 'Thanks for your interest!<br>'
+                . 'B-Scene';
+        
+        $contentWithoutHTML = 'Dear '.$name.', Your comment "'.$comment.'" on this event http://localhost/BScene/web/app_dev.php/meeting/detail/'.$meeting->getId()
+                . 'has been deleted by an adminstrator.<br><br>'
+                . 'Thanks for your interest!<br>'
+                . 'B-Scene';
+        $this->sendEmail($email,$subject,$emailContent,$contentWithoutHTML);
+    }
+    
+    /*
+     * Send e-mail to subscribers
+     */
+
+    private function sendEmailNotification($userEmail) {
+        $subject = 'New event on B-Scene';
+        $emailContent = 'There is a new event in a B-Scene category to which you have subscribed! Visit B-Scene to see all event postings. <br>'
+                . 'You may change your subscription preferences from your B-Scene profile.<br><br>'
+                . 'Thanks for your interest!<br>'
+                . 'B-Scene';
+        
+        $contentWithoutHTML = 'There is a new event in a B-Scene category to which you have subscribed! Visit B-Scene to see all event postings. '
+                . 'You may change your subscription preferences from your B-Scene profile.'
+                . ' Thanks for your interest! - B-Scene';
+        $this->sendEmail($userEmail,$subject,$emailContent,$contentWithoutHTML);
     }
 
     /**
