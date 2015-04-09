@@ -1000,11 +1000,7 @@ class MeetingController extends Controller {
             )
         );
 
-        //TODO replace values with the account value
-
-        $mail = new PHPMailer;
-
-        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+        $mail = new PHPMailer;                            
 
         $mail->isSMTP();                                      // Set mailer to use SMTP
         $mail->Host = 'smtp.gmail.com;';  // Specify main and backup SMTP servers
@@ -1034,11 +1030,10 @@ class MeetingController extends Controller {
         $mail->smtpConnect($options);
         if (!$mail->send()) {
             //TODO send an email to the admin for failure future work
-            //echo 'Message could not be sent.';
-            //echo 'Mailer Error: ' . $mail->ErrorInfo;
+           
         } else {
             //TODO send an email for admin future work
-            //$message = '';
+        
         }
     }
 
