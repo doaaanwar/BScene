@@ -27,6 +27,12 @@ class CommentController extends Controller
     */
     public function adminIndexAction($lastLogin)
     {   
+        //check if the admin is logged in
+        if($request->getSession()->get('admin') == null)
+        {
+           return $this->redirect($this->generateUrl('acmebscene_login'));
+        }
+        
         $em = $this->getDoctrine()->getEntityManager();
         //$repository = $em->getRepository('\Acme\bsceneBundle\Entity\EventComments');
       
