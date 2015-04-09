@@ -159,9 +159,9 @@ class AdminController extends Controller {
      * 
      * @return type
      */
-    public function upCommingMeetingListAction() {
+    public function upComingListAction() {
         $entities = $this->getAdminUpcomingMeetingList();
-        return $this->render('AcmebsceneBundle:Meeting:commingMeetingList.html.twig', array('entities' => $entities,));
+        return $this->render('AcmebsceneBundle:Meeting:upcomingMeetingList.html.twig', array('entities' => $entities,));
     }
 
     public function showProfileAction(Request $request, $id) {
