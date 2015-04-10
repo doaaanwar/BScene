@@ -32,3 +32,8 @@ meeting_delete:
     path:     /{id}/delete
     defaults: { _controller: "AcmebsceneBundle:Meeting:delete" }
     requirements: { _method: post|delete }
+    
+meeting_speaker_remove:
+    path:     /{id}/removeSpeaker/{speakerId}
+    defaults: { _controller: "AcmebsceneBundle:Meeting:removeSpeaker" }
+   

@@ -116,6 +116,32 @@ class MeetingController extends Controller {
 
         return $this->showAction($id);
     }
+    
+    
+    
+    public function removeSpeakerAction($id,$speakerId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
+        
+        
+        $speakerEntity = $em->getRepository('AcmebsceneBundle:Speaker')->find($speakerId);
+        
+        $speakerEntity->removeEvent($entity);
+        $em->persist($speakerEntity);
+        $em->flush();
+        
+        $entity->removeSpeaker($speakerEntity);
+        
+        
+        
+        $em->persist($entity);
+        $em->flush();
+        
+        return $this->editAction($id);
+
+    }
 
     /**
      * Lists results from category search

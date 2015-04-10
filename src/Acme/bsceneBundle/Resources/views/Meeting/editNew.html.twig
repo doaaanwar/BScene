@@ -213,7 +213,7 @@
                                         <th>Title</th>
                                         <th>Speaker Name</th>
                                         <th>Speaker Biography</th>
-
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -223,7 +223,7 @@
                                             <td>{{ speaker.title}}</td>
                                             <td>{{ speaker.name }}</td>
                                             <td>{{ speaker.biography }}</td>
-
+                                            <td><a href="{{ path('meeting_speaker_remove', {'id':entity.id, 'speakerId': speaker.id }) }}">Remove Speaker</a></td>
                                         </tr>
                                     {% endfor %}
 
