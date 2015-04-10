@@ -440,6 +440,7 @@ class AccountController extends Controller {
 
     /*
      * Show subscription form
+     * updated load the previous subscription on the page, doaa elfayoumi 09042015
      */
 
     public function subscribeAction($id) {
@@ -461,8 +462,9 @@ class AccountController extends Controller {
 
     /*
      * Save new subscription details
-     * Incomplete - not functional yet
+     * 
      * Victoria Betts
+     * updated to add subscription for new ones only and unsbscription, doaa elfayoumi, 09042015
      */
 
     public function newSubscriptionAction(Request $request) {
@@ -483,6 +485,14 @@ class AccountController extends Controller {
             $categoryNameList[] = $categoryName;
         }
 
+        $userId = $request->getSession()->get("memberId");
+
+        $e = $this->getDoctrine()->getEntityManager();
+        $repository = $e->getRepository('\Acme\bsceneBundle\Entity\Account');
+        $userEntity = $repository->findOneBy(array('id' => $userId));
+        $userCategories = $userEntity->getCategories();
+        
+        
         /*
          * Loop through checkbox IDs, check each time if it is checked (not null). 
          * If not null, add the corresponding ID to $subscribeList array
@@ -490,28 +500,37 @@ class AccountController extends Controller {
 
         foreach ($categoryIdList as $categoryId) {
             $userSelection = $this->get('request')->request->get($categoryId);
+            $e = $this->getDoctrine()->getEntityManager();
+            $repository = $e->getRepository('\Acme\bsceneBundle\Entity\Categories');
+            $categoryEntity = $repository->findOneBy(array('id' => $categoryId));
+            
             if ($userSelection != null) {
-                array_push($subscribeList, $categoryId);
+                array_push($subscribeList, $categoryEntity);
+            }
+            else if($userCategories->contains($categoryEntity))
+            {
+                //unscbscribe
+                $userEntity->removeCategory($categoryEntity);
+                $em->persist($userEntity);
+              
+                $em->flush();
             }
         }
 
-        $userId = $request->getSession()->get("memberId");
-
-        $e = $this->getDoctrine()->getEntityManager();
-        $repository = $e->getRepository('\Acme\bsceneBundle\Entity\Account');
-        $userEntity = $repository->findOneBy(array('id' => $userId));
+       
 
 
-        foreach ($subscribeList as $subscribeId) {
-            $e = $this->getDoctrine()->getEntityManager();
-            $repository = $e->getRepository('\Acme\bsceneBundle\Entity\Categories');
-            $categoryEntity = $repository->findOneBy(array('id' => $subscribeId));
-
-            $categoryEntity->addAccount($userEntity);
-            $userEntity->addCategory($categoryEntity);
-            $em->persist($userEntity);
-            $em->persist($categoryEntity);
-            $em->flush();
+        foreach ($subscribeList as $categoryEntity) {
+            
+            //add subscribtion to new ones only
+            if(!$userCategories->contains($categoryEntity))
+            {
+                $categoryEntity->addAccount($userEntity);
+                $userEntity->addCategory($categoryEntity);
+                $em->persist($userEntity);
+                $em->persist($categoryEntity);
+                $em->flush();
+            }
         }
 
         return $this->redirect($this->generateUrl('account_show', array('id' => $userId)));
