@@ -318,10 +318,10 @@ class MeetingController extends Controller {
                 $notificationList = $this->emailNotificationList($entity->getCategory());
 
                 foreach ($notificationList as $email) {
-                    $this->sendEmailNotification($email);
+                    $this->sendEmailNotification($email,$entity->getId(),$entity->getCategory());
                 }
 
-               
+      
                 //end notification e-mails
                 //check for matching event by date and category
                 if ($matchingList) {
@@ -1060,9 +1060,17 @@ class MeetingController extends Controller {
         
         }
     }
-            
+    
+    
+    /**
+     * victoria betts
+     * updated by doaa elfayoumi to include category name and the link of the event page on the notification email
+     * @param type $comment
+     * @param type $meeting
+     * @param type $email
+     * @param type $name
+     */
     private function sendCommentDeleteNotification($comment,$meeting,$email,$name){
-        //http://localhost/BScene/web/app_dev.php/meeting/detail/1
         
         $subject = 'Bscene Deleted Your Comment';
         $emailContent = 'Dear '.$name.',<br> Your comment "'.$comment.'" on this event http://localhost/BScene/web/app_dev.php/meeting/detail/'.$meeting->getId().'<br>'
@@ -1071,8 +1079,8 @@ class MeetingController extends Controller {
                 . 'B-Scene';
         
         $contentWithoutHTML = 'Dear '.$name.', Your comment "'.$comment.'" on this event http://localhost/BScene/web/app_dev.php/meeting/detail/'.$meeting->getId()
-                . 'has been deleted by an adminstrator.<br><br>'
-                . 'Thanks for your interest!<br>'
+                . 'has been deleted by an adminstrator.'
+                . 'Thanks for your interest!'
                 . 'B-Scene';
         $this->sendEmail($email,$subject,$emailContent,$contentWithoutHTML);
     }
@@ -1081,14 +1089,15 @@ class MeetingController extends Controller {
      * Send e-mail to subscribers
      */
 
-    private function sendEmailNotification($userEmail) {
+    private function sendEmailNotification($userEmail,$id,$categoryName) {
+       
         $subject = 'New event on B-Scene';
-        $emailContent = 'There is a new event in a B-Scene category to which you have subscribed! Visit B-Scene to see all event postings. <br>'
+        $emailContent = 'There is a new event in B-Scene "' .$categoryName.'" category! Visit the <a href="http://localhost/BScene/web/app_dev.php/meeting/detail/'.$id.'" >event page</a> to see all the event details. <br>'
                 . 'You may change your subscription preferences from your B-Scene profile.<br><br>'
                 . 'Thanks for your interest!<br>'
                 . 'B-Scene';
         
-        $contentWithoutHTML = 'There is a new event in a B-Scene category to which you have subscribed! Visit B-Scene to see all event postings. '
+        $contentWithoutHTML = 'There is a new event in B-Scene "' .$categoryName.'" category! Visit the event on http://localhost/BScene/web/app_dev.php/meeting/detail/'.$id.'" to see all the event details.'
                 . 'You may change your subscription preferences from your B-Scene profile.'
                 . ' Thanks for your interest! - B-Scene';
         $this->sendEmail($userEmail,$subject,$emailContent,$contentWithoutHTML);
