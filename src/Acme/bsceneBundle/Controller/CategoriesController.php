@@ -65,7 +65,6 @@ class CategoriesController extends Controller
                 $entity->setImage($imageEntity);
             } else {
                 print_r($image->getError());
-                die();
             }
         } else {
             //add mantatory error
@@ -199,6 +198,8 @@ class CategoriesController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Categories')->find($id);
+        
+        $imageOld = $entity->getImage();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Categories entity.');
@@ -208,20 +209,23 @@ class CategoriesController extends Controller
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
         $image = $request->files->get('imageCatUpload');
+        $imageEntity = NULL;
+        
+        if ($image) {
+            if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                //call upload image
+                $imageEntity = $this->uploadImage($image);
+                $entity->setImage($imageEntity);
+            } else {
+                print_r($image->getError());
+            }
+        }
+        else {
+              $entity->setImage($imageOld);
+        }
          
         if ($editForm->isValid()) {
-            $imageEntity = NULL;
-        
-            if ($image) {
-                if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
-                    //call upload image
-                    $imageEntity = $this->uploadImage($image);
-                    $entity->setImage($imageEntity);
-                } else {
-                    print_r($image->getError());
-                    die();
-                }
-            }
+           
 
             $em->flush();
 
