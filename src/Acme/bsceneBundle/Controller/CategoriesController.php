@@ -62,9 +62,16 @@ class CategoriesController extends Controller
             if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
                 //call upload image
                 $imageEntity = $this->uploadImage($image);
-                $entity->setImage($imageEntity);
+                if($imageEntity)
+                {
+                    $entity->setImage($imageEntity);
+                }
+                else {
+                     $form->addError(new FormError("The image selected not a invalid type of image."));
+                }
+                
             } else {
-                print_r($image->getError());
+               $form->addError(new FormError("Error in uploading the image."));
             }
         } else {
             //add mantatory error
@@ -215,13 +222,19 @@ class CategoriesController extends Controller
             if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
                 //call upload image
                 $imageEntity = $this->uploadImage($image);
-                $entity->setImage($imageEntity);
+                if($imageEntity)
+                {
+                    $entity->setImage($imageEntity);
+                }
+                else {
+                   $editForm->addError(new FormError("The image selected not a invalid type of image."));
+                }
             } else {
-                print_r($image->getError());
+                 $form->addError(new FormError("Error in uploading the image."));
             }
         }
         else {
-              $entity->setImage($imageOld);
+              $editForm->setImage($imageOld);
         }
          
         if ($editForm->isValid()) {
@@ -264,8 +277,7 @@ class CategoriesController extends Controller
             $em->flush();
             return $imageEntity;
         } else {
-            print_r("Invalid file type");
-            die();
+            return null;
         }
     }
 
