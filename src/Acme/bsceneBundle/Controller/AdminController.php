@@ -172,7 +172,14 @@ class AdminController extends Controller {
      */
     public function upComingListAction() {
         $entities = $this->getAdminUpcomingMeetingList();
-        return $this->render('AcmebsceneBundle:Meeting:upcomingMeetingList.html.twig', array('entities' => $entities,));
+       
+        $errorMessage = null;
+        if(count($entities) == 0)
+        {
+            $errorMessage = "No upcoming events";
+        }
+        return $this->render('AcmebsceneBundle:Meeting:upcomingMeetingList.html.twig', array('entities' => $entities,'count' => Count($entities),'errorMessage' => $errorMessage));
+
     }
 
     public function showProfileAction(Request $request, $id) {
