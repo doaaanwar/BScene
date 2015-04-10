@@ -194,10 +194,19 @@ class MeetingController extends Controller {
                 if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
                     //call upload image
                     $imageEntity = $this->uploadImage($image);
-                    $entity->setImage($imageEntity);
+                    if($imageEntity)
+                    {
+                         $entity->setImage($imageEntity);
+                    }
+                    else
+                    {
+                      
+                       $form->addError(new FormError("The image selected not a invalid type of image.")); 
+                    }
+               
                 } else {
-                    print_r($image->getError());
-                    die();
+                    
+                    $form->addError(new FormError("error on uploading image"));
                 }
             } else {
                 //add mantatory error
@@ -579,10 +588,18 @@ class MeetingController extends Controller {
             if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
                 //call upload image
                 $imageEntity = $this->uploadImage($image);
-                $entity->setImage($imageEntity);
+                if($imageEntity)
+                {
+                    $entity->setImage($imageEntity);
+                }
+                else
+                {
+                    $valid = false;
+                    $errors[] = "The image selected not a invalid type of image.";
+                }
             } else {
-                print_r($image->getError());
-                die();
+                $valid = false;
+                $errors[] = "error on uploading image";
             }
         }
 
@@ -745,8 +762,7 @@ class MeetingController extends Controller {
             $em->flush();
             return $imageEntity;
         } else {
-            print_r("Invalid file type");
-            die();
+            return null;
         }
     }
 
