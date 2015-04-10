@@ -15,7 +15,8 @@
             {% for category in categories %}
 
                 <tr>
-                    <td class='text-right'><input type='checkbox' id='{{category.id}}' name='{{category.id}}'></td>
+                    <td class='text-right'><input type='checkbox' id='{{category.id}}' name='{{category.id}}' {%if accountCategories.contains(category) %} checked="checked" {% endif%}></td>
+                   
                     <td class='text-left'><label for='{{category.id}}'>{{category.name}}</label></td>
                 </tr>
 

@@ -442,14 +442,20 @@ class AccountController extends Controller {
      * Show subscription form
      */
 
-    public function subscribeAction() {
+    public function subscribeAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT c FROM \Acme\bsceneBundle\Entity\Categories c");
         $categories = $q->getResult();
+        
+        $account = $em->getRepository('AcmebsceneBundle:Account')->find($id);
+        
+        $accountCategories = $account->getCategories();
 
         return $this->render('AcmebsceneBundle:Account:subscribe.html.twig', array(
                     'categories' => $categories,
+                    'accountCategories' => $accountCategories,
+                    'accountCategoriesCount' => Count($accountCategories)
         ));
     }
 
@@ -507,10 +513,6 @@ class AccountController extends Controller {
             $em->persist($categoryEntity);
             $em->flush();
         }
-
-
-
-
 
         return $this->redirect($this->generateUrl('account_show', array('id' => $userId)));
     }

@@ -103,7 +103,7 @@ acmebscene_newAccount:
     defaults: {_controller: AcmebsceneBundle:Account:create }
     
 acmebscene_subscribe:
-    path: /account/subscribe/
+    path: /account/subscribe/{id}
     defaults: {_controller: AcmebsceneBundle:Account:subscribe }
  
 
