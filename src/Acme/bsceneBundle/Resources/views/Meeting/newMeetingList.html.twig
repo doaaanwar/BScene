@@ -2,7 +2,7 @@
 
 {% block body -%}
     <h1>New Event Posted</h1>
-
+    {% if count > 0 %}
     <table class="table table-bordered table-hover table-striped">
         <thead>
             <tr>
@@ -34,6 +34,8 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {%else%}
+         {{errorMessage}}
+    {% endif%}
        
     {% endblock %}

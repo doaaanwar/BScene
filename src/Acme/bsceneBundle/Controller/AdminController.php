@@ -158,7 +158,12 @@ class AdminController extends Controller {
      */
     public function newMeetingListAction($lastLogin) {
         $entities = $this->getNewMeetingList($lastLogin);
-        return $this->render('AcmebsceneBundle:Meeting:newMeetingList.html.twig', array('entities' => $entities,));
+        $errorMessage = null;
+        if(count($entities) == 0)
+        {
+            $errorMessage = "No new events found since your last login";
+        }
+        return $this->render('AcmebsceneBundle:Meeting:newMeetingList.html.twig', array('entities' => $entities,'count' => Count($entities),'errorMessage' => $errorMessage));
     }
 
     /**
