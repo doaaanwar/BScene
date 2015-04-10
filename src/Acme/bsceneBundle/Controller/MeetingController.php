@@ -118,7 +118,13 @@ class MeetingController extends Controller {
     }
     
     
-    
+    /**
+     * function used to remove the speaker from a specific event
+     * done by doaa elfayoumi 10.04.2015
+     * @param type $id
+     * @param type $speakerId
+     * @return type
+     */
     public function removeSpeakerAction($id,$speakerId)
     {
         $em = $this->getDoctrine()->getManager();
@@ -172,7 +178,7 @@ class MeetingController extends Controller {
      * updated add upload, doaa elfayoumi 26.03.2015 
      * updated add more validation and error message,doaa elfayoumi 29.03.2015
      * updated to cover the case of an admin creating an event,doaa elfayoumi 04042015
-     * updated to cover existing speaker, doaa elfayoumi 05042015
+     * updated to cover existing speaker, doaa elfayoumi 05.04.2015
      */
     public function createAction(Request $request) {
         $entity = new Meeting();
@@ -459,7 +465,7 @@ class MeetingController extends Controller {
      * 
      * updated: 31.03.2015, doaa elfayoumi
      * updated: 1.04.2015, doaa elfayoumi, save time, venue, speaker
-     * updated to cover existing speaker, doaa elfayoumi 05042015
+     * updated to cover existing speaker, doaa elfayoumi 05.04.2015
      */
     public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
