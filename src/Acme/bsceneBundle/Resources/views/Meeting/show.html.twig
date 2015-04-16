@@ -63,7 +63,11 @@
                                      </a>
                                         <br>
                                         <a href="{{path('acmebscene_hide', { 'id' :entity.id } )}}">
-                                        Hide Event
+                                            {% if entity.posted == 1%}
+                                                Hide Event
+                                            {%else%}
+                                                Unhide Event
+                                            {% endif%}
                                      </a> 
                                   
                                 {%endif%}
