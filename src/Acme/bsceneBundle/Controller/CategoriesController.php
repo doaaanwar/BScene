@@ -234,7 +234,7 @@ class CategoriesController extends Controller
             }
         }
         else {
-              $editForm->setImage($imageOld);
+              $entity->setImage($imageOld);
         }
          
         if ($editForm->isValid()) {
