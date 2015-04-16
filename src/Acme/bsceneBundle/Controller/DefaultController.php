@@ -44,7 +44,7 @@ class DefaultController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
 
-        $q = $em->createQuery("select Distinct m.date from \Acme\bsceneBundle\Entity\Meeting m");
+        $q = $em->createQuery("select Distinct m.date from \Acme\bsceneBundle\Entity\Meeting m where m.posted = 1");
 
         $dateList = $q->getResult();
 
@@ -219,10 +219,12 @@ class DefaultController extends Controller {
             $mail->smtpConnect($options);
 
             if (!$mail->send()) {
-                echo 'Message could not be sent.';
-                echo 'Mailer Error: ' . $mail->ErrorInfo;
+                //TODO as future work send email or notification to the admin that something wrong happened
+                //echo 'Message could not be sent.';
+                //echo 'Mailer Error: ' . $mail->ErrorInfo;
             } else {
-                $message = '';
+                //TODO as future work send email or notification to the admin 
+                //$message = '';
             }
             return $this->render('AcmebsceneBundle:Default:passwordReminder.html.twig', array('message' => $message,));
         } else {

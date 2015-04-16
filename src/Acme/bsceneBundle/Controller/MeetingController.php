@@ -526,6 +526,7 @@ class MeetingController extends Controller {
 
         $format = 'Y-m-d';
         if ($request->get('date')) {
+            //$request->getSession()->set('eventDate',$request->get('date'));
             $entity->setDate(DateTime::createFromFormat($format, $request->get('date')));
         } else {
             $valid = false;
@@ -534,6 +535,7 @@ class MeetingController extends Controller {
         $timeFormat = 'H:i:s';
 
         if ($request->get('time')) {
+            // $request->getSession()->set('eventTime',$request->get('time'));
             $entity->setTime(DateTime::createFromFormat($timeFormat, $request->get('time')));
         } else {
             $valid = false;
@@ -542,6 +544,7 @@ class MeetingController extends Controller {
 
 
         if ($request->get('endDate')) {
+            //$request->getSession()->set('eventEndDate',$request->get('endDate'));
             $entity->setEndDate(DateTime::createFromFormat($format, $request->get('endDate')));
         } else {
             $entity->setEndDate(null);
@@ -549,6 +552,7 @@ class MeetingController extends Controller {
 
 
         if ($request->get('endTime')) {
+            //$request->getSession()->set('eventEndTime',$request->get('endTime'));
             $entity->setEndTime(DateTime::createFromFormat($timeFormat, $request->get('endTime')));
         } else {
             $entity->setEndTime(null);
@@ -585,6 +589,7 @@ class MeetingController extends Controller {
 
 
         if ($image) {
+             //$request->getSession()->set('eventImage',$image);
             if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
                 //call upload image
                 $imageEntity = $this->uploadImage($image);
@@ -950,7 +955,7 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
-                        . "WHERE e.category = :categoryId ORDER BY e.date ASC")
+                        . "WHERE e.posted = 1 AND e.category = :categoryId ORDER BY e.date ASC")
                 ->setParameter('categoryId', $categoryId);
 
         $searchResult = $q->getResult();
@@ -966,7 +971,7 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
-                        . "WHERE e.date = :searchDate ORDER BY e.title ASC")
+                        . "WHERE e.posted = 1 AND e.date = :searchDate ORDER BY e.title ASC")
                 ->setParameter('searchDate', $searchDate);
 
         $searchResult = $q->getResult();
