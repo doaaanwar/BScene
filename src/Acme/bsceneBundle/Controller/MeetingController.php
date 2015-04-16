@@ -523,42 +523,8 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
-
-        $format = 'Y-m-d';
-        if ($request->get('date')) {
-            //$request->getSession()->set('eventDate',$request->get('date'));
-            $entity->setDate(DateTime::createFromFormat($format, $request->get('date')));
-        } else {
-            $valid = false;
-            $errors[] = "Please fill the date. It is mandatory field";
-        }
-        $timeFormat = 'H:i:s';
-
-        if ($request->get('time')) {
-            // $request->getSession()->set('eventTime',$request->get('time'));
-            $entity->setTime(DateTime::createFromFormat($timeFormat, $request->get('time')));
-        } else {
-            $valid = false;
-            $errors[] = "Please fill the time. It is mandatory field";
-        }
-
-
-        if ($request->get('endDate')) {
-            //$request->getSession()->set('eventEndDate',$request->get('endDate'));
-            $entity->setEndDate(DateTime::createFromFormat($format, $request->get('endDate')));
-        } else {
-            $entity->setEndDate(null);
-        }
-
-
-        if ($request->get('endTime')) {
-            //$request->getSession()->set('eventEndTime',$request->get('endTime'));
-            $entity->setEndTime(DateTime::createFromFormat($timeFormat, $request->get('endTime')));
-        } else {
-            $entity->setEndTime(null);
-        }
-
-
+        
+        
         if ($request->get('autocomplete')) {
             //TODO create external function for creating venue
             $placeId = $request->get('place_id');
@@ -571,6 +537,8 @@ class MeetingController extends Controller {
                     $venueEntity = $this->createVenue($request);
                     if ($venueEntity) {
                         $entity->setVenue($venueEntity);
+                        $em->persist($entity);
+                        $em->flush();
                     } else {
                         $valid = false;
                         $errors[] = "Address entered is not on the range covered by this website";
@@ -589,13 +557,15 @@ class MeetingController extends Controller {
 
 
         if ($image) {
-             //$request->getSession()->set('eventImage',$image);
+        
             if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
                 //call upload image
                 $imageEntity = $this->uploadImage($image);
                 if($imageEntity)
                 {
                     $entity->setImage($imageEntity);
+                    $em->persist($entity);
+                    $em->flush();
                 }
                 else
                 {
@@ -607,6 +577,38 @@ class MeetingController extends Controller {
                 $errors[] = "error on uploading image";
             }
         }
+
+        $format = 'Y-m-d';
+        if ($request->get('date')) {
+            $request->getSession()->set('eventDate',$request->get('date'));
+            $entity->setDate(DateTime::createFromFormat($format, $request->get('date')));
+        } else {
+            $valid = false;
+            $errors[] = "You cleared the date field and it can not be empty.";
+        }
+        $timeFormat = 'H:i:s';
+
+        if ($request->get('time')) {
+            $entity->setTime(DateTime::createFromFormat($timeFormat, $request->get('time')));
+        } else {
+            $valid = false;
+            $errors[] = "You cleared the time field and it can't be emppty.";
+        }
+
+
+        if ($request->get('endDate')) {
+            $entity->setEndDate(DateTime::createFromFormat($format, $request->get('endDate')));
+        } else {
+            $entity->setEndDate(null);
+        }
+
+
+        if ($request->get('endTime')) {
+            $entity->setEndTime(DateTime::createFromFormat($timeFormat, $request->get('endTime')));
+        } else {
+            $entity->setEndTime(null);
+        }
+
 
         $entity->setTitle($request->get('title'));
         $entity->setCapacity($request->get('capacity'));
@@ -680,8 +682,8 @@ class MeetingController extends Controller {
                     'categories' => $categories,
                     'speakers' => $speakers,
                     'speakerCount' => count($speakers),
-                    'speakersList' => $speakersList,
-                    'speakersListCount' => count($speakersList),
+                    'allSpeakerList' => $speakersList,
+                    'allSpeakerListCount' => count($speakersList),
                     'delete_form' => $deleteForm->createView(),
         ));
     }

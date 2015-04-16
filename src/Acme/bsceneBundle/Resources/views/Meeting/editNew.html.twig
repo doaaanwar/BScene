@@ -82,7 +82,7 @@
         <div align='center'>
             <table>
                 <tr>
-                    <td><label>* Title</label><br><input type="text" value="{{entity.title}}" name="title" id="title"</td>
+                    <td><label>* Title</label><br><input type="text" value="{{entity.title}}" name="title" id="title" required="true"></td>
 
                 </tr>
 
@@ -144,8 +144,8 @@
             </tr>
             <tr>
 
-                <td><label>* Date</label><br><input type="text" name="date" id="date" value="{{ entity.date |date('Y-m-d')}}"></td>
-                <td><label>* Time</label><br><input type="time"  name="time" id="time" value="{{entity.time| date('H:i:s')}}"<</td>
+                <td><label>* Date</label><br><input type="text" name="date" id="date" required="true" value="{{ entity.date |date('Y-m-d')}}"></td>
+                <td><label>* Time</label><br><input type="time"  name="time" id="time" required="true" value="{{entity.time| date('H:i:s')}}"<</td>
             </tr>
 
             <tr>
@@ -177,7 +177,7 @@
             </tr>
 
             <tr>
-                <td><label for="imageUpload2">Change Event Logo</label><input type="file" name="imageUpload2" id="imageUpload2"></td>
+                <td><label for="imageUpload2">Change Event Logo</label><input type="file" name="imageUpload2" id="imageUpload2" ></td>
             </tr>
 
             <tr>
@@ -197,7 +197,7 @@
 
             </tr>
             <tr>
-                <td><label>* Description</label><br><textarea  value="{{entity.description}}" name="description" id="description"></textarea></td>
+                <td><label>* Description</label><br><textarea  value="{{entity.description}}" required="true" name="description" id="description"></textarea></td>
             </tr>
 
             <tr>
@@ -252,7 +252,7 @@
 
                         <br>
                     {%else%}
-                    <div><h6>There is no speaker on the system. Please add a new one</h6></div>
+                    <div><h6>There is no other speaker on the system. Please add a new one if needed</h6></div>
                     {%endif%}
                     <div id='TextBoxesGroup'>
 
