@@ -152,27 +152,27 @@
                         <td class="label">Street address</td>
 
                         <td class="slimField"><input class="field" id="street_number"
-                                                     disabled="true" name="street_number"></input></td>
+                                                     disabled="true" name="street_number" value="{{venueEntity.address1}}"></input></td>
                         <td class="wideField" colspan="2"><input class="field" id="route"
-                                                                 disabled="true" name="route"></input></td>
+                                                                 disabled="true" name="route" value="{{venueEntity.address2}}"></input></td>
             </tr>
             <tr>
                 <td class="label">City</td>
                 <td class="wideField" colspan="3"><input class="field" id="locality"
-                                                         disabled="true" name="locality"></input></td>
+                                                         disabled="true" name="locality" value="{{venueEntity.city}}"></input></td>
             </tr>
             <tr>
                 <td class="label">Province</td>
                 <td class="slimField"><input class="field"
-                                             id="administrative_area_level_1" name="administrative_area_level_1" disabled="true"></input></td>
+                                             id="administrative_area_level_1" name="administrative_area_level_1" disabled="true" value="{{venueEntity.province}}"></input></td>
                 <td class="label">Zip code</td>
                 <td class="wideField"><input class="field" id="postal_code"
-                                             disabled="true" name="postal_code"></input></td>
+                                             disabled="true" name="postal_code" value="{{venueEntity.postalCode}}"></input></td>
             </tr>
             <tr>
                 <td class="label">Country</td>
                 <td class="wideField" colspan="3"><input class="field"
-                                                         id="country" disabled="true" name="country"></input></td>
+                                                         id="country" disabled="true" name="country" value="{{venueEntity.country}}"></input></td>
             </tr>
         </table>
 
@@ -207,7 +207,16 @@
 </tr>
 
 <tr>
-    <td><label for="imageUpload">* Event Logo</label><input type="file" name="imageUpload" id="imageUpload"></td>
+    
+    <td>
+        {%if imageEntity.name != null %}
+            <label for="selectedImage">Logo Selected:</label><br><input id="selectedImage" name="selectedImage" value="{{imageEntity.name}}" disabled="true"><br>
+             <label for="imageUpload">Change the logo selecetd</label><input type="file" name="imageUpload" id="imageUpload">
+             <br>
+        {%else%}
+        <label for="imageUpload">* Event Logo</label><input type="file" name="imageUpload" id="imageUpload">
+        {%endif%}
+    </td>
 </tr>
 
 

@@ -185,32 +185,45 @@ class MeetingController extends Controller {
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
         if ($request->getSession()->get("memberId") != null) {
-
+            
             $image = $request->files->get('imageUpload');
             $imageEntity = null;
 
+            if($request->get('selectedImage') != "")
+            {
+                //$entity->setImage($imageEntity);
+                $em = $this->getDoctrine()->getEntityManager();
+                $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Image');
+                $imageEntity = $repository->find($request->getSession()->get('imageId'));
+                $entity->setImage($imageEntity);
+            }
+            else
+            {
+                
+                if ($image) {
+                    if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
+                        //call upload image
+                        $imageEntity = $this->uploadImage($image);
+                        if($imageEntity)
+                        {
+                            $request->getSession()->set('imageId',$imageEntity->getId());
+                             $entity->setImage($imageEntity);
+                        }
+                        else
+                        {
 
-            if ($image) {
-                if (($image instanceof UploadedFile) && ($image->getError() == '0')) {
-                    //call upload image
-                    $imageEntity = $this->uploadImage($image);
-                    if($imageEntity)
-                    {
-                         $entity->setImage($imageEntity);
+                           $form->addError(new FormError("The image selected not a invalid type of image.")); 
+                        }
+
+                    } else {
+
+                        $form->addError(new FormError("error on uploading image"));
                     }
-                    else
-                    {
-                      
-                       $form->addError(new FormError("The image selected not a invalid type of image.")); 
-                    }
-               
                 } else {
-                    
-                    $form->addError(new FormError("error on uploading image"));
+                    //add mantatory error
+                    $form->addError(new FormError("Uploading a logo is mandatory."));
+                    $imageEntity = new Image();
                 }
-            } else {
-                //add mantatory error
-                $form->addError(new FormError("Uploading a logo is mandatory."));
             }
 
             //for the already existing speakers
@@ -248,21 +261,35 @@ class MeetingController extends Controller {
             //venue is manadatory
             //Create venue and assign it to the event
             $placeId = $request->get('place_id');
-            if ($placeId) {
+            if($request->getSession()->get('venueId'))
+            {
                 $em = $this->getDoctrine()->getEntityManager();
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
-                $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
+                $venueEntity = $repository->find($request->getSession()->get('venueId'));
+                $entity->setVenue($venueEntity);
+            }
+            else
+            {
+                if ($placeId) {
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Venue');
+                    $venueEntity = $repository->findOneBy(array('placeId' => $placeId));
 
-                if (!$venueEntity) {
-                    $venueEntity = $this->createVenue($request);
-                }
-                if ($venueEntity == false) {
-                    $form->addError(new FormError("Address entered is not on the range covered by this website"));
+                    if (!$venueEntity) {
+                        $venueEntity = $this->createVenue($request);
+                    }
+                    if ($venueEntity == false) {
+                        $form->addError(new FormError("Address entered is not on the range covered by this website"));
+                        $venueEntity = new Venue();
+                    } else {
+                        $entity->setVenue($venueEntity);
+                        $request->getSession()->set('venueId',$venueEntity->getID());
+                    }
                 } else {
-                    $entity->setVenue($venueEntity);
+                    $form->addError(new FormError("Please enter the event location. It is mandatory"));
+                    $venueEntity = new Venue();
+
                 }
-            } else {
-                $form->addError(new FormError("Please enter the event location. It is mandatory"));
             }
 
             $entity->setPosted(true);
@@ -282,9 +309,15 @@ class MeetingController extends Controller {
                     $em->persist($orgEntity);
                     $em->flush();
                     $entity->setOrganization($orgEntity);
+                    $organizationEntity = $orgEntity;
+                }
+                else
+                {
+                    $organizationEntity = new Organization();
                 }
             } else {
                 $entity->setOrganization($account->getOrganization());
+                $organizationEntity = new Organization();
             }
 
             $matchingList = $this->getMatchingEvent($entity);
@@ -360,8 +393,21 @@ class MeetingController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $speakers = $em->getRepository('AcmebsceneBundle:Speaker')->findAll();
+        
+        if(count($speakerList))
+        {
+            $form->addError(new FormError("Please confirm the speaker list. You may need to re-select the speaker for this event."));
+        }
+        if ($request->getSession()->get("admin")) {
+            $form->addError(new FormError("Please confirm the organization. You may need to re-select the organization for this event."));
+
+        }
+        
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                     'entity' => $entity,
+                     'imageEntity' => $imageEntity,
+                    'venueEntity' => $venueEntity,
+                    'organizationEntity' => $organizationEntity,
                     'speakers' => $speakers,
                     'speakerCount' => count($speakers),
                     'form' => $form->createView(),
@@ -409,6 +455,9 @@ class MeetingController extends Controller {
     public function newAction(Request $request) {
 
         $entity = new Meeting();
+        $imageEntity = new Image();
+        $venueEntity = new Venue();
+        $organizationEntity = new Organization();
         $form = $this->createCreateForm($entity);
         $em = $this->getDoctrine()->getManager();
 
@@ -416,6 +465,9 @@ class MeetingController extends Controller {
         
         return $this->render('AcmebsceneBundle:Meeting:new.html.twig', array(
                     'entity' => $entity,
+                    'imageEntity' => $imageEntity,
+                    'venueEntity' => $venueEntity,
+                    'organizationEntity' => $organizationEntity,
                     'speakers' => $speakers,
                     'speakerCount' => count($speakers),
                     'form' => $form->createView(),           
