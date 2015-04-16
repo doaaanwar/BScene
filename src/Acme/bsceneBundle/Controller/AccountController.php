@@ -401,7 +401,7 @@ class AccountController extends Controller {
 
         $q = $em->createQuery("SELECT e "
                         . "FROM \Acme\bsceneBundle\Entity\Meeting e "
-                        . "WHERE e.account = :id AND e.date >= :date AND e.posted = 1"
+                        . "WHERE e.account = :id AND e.date >= :date "
                         . "ORDER BY e.date ASC")->setParameters(array('date' => $currentDate, 'id' => $id));
         $eventList = $q->getArrayResult();
 
