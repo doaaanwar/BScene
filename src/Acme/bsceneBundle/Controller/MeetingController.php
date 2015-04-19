@@ -867,6 +867,8 @@ class MeetingController extends Controller {
     /**
      * Mahmoud Jallala
      * function gets a list of the events in the same date and category with the new event
+     * 
+     * updated: remove the current event from the lidt and hide hidden events , doaa elfayoumi 19.04.2015
      * @param type $id
      * @return type
      */
@@ -876,8 +878,8 @@ class MeetingController extends Controller {
 
         //To get the events with the same category and date  
         $q = $em->createQuery("SELECT e FROM \Acme\bsceneBundle\Entity\Meeting e "
-                                . "WHERE e.category = :category OR e.date = :date")
-                        ->setParameter('category', $entity->getCategory())->setParameter('date', $entity->getDate());
+                                . "WHERE e.id != :id AND e.posted = 1 AND (e.category = :category OR e.date = :date)")
+                        ->setParameter('category', $entity->getCategory())->setParameter('date', $entity->getDate())->setParameter('id', $entity->getId());
 
         $relatedEventList = $q->getResult();
 
