@@ -335,7 +335,7 @@ class MeetingController extends Controller {
                 $endDate = DateTime::createFromFormat($format, $entity->getEndDate());
 
                 if ($endDate < $startDate) {
-                    $form->addError(new FormError("End Date can not be before the stary date."));
+                    $form->addError(new FormError("End Date can not be before the start date."));
                 } else {
                     $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
                 }

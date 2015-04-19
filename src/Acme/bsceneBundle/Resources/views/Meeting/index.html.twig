@@ -14,7 +14,7 @@
             <div class="row">
                 <article class="search-result row">
                     <div class="col-xs-12 col-sm-12 col-md-3">
-                        <a href="eventDetails.html" title="Lorem ipsum" class="thumbnail"><img src="{{asset(result.image.URL)}}" alt="Lorem ipsum" /></a>
+                        <a href="{{path('acmebscene_eventDetail', { 'id' :result.id } )}}" title="" class="thumbnail"><img src="{{asset(result.image.URL)}}" alt="Lorem ipsum" /></a>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-2">
                         <ul class="meta-search">
