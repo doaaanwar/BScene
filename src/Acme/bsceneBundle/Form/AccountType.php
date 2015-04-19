@@ -53,7 +53,8 @@ class AccountType extends AbstractType
             ->add('businessPhone', 'text', array (
                 'label' => '* Business Phone',
                 'required' => true,
-                'attr' => array('id' => 'busPhone')))
+                'attr' => array('id' => 'busPhone',
+                    'placeholder' => '555-555-5555')))
                 
             ->add('url', 'url', array (
                 'label' => 'URL',
