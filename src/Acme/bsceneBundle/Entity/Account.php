@@ -87,7 +87,10 @@ class Account implements UserInterface
     
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
-     * 
+     * @Assert\Regex(
+     * pattern= "^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})^",
+     * message= "That is not a valid phone number"
+     * )
      */
     protected $businessPhone;
     
