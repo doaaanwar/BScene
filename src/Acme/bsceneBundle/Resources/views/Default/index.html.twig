@@ -1,34 +1,34 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}	
-     <link href="{{ asset('bundles/acmebscene/css/bic_calendar.css')}}" rel="stylesheet">
-     <link href="{{ asset('bundles/acmebscene/css/heroic-features.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/acmebscene/css/bic_calendar.css')}}" rel="stylesheet">
+    <link href="{{ asset('bundles/acmebscene/css/heroic-features.css')}}" rel="stylesheet">
 {% endblock %}
 {% block nav %}
 {% endblock %}
-    
+
 {% block header %}
-     <header class="jumbotron hero-spacer">
-                    <h1>Welcome to B-Scene!</h1>
-                    <p>B-Scene is a hub for industry professionals to post events and workshops. You can create an account to publish your own or your organization's events. Visitors can search for events, add them to their calendars and share them on their social networks.</p>
-                    <p>With B-Scene you can maximize the potential audience for your industry events in the Tri-City area.</p>
-                     {% if app.session.get('member') == null %}
-                        <a href="{{path('acmebscene_newAccount')}}" class="btn btn-warning">Sign Up Now</a>
-                     {%else%}
-                          <a href="{{path('meeting_new')}}" class="btn btn-warning">Post Event</a>
-                     {% endif%}
-                     
-     </header>  
-     
-     <div class="row clearfix">
-            <div class="col-md-10 column">
-                <div class="row text-center">
-                    <!--categories will come here-->
-                   
-                    {%for item in categoryList%}
+    <header class="jumbotron hero-spacer">
+        <h1>Welcome to B-Scene!</h1>
+        <p>B-Scene is a hub for industry professionals to post events and workshops. You can create an account to publish your own or your organization's events. Visitors can search for events, add them to their calendars and share them on their social networks.</p>
+        <p>With B-Scene you can maximize the potential audience for your industry events in the Tri-City area.</p>
+        {% if app.session.get('member') == null %}
+            <a href="{{path('acmebscene_newAccount')}}" class="btn btn-warning">Sign Up Now</a>
+        {%else%}
+            <a href="{{path('meeting_new')}}" class="btn btn-warning">Post Event</a>
+        {% endif%}
+
+    </header>  
+
+    <div class="row clearfix">
+        <div class="col-md-10 column">
+            <div class="row text-center">
+                <!--categories will come here-->
+                {% set count =0 %}
+                {%for item in categoryList%}
                     <div class="col-md-3 col-sm-6 hero-feature">
                         <div class="thumbnail">
-                            
-                            <img src="{{asset(item.image.URL)}}" alt="{{item.name}}"  width="200" height="300" >
+
+                            <img src="{{asset(item.image.URL)}}" alt="{{item.name}}" >
                             <div class="caption">
                                 <h3>{{item.name}}</h3>
                                 <p>{{item.description}}</p>
@@ -38,75 +38,84 @@
                             </div>
                         </div>
                         </a>
-	            </div>
-                    
-                    {%endfor%}
-                    <!--categories end -->
-                </div>
-            </div>
-
-            <!-- calender -->
-            <div class="col-md-2 column">
-
-                 <div class="row" >
-                        <div class="col-sm-4" >
-                           
-                            <script>
-                                $(document).ready(function() {
-
-                                    var monthNames = ["January", "February", "March", "April", "Mai", "June", "July", "August", "Septembre", "Octobre", "Novembre", "Decembre"];
-
-                                    var dayNames = ["M", "T", "W", "T", "F", "S", "S"];
-
-                                    var events = [
-                                        {
-                                            date: "28/12/2013",
-                                            title: 'SPORT & WELLNESS',
-                                            link: 'http://bic.cat',
-                                            linkTarget: '_blank',
-                                            color: '',
-                                            content: '<img src="http://gettingcontacts.com/upload/jornadas/sport-wellness_portada.png" ><br>06-11-2013 - 09:00 <br> Tecnocampus Mataró Auditori',
-                                            class: '',
-                                            displayMonthController: true,
-                                            displayYearController: true,
-                                            nMonths: 6
-                                        }
-                                    ];
-
-                                    $('#calendari_lateral1').bic_calendar({
-                                        //list of events in array
-                                        events: events,
-                                        //enable select
-                                        enableSelect: true,
-                                        //enable multi-select
-                                        multiSelect: true,
-                                        //set day names
-                                        dayNames: dayNames,
-                                        //set month names
-                                        monthNames: monthNames,
-                                        //show dayNames
-                                        showDays: true,
-                                        //show month controller
-                                        displayMonthController: true,
-                                        //show year controller
-                                        displayYearController: true,                                
-                                        //set ajax call
-                                        reqAjax: {
-                                            type: 'get',
-                                            url: 'http://localhost/BScene/web/app_dev.php/calender'
-                                        }
-                                    });
-                                });
-                                <!--the event link -->
-                                <!--http://bic.cat/bic_calendar/index.php-->
-                            </script>
-                            <div id="calendari_lateral1">
-
-                            </div>
+                    </div>
+                    {%set count =  count + 1%}
+                    {% if count == 4%}
+                        {% set count = 0 %}
                         </div>
+                        <!-- /.row -->
+                       
+                        <br/>
 
-                </div>
+                        <div class="row text-center">
+                    {% endif %}
+                {%endfor%}
+                <!--categories end -->
             </div>
+        </div>
+
+        <!-- calender -->
+        <div class="col-md-2 column">
+
+            <div class="row" >
+                <div class="col-sm-4" >
+
+                    <script>
+                        $(document).ready(function () {
+
+                            var monthNames = ["January", "February", "March", "April", "Mai", "June", "July", "August", "Septembre", "Octobre", "Novembre", "Decembre"];
+
+                            var dayNames = ["M", "T", "W", "T", "F", "S", "S"];
+
+                            var events = [
+                                {
+                                    date: "28/12/2013",
+                                    title: 'SPORT & WELLNESS',
+                                    link: 'http://bic.cat',
+                                    linkTarget: '_blank',
+                                    color: '',
+                                    content: '<img src="http://gettingcontacts.com/upload/jornadas/sport-wellness_portada.png" ><br>06-11-2013 - 09:00 <br> Tecnocampus Mataró Auditori',
+                                    class: '',
+                                    displayMonthController: true,
+                                    displayYearController: true,
+                                    nMonths: 6
+                                }
+                            ];
+
+                            $('#calendari_lateral1').bic_calendar({
+                                //list of events in array
+                                events: events,
+                                //enable select
+                                enableSelect: true,
+                                //enable multi-select
+                                multiSelect: true,
+                                //set day names
+                                dayNames: dayNames,
+                                //set month names
+                                monthNames: monthNames,
+                                //show dayNames
+                                showDays: true,
+                                //show month controller
+                                displayMonthController: true,
+                                //show year controller
+                                displayYearController: true,
+                                //set ajax call
+                                reqAjax: {
+                                    type: 'get',
+                                    url: 'http://localhost/BScene/web/app_dev.php/calender'
+                                }
+                            });
+                        });
+<!--the event link -->
+<!--http://bic.cat/bic_calendar/index.php-->
+                    </script>
+                    <div id="calendari_lateral1">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
     <!-- calender end-->
 {% endblock %}
@@ -115,5 +124,5 @@
 
 {% endblock %}
 {% block javascripts %}
-      <script src="{{ asset('bundles/acmebscene/js/bic_calendar.js')}}"></script>
+    <script src="{{ asset('bundles/acmebscene/js/bic_calendar.js')}}"></script>
 {% endblock %}
