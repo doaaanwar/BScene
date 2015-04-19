@@ -112,7 +112,7 @@ class DefaultController extends Controller {
                         } //end if user is admin
                         return $this->render('AcmebsceneBundle:Default:index.html.twig', array('name' => $user->getUsername(), 'categoryList' => $categoryList));
                     } else {   //password doesn't match
-                        return $this->render('AcmebsceneBundle:Default:login.html.twig', array('errormessage' => 'incorrect password', 'categoryList' => $categoryList));
+                        return $this->render('AcmebsceneBundle:Default:login.html.twig', array('errormessage' => 'Incorrect password', 'categoryList' => $categoryList));
                     }
                 } else { //user e-mail not validated
                     return $this->render('AcmebsceneBundle:Default:login.html.twig', array('errormessage' => 'You have not yet validated your e-mail address. '

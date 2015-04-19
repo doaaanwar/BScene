@@ -67,11 +67,11 @@ class CategoriesController extends Controller
                     $entity->setImage($imageEntity);
                 }
                 else {
-                     $form->addError(new FormError("The image selected not a invalid type of image."));
+                     $form->addError(new FormError("You have selected an invalid file type. Please select an image in .JPG, .JPEG or .PNG format"));
                 }
                 
             } else {
-               $form->addError(new FormError("Error in uploading the image."));
+               $form->addError(new FormError("Error uploading the image."));
             }
         } else {
             //add mantatory error
@@ -227,10 +227,10 @@ class CategoriesController extends Controller
                     $entity->setImage($imageEntity);
                 }
                 else {
-                   $editForm->addError(new FormError("The image selected not a invalid type of image."));
+                   $editForm->addError(new FormError("You have selected an invalid file type. Please select an image in .JPG, .JPEG or .PNG format"));
                 }
             } else {
-                 $form->addError(new FormError("Error in uploading the image."));
+                 $form->addError(new FormError("Error uploading the image."));
             }
         }
         else {

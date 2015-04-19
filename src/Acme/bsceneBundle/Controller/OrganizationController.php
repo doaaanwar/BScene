@@ -42,7 +42,7 @@ class OrganizationController extends Controller
         }
         else 
         {
-            return $this->render('AcmebsceneBundle:Organization:organizationList.html.twig',array('orgList' => NULL,'errormessage' => "No organization list found"));
+            return $this->render('AcmebsceneBundle:Organization:organizationList.html.twig',array('orgList' => NULL,'errormessage' => "No organizations found"));
 
         }
     }

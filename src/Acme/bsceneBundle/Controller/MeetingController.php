@@ -43,7 +43,7 @@ class MeetingController extends Controller {
         } else {
             $searchResults = null;
             $resultCount = 0;
-            $noResults = "That is not a valid search! Please try again.";
+            $noResults = "That is not a valid search! Please enter a keyword to search.";
         }
         return $this->render('AcmebsceneBundle:Meeting:index.html.twig', array(
                     'searchResults' => $searchResults,
@@ -160,7 +160,7 @@ class MeetingController extends Controller {
         $noResults = "";
 
         if ($resultCount == 0) {
-            $noResults = "There are no events in this category. Please try again.";
+            $noResults = "There are no events in this category. Please select a different category.";
         }
 
         return $this->render('AcmebsceneBundle:Meeting:index.html.twig', array(
@@ -212,16 +212,16 @@ class MeetingController extends Controller {
                         else
                         {
 
-                           $form->addError(new FormError("The image selected not a invalid type of image.")); 
+                           $form->addError(new FormError("You have selected an invalid file type. Please select an image in .JPG, .JPEG or .PNG format")); 
                         }
 
                     } else {
 
-                        $form->addError(new FormError("error on uploading image"));
+                        $form->addError(new FormError("Error uploading image"));
                     }
                 } else {
                     //add mantatory error
-                    $form->addError(new FormError("Uploading a logo is mandatory."));
+                    $form->addError(new FormError("Uploading an image is mandatory."));
                     $imageEntity = new Image();
                 }
             }
@@ -279,14 +279,15 @@ class MeetingController extends Controller {
                         $venueEntity = $this->createVenue($request);
                     }
                     if ($venueEntity == false) {
-                        $form->addError(new FormError("Address entered is not on the range covered by this website"));
+                        $form->addError(new FormError("Address entered is not in the range covered by this website. "
+                                . "B-Scene covers events in: Kitchener, Cambridge, Guelph, Milton, Stratford and Brantford only."));
                         $venueEntity = new Venue();
                     } else {
                         $entity->setVenue($venueEntity);
                         $request->getSession()->set('venueId',$venueEntity->getID());
                     }
                 } else {
-                    $form->addError(new FormError("Please enter the event location. It is mandatory"));
+                    $form->addError(new FormError("Event location is mandatory."));
                     $venueEntity = new Venue();
 
                 }
@@ -326,7 +327,7 @@ class MeetingController extends Controller {
             $startDate = DateTime::createFromFormat($format, $entity->getDate());
             //check if the date is on the future
             if ($startDate < new \DateTime()) {
-                $form->addError(new FormError("date can't be in the past."));
+                $form->addError(new FormError("Date cannot be in the past."));
             } else {
                 $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
             }
@@ -335,7 +336,7 @@ class MeetingController extends Controller {
                 $endDate = DateTime::createFromFormat($format, $entity->getEndDate());
 
                 if ($endDate < $startDate) {
-                    $form->addError(new FormError("End Date can not be before the start date."));
+                    $form->addError(new FormError("End Date cannot be before the start date."));
                 } else {
                     $entity->setEndDate(DateTime::createFromFormat($format, $entity->getEndDate()));
                 }
@@ -387,7 +388,7 @@ class MeetingController extends Controller {
                 }
             }
         } else {
-            $form->addError(new FormError("Your session Expired. You have to login again."));
+            $form->addError(new FormError("Your session has expired. Please login to continue."));
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -593,7 +594,8 @@ class MeetingController extends Controller {
                         $em->flush();
                     } else {
                         $valid = false;
-                        $errors[] = "Address entered is not on the range covered by this website";
+                        $errors[] = "Address entered is not in the range covered by this website. <br> "
+                                . "B-Scene covers events in: Kitchener, Cambridge, Guelph, Milton, Stratford and Brantford only.";
                     }
                 }
             }
@@ -622,11 +624,11 @@ class MeetingController extends Controller {
                 else
                 {
                     $valid = false;
-                    $errors[] = "The image selected not a invalid type of image.";
+                    $errors[] = "You have selected an invalid file type. Please select an image in .JPG, .JPEG or .PNG format";
                 }
             } else {
                 $valid = false;
-                $errors[] = "error on uploading image";
+                $errors[] = "Error uploading image";
             }
         }
 
@@ -636,7 +638,7 @@ class MeetingController extends Controller {
             $entity->setDate(DateTime::createFromFormat($format, $request->get('date')));
         } else {
             $valid = false;
-            $errors[] = "You cleared the date field and it can not be empty.";
+            $errors[] = "Please enter a date.";
         }
         $timeFormat = 'H:i:s';
 
@@ -644,7 +646,7 @@ class MeetingController extends Controller {
             $entity->setTime(DateTime::createFromFormat($timeFormat, $request->get('time')));
         } else {
             $valid = false;
-            $errors[] = "You cleared the time field and it can't be emppty.";
+            $errors[] = "Please enter a time.";
         }
 
 
@@ -1045,7 +1047,7 @@ class MeetingController extends Controller {
         $noResults = "";
 
         if ($resultCount == 0) {
-            $noResults = "There are no events on that day. Please peak another day from the calender.";
+            $noResults = "There are no events on that day. Please select another day from the calendar.";
         }
 
         return $this->render('AcmebsceneBundle:Meeting:index.html.twig', array(
@@ -1169,12 +1171,15 @@ class MeetingController extends Controller {
     private function sendEmailNotification($userEmail,$id,$categoryName) {
        
         $subject = 'New event on B-Scene';
-        $emailContent = 'There is a new event in B-Scene "' .$categoryName.'" category! Visit the <a href="http://localhost/BScene/web/app_dev.php/meeting/detail/'.$id.'" >event page</a> to see all the event details. <br>'
+        $emailContent = 'There is a new event in B-Scene\'s "' .$categoryName.'" category! '
+                . 'Visit the <a href="http://localhost/BScene/web/app_dev.php/meeting/detail/'.$id.'" >'
+                . 'event page</a> to see all the event details. <br>'
                 . 'You may change your subscription preferences from your B-Scene profile.<br><br>'
                 . 'Thanks for your interest!<br>'
                 . 'B-Scene';
         
-        $contentWithoutHTML = 'There is a new event in B-Scene "' .$categoryName.'" category! Visit the event on http://localhost/BScene/web/app_dev.php/meeting/detail/'.$id.'" to see all the event details.'
+        $contentWithoutHTML = 'There is a new event in B-Scene "' .$categoryName.'" category! '
+                . 'Visit the event on http://localhost/BScene/web/app_dev.php/meeting/detail/'.$id.'" to see all the event details.'
                 . 'You may change your subscription preferences from your B-Scene profile.'
                 . ' Thanks for your interest! - B-Scene';
         $this->sendEmail($userEmail,$subject,$emailContent,$contentWithoutHTML);

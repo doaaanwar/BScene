@@ -31,7 +31,7 @@ class AdminController extends Controller {
         //get the number and list of new comments
         $commentList = $this->getCommentList($lastLogin);
         if (count($commentList) == 0) {
-            $commentMessage = "no new comments found";
+            $commentMessage = "No new comments found";
         } else {
             $commentMessage = Null;
         }
@@ -39,7 +39,7 @@ class AdminController extends Controller {
         $eventList = $this->getNewMeetingList($lastLogin);
 
         if (count($eventList) == 0) {
-            $newEventMessage = "no new event found";
+            $newEventMessage = "No new events found";
         } else {
             $newEventMessage = Null;
         }
@@ -50,7 +50,7 @@ class AdminController extends Controller {
         $upcomingList = $this->getAdminUpcomingMeetingList();
 
         if (count($upcomingList) == 0) {
-            $upcomingMessage = "no upcoming event found";
+            $upcomingMessage = "No upcoming events found";
         } else {
             $upcomingMessage = Null;
         }
@@ -61,7 +61,7 @@ class AdminController extends Controller {
         $memberList = $this->getNewMemberList($lastLogin);
 
         if (count($memberList) == 0) {
-            $memberMessage = "no new event found";
+            $memberMessage = "No new members found";
         } else {
             $memberMessage = Null;
         }
@@ -161,7 +161,7 @@ class AdminController extends Controller {
         $errorMessage = null;
         if(count($entities) == 0)
         {
-            $errorMessage = "No new events found since your last login";
+            $errorMessage = "No new events since your last login";
         }
         return $this->render('AcmebsceneBundle:Meeting:newMeetingList.html.twig', array('entities' => $entities,'count' => Count($entities),'errorMessage' => $errorMessage));
     }

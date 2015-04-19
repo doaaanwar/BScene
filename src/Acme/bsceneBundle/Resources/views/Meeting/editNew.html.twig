@@ -240,7 +240,7 @@
 
                   
                     {% if allSpeakerListCount > 0  and allSpeakerListCount > speakerCount %}
-                    <div><h6>Please select from existing list or add a new one</h6></div>
+                    <div><h6>Please select from existing list or add a new speaker</h6></div>
                         <select id="example-getting-started"  name="multiselect[]" multiple="multiple">
                             {% for item in allSpeakerList %}
                             {% if speakers.contains(item) == false %}
@@ -252,11 +252,11 @@
 
                         <br>
                     {%else%}
-                    <div><h6>There is no other speaker on the system. Please add a new one if needed</h6></div>
+                    <div><h6>There are no other speakers in our records. Please add a new one if needed</h6></div>
                     {%endif%}
                     <div id='TextBoxesGroup'>
 
-                        <h5>Add a new one</h5>
+                        <h5>Add a new speaker</h5>
 
                         <div id="TextBoxDiv1">
 

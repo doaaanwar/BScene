@@ -49,7 +49,7 @@ class CommentController extends Controller
         }
         else 
         {
-            return $this->render('AcmebsceneBundle:EventComments:commentList.html.twig',array('commentList' => NULL,'errormessage' => "No new comment found from your last login"));
+            return $this->render('AcmebsceneBundle:EventComments:commentList.html.twig',array('commentList' => NULL,'errormessage' => "No new comments since your last login"));
 
         }
     }
