@@ -1,10 +1,12 @@
 {% extends '::base.html.twig' %}
 
-{%block body%}
+{% block body %}
     <div class="row clearfix">
-      <div class="col-md-10 column">
-        <h1>About B-Scene</h1>
-        <p>B-Scene is a hub for industry professional to learn about events, tours and workshops. The site allows for the creation of accounts and to publish various events put on by other organizations. You can post, search and share events with colleagues and friends. </p>
+      <div align="center">
+        <h1 style="padding-bottom: 3%">About B-Scene</h1>
+        <p class="lead">B-Scene is a hub for industry professional to learn about events, tours and workshops.</p>
+        <p class="lead">The site allows for the <a href="{{path('acmebscene_newAccount')}}"><b style="color: #eea236">creation of accounts</b></a> and to publish various events put on by other organizations.</p>
+        <p class="lead">You can post, search and share events with colleagues and friends. </p>
       </div>
     </div>
-{%endblock%}
+{% endblock %}    
