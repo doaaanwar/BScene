@@ -126,13 +126,17 @@
                         <h4>{{noPastEventsMsg}}</h4>
                     </div>
                 {% endif %}
-
-                <a class="btn btn-warning" href="{{ path('account_edit', { 'id': entity.id }) }}">
-                    Edit Account
-                </a>
+                
+               
             {% endblock %}
 
             <!-- /.row -->
         </div>
+        <div class="row">
+             <a class="btn btn-warning" href="{{ path('account_edit', { 'id': entity.id }) }}">
+               Edit Account
+             </a>
+        </div>
+       
     </div>
 {% endblock %}
