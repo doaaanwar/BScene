@@ -325,12 +325,12 @@ class MeetingController extends Controller {
 
             $format = 'Y-m-d';
             $startDate = DateTime::createFromFormat($format, $entity->getDate());
-            //check if the date is on the future
-            if ($startDate < new \DateTime()) {
-                $form->addError(new FormError("Date cannot be in the past."));
-            } else {
+            //check if the date is on the future, 19042015 closed the past check as requested by the client
+            //if ($startDate < new \DateTime()) {
+            //    $form->addError(new FormError("Date cannot be in the past."));
+            //} else {
                 $entity->setDate(DateTime::createFromFormat($format, $entity->getDate()));
-            }
+            //}
             //check if the endDate is not null and format it
             if ($entity->getEndDate()) {
                 $endDate = DateTime::createFromFormat($format, $entity->getEndDate());
@@ -651,7 +651,13 @@ class MeetingController extends Controller {
 
 
         if ($request->get('endDate')) {
-            $entity->setEndDate(DateTime::createFromFormat($format, $request->get('endDate')));
+            if ($request->get('endDate') < $request->get('date')) {
+                $valid = false;
+                $errors[] = "End Date cannot be before the start date.";
+            } else {
+                 $entity->setEndDate(DateTime::createFromFormat($format, $request->get('endDate')));
+            }
+
         } else {
             $entity->setEndDate(null);
         }
