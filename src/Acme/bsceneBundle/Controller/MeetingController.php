@@ -638,7 +638,7 @@ class MeetingController extends Controller {
             $entity->setDate(DateTime::createFromFormat($format, $request->get('date')));
         } else {
             $valid = false;
-            $errors[] = "Please enter a date.";
+            $errors[] = "Please enter the event date.";
         }
         $timeFormat = 'H:i:s';
 

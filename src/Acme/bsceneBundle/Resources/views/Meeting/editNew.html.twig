@@ -5,7 +5,7 @@
     <link href="{{ asset('bundles/acmebscene/css/meeting.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery-ui.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery.timepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jquery.timepicker.css')}}">s
     <link rel="stylesheet" href="{{ asset('bundles/acmebscene/css/jbootstrap-multiselect.css')}}">
     <style>
 
@@ -82,7 +82,7 @@
         <div align='center'>
             <table>
                 <tr>
-                    <td><label>* Title</label><br><input type="text" value="{{entity.title}}" name="title" id="title" required="true"></td>
+                    <td><label>* Title</label><br><input type="text" value="{{entity.title}}" name="title" id="title" required="true" style="width: 500px"></td>
 
                 </tr>
 
@@ -157,11 +157,11 @@
 
 
             <tr>
-                <td><label>Capacity</label><br><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity"></td>
+                <td><label>Capacity</label><br><input type="text" value="{{entity.capacity}}" name="capacity" id="capacity" style="width: 500px"></td>
             </tr>
 
             <tr>
-                <td><label>Price</label><br><input type="money" value="{{entity.price}}" name="price" id="price"></td>
+                <td><label>Price</label><br><input type="money" value="{{entity.price}}" name="price" id="price" style="width: 500px"></td>
 
 
             </tr>
@@ -183,7 +183,7 @@
             <tr>
                 <td><label>* Category</label><br>
 
-                    <select name="category" >
+                    <select name="category" style="width: 500px">
                         {% for c in categories %}
                             {%if entity.category == c%}
                                 <option value="{{ c.name }}" selected="true">{{ c.name }}</option>   
@@ -197,7 +197,7 @@
 
             </tr>
             <tr>
-                <td><label>* Description</label><br><textarea  value="{{entity.description}}" required="true" name="description" id="description"></textarea></td>
+                <td><label>* Description</label><br><textarea  value="{{entity.description}}" required="true" name="description" id="description" style="width: 500px"></textarea></td>
             </tr>
 
             <tr>
@@ -241,7 +241,7 @@
                   
                     {% if allSpeakerListCount > 0  and allSpeakerListCount > speakerCount %}
                     <div><h6>Please select from existing list or add a new speaker</h6></div>
-                        <select id="example-getting-started"  name="multiselect[]" multiple="multiple">
+                        <select id="example-getting-started"  name="multiselect[]" multiple="multiple" size="20" style="width: 500px">
                             {% for item in allSpeakerList %}
                             {% if speakers.contains(item) == false %}
                                 <option value="{{item}}">{{item}}</option>
@@ -262,11 +262,11 @@
 
                             <label>Speaker</label>
                             <br>
-                            <label>Name : </label><br><input type='text' id='nameTextbox' list="speakers" name='nameTextbox1' ><br>
+                            <label>Name : </label><br><input type='text' id='nameTextbox' list="speakers" name='nameTextbox1' style="width: 500px"><br>
                             <datalist id="speakers">
                             </datalist>
-                            <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox1'><br>
-                            <label>Biography :</label><br><textarea  id='bioTextbox' name='bioTextbox1'></textarea>
+                            <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox1' style="width: 500px"><br>
+                            <label>Biography :</label><br><textarea  id='bioTextbox' name='bioTextbox1' style="width: 500px"></textarea>
                             <br>
                         </div>
                     </div>
@@ -344,11 +344,11 @@
 
                 newTextBoxDiv.after().html('<label>Speaker #' + counter + ' : </label><br>' +
                         '<label>Name : </label><br><input type="text" name="nameTextbox' + counter +
-                        '" id="nameTextbox' + counter + '" value="" ><br>' +
+                        '" id="nameTextbox' + counter + '" value="" style="width: 500px"><br>' +
                         '<label>Title : </label><br><input type="text" name="titleTextbox' + counter +
-                        '" id="titleTextbox' + counter + '" value="" ><br>' +
+                        '" id="titleTextbox' + counter + '" value="" style="width: 500px"><br>' +
                         '<label>Biography : </label><br><textarea name="bioTextbox' + counter +
-                        '" id="bioTextbox' + counter + '" value="" ></textarea><br>');
+                        '" id="bioTextbox' + counter + '" value="" style="width: 500px"></textarea><br>');
 
 
 

@@ -227,12 +227,12 @@
     <td  >{{ form_row(form.description) }}</td>
 </tr>
 <tr>
-    <td colspan="2">
+    <td>
         <div><h4>Event Speakers</h4></div>
         {% if speakerCount > 0 %}
             <div><h6>Please select from existing list or add a new speaker</h6></div>
 
-            <select id="example-getting-started"  name="multiselect[]" multiple="multiple">
+            <select id="example-getting-started"  name="multiselect[]" multiple="multiple" size="20" style="width: 500px">
                 {% for item in speakers %}
                     <option value="{{item}}">{{item}}</option>
                 {%endfor%}
@@ -248,11 +248,11 @@
 
                 <label>Add Another Speaker</label>
                 <br>
-                <label>Name : </label><br><input type='text' id='nameTextbox' list="speakers" name='nameTextbox1' ><br>
+                <label>Name : </label><br><input type='text' id='nameTextbox' list="speakers" name='nameTextbox1' style="width: 500px" ><br>
                 <datalist id="speakers">
                 </datalist>
-                <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox1'><br>
-                <label>Biography :</label><br><textarea  id='bioTextbox' name='bioTextbox1'></textarea>
+                <label>Title : </label><br><input type='textbox' id='titleTextbox' name='titleTextbox1' style="width: 500px"><br>
+                <label>Biography :</label><br><textarea  id='bioTextbox' name='bioTextbox1' style="width: 500px"d></textarea>
                 <br>
             </div>
         </div>
@@ -277,13 +277,7 @@
 </tr>
 </table>
 </div>
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('meeting') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+
 {% endblock %}
 {% block javascripts %}
 
@@ -331,11 +325,11 @@
 
                 newTextBoxDiv.after().html('<label>Add Another Speaker : </label><br>' +
                         '<label>Name : </label><br><input type="text" name="nameTextbox' + counter +
-                        '" id="nameTextbox' + counter + '" value="" ><br>' +
+                        '" id="nameTextbox' + counter + '" value="" style="width: 500px" ><br>' +
                         '<label>Title : </label><br><input type="text" name="titleTextbox' + counter +
-                        '" id="titleTextbox' + counter + '" value="" ><br>' +
+                        '" id="titleTextbox' + counter + '" value="" style="width: 500px"><br>' +
                         '<label>Biography : </label><br><textarea name="bioTextbox' + counter +
-                        '" id="bioTextbox' + counter + '" value="" ></textarea><br>');
+                        '" id="bioTextbox' + counter + '" value="" style="width: 500px"></textarea><br>');
 
 
 
