@@ -244,7 +244,7 @@
                         <select id="example-getting-started"  name="multiselect[]" multiple="multiple" size="20" style="width: 500px">
                             {% for item in allSpeakerList %}
                             {% if speakers.contains(item) == false %}
-                                <option value="{{item}}">{{item}}</option>
+                                <option value="{{item.id}}">{{item}}</option>
                             {% endif%}
                             {%endfor%}
 

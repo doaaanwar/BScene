@@ -237,7 +237,7 @@ class MeetingController extends Controller {
 
                 $em = $this->getDoctrine()->getEntityManager();
                 $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Speaker');
-                $speakerEntity = $repository->findOneBy(array('name' => $speakers[$c]));
+                $speakerEntity = $repository->find($speakers[$c]);
                 $speakerList[] = $speakerEntity;
             }
 
@@ -691,7 +691,8 @@ class MeetingController extends Controller {
 
             $em = $this->getDoctrine()->getEntityManager();
             $repository = $em->getRepository('\Acme\bsceneBundle\Entity\Speaker');
-            $speakerEntity = $repository->findOneBy(array('name' => $speakers[$c]));
+          
+            $speakerEntity = $repository->find($speakers[$c]);
             $speakerEntity->addEvent($entity);
             $em = $this->getDoctrine()->getManager();
             $em->persist($speakerEntity);
