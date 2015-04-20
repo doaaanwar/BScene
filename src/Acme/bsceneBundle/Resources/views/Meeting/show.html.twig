@@ -137,14 +137,15 @@
                                         <div class="col-md-12">
 
 
-                                            <form class="navbar-form navbar-left" id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
+                                            <form id="keywordSearch" name="keywordSearch" method="post" action="{{path('acmebscene_keywordSearch')}}">
                                                 <div class="form-group">
                                                     <input class="form-control" type="hidden" value="{{item.name}}" name="searchTerm" id="searchTerm"/>
                                                 </div> 
                                                 <button class="link" type="submit" >{{item.name}}</button>
                                             </form>
-                                            <br><br>
-                                            <a href="{{item.website}}" > &nbsp; &nbsp;  &nbsp; Organization website</a>
+                                            <div style="padding-left: 1%; padding-top: 2%">
+                                            <a href="{{item.website}}">{{item.name}}'s Website</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
