@@ -454,7 +454,12 @@ class MeetingController extends Controller {
      * updated returned the list of spekaers, doaa elfayoumi 05042015
      */
     public function newAction(Request $request) {
-
+        if($request->getSession()->get('member') == null)
+        {
+           
+           return $this->redirect($this->generateUrl('acmebscene_login'));
+        }
+        
         $entity = new Meeting();
         $imageEntity = new Image();
         $venueEntity = new Venue();
@@ -529,7 +534,13 @@ class MeetingController extends Controller {
      * updated: 1.04.2015, doaa elfayoumi, save time, venue, speaker
      * updated to cover existing speaker, doaa elfayoumi 05.04.2015
      */
-    public function editAction($id) {
+    public function editAction(Request $request,$id) {
+        if($request->getSession()->get('member') == null)
+        {
+           
+           return $this->redirect($this->generateUrl('acmebscene_login'));
+        }
+       
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmebsceneBundle:Meeting')->find($id);
