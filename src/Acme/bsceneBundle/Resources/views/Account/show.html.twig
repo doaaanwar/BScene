@@ -133,7 +133,7 @@
                                     <p>{{item.time|date('g:i a')}}</p>
                                     <h5>Description</h5>
                                     <p>{{item.description}}</p>
-                                    <a href="#" class="btn btn-warning">Event Details</a>
+                                    <a href="{{path('acmebscene_eventDetail', { 'id' : item.id } )}}" class="btn btn-warning">Event Details</a>
                                 </div>
                             </div>
                         </div>
